@@ -224,8 +224,9 @@ class TestAdminAndPublic:
         assert overview["kpis"]["claims_total"] == 1
         assert overview["violations_by_rule"][0]["rule_id"] == "MEALS_CAP_PER_PERSON"
         assert overview["kpis"]["p50_latency_ms"] > 0
+        assert overview["assumptions"]["manual_employee_min"] > 0
         traces = client.get(f"/api/admin/traces?claim_id={claim['id']}").json()
-        assert traces[0]["title"] == "Dinner"
+        assert traces[0]["title"] == "Dinner · upload"
         assert traces[0]["cost_usd"] > 0
         detail = client.get(f"/api/admin/traces/{traces[0]['id']}").json()
         assert {s["name"] for s in detail["spans"]} >= {"ingest", "extract", "llm"}

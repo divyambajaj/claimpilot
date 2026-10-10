@@ -36,8 +36,11 @@ def ensure_ruleset(repo: Repo, settings: Settings) -> RuleSet:
     return ruleset
 
 
-async def seed_demo(orch: Orchestrator, user_id: str = "demo-user") -> None:
-    """Run the demo gallery through the real pipeline once, answer its questions and submit."""
+async def seed_demo(orch: Orchestrator, user_id: str = "sample-team") -> None:
+    """Run the demo gallery through the real pipeline once, answer its questions and submit.
+
+    Seeded under its own user so a visitor adding the same gallery is not flagged as a duplicate of it.
+    """
     if orch.repo.list_claims():
         return
     claim = orch.create_claim(user_id, "Bengaluru client visit (sample)")

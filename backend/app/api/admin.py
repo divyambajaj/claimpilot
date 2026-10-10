@@ -23,7 +23,7 @@ def _ruleset_out(ruleset: RuleSet, active: bool) -> RuleSetOut:
 @router.get("/metrics/overview")
 def metrics_overview(days: int = Query(30, ge=1, le=365), c: Container = Depends(container)):
     now = c.orchestrator.clock()
-    return metrics.overview(
+    out = metrics.overview(
         claims=c.repo.list_claims(),
         spans=c.tracer.spans_since(now - dt.timedelta(days=days)),
         eval_runs=c.repo.list_eval_runs(),
@@ -33,6 +33,11 @@ def metrics_overview(days: int = Query(30, ge=1, le=365), c: Container = Depends
         impact=c.settings.impact,
         fx_usd_inr=c.settings.FX_USD_INR,
     )
+    return {**out, "assumptions": c.settings.impact.model_dump()}
+
+
+# What a claim trace covers, from its first span (upload batch, re-check after answers, submit).
+TRACE_STEP = {"ingest": " · upload", "extract": " · upload", "rules": " · re-check", "submit": " · submit"}
 
 
 @router.get("/traces", response_model=list[TraceSummary])
@@ -49,9 +54,8 @@ def traces(claim_id: str | None = None, c: Container = Depends(container)):
                 id=t.id,
                 claim_id=t.claim_id,
                 kind=t.kind,
-                title=titles.get(
-                    t.claim_id or "", "Policy compile" if t.kind == "policy" else t.kind.title()
-                ),
+                title=titles.get(t.claim_id or "", "Policy compile" if t.kind == "policy" else t.kind.title())
+                + TRACE_STEP.get(t.spans[0].name, ""),
                 started_at=start,
                 duration_ms=int((end - start).total_seconds() * 1000),
                 span_count=len(t.spans),
