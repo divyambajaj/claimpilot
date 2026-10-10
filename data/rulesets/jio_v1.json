@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "policy_id": "pol_24b7a7ad5236",
-  "policy_sha256": "24b7a7ad523634bb217f3e670417af96ea46ab623332511a06e66cab6d574f07",
+  "policy_id": "pol_9e7dbf482ead",
+  "policy_sha256": "9e7dbf482ead007f5142d0343cf91b0d92218fdfb31663a691fb9f53dbb53a8f",
   "compiled_at": "2026-10-01T00:00:00",
   "compiler_prompt_version": "hand-authored",
   "provider": "hand-authored",
@@ -62,8 +62,8 @@
       "citation": {
         "section": "4.2 Meals",
         "quote": "Meals are reimbursed up to INR 750 per person per meal.",
-        "char_start": 4460,
-        "char_end": 4515,
+        "char_start": 4851,
+        "char_end": 4906,
         "citation_verified": true
       }
     },
@@ -118,8 +118,8 @@
       "citation": {
         "section": "3.1 Documentation",
         "quote": "Any single expense of INR 5,000 or more must be supported by a GST tax invoice bearing the vendor's GSTIN.",
-        "char_start": 2692,
-        "char_end": 2798,
+        "char_start": 3083,
+        "char_end": 3189,
         "citation_verified": true
       }
     },
@@ -149,8 +149,8 @@
       "citation": {
         "section": "2.3 Timelines",
         "quote": "Claims must be submitted within 30 days of the expense date.",
-        "char_start": 1688,
-        "char_end": 1748,
+        "char_start": 1861,
+        "char_end": 1921,
         "citation_verified": true
       }
     },
@@ -180,8 +180,8 @@
       "citation": {
         "section": "2.3 Timelines",
         "quote": "Expenses older than 90 days will not be reimbursed.",
-        "char_start": 1907,
-        "char_end": 1958,
+        "char_start": 2080,
+        "char_end": 2131,
         "citation_verified": true
       }
     },
@@ -244,8 +244,8 @@
       "citation": {
         "section": "3.2 Proof of payment",
         "quote": "For digital payments above INR 2,000, attach the payment confirmation.",
-        "char_start": 3109,
-        "char_end": 3179,
+        "char_start": 3500,
+        "char_end": 3570,
         "citation_verified": true
       }
     },
@@ -292,8 +292,8 @@
       "citation": {
         "section": "3.2 Proof of payment",
         "quote": "Cash payments above INR 2,000 require a written justification, since they cannot be independently verified.",
-        "char_start": 3307,
-        "char_end": 3414,
+        "char_start": 3698,
+        "char_end": 3805,
         "citation_verified": true
       }
     },
@@ -348,8 +348,8 @@
       "citation": {
         "section": "5.1 Lodging",
         "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
-        "char_start": 5569,
-        "char_end": 5655,
+        "char_start": 6012,
+        "char_end": 6098,
         "citation_verified": true
       }
     },
@@ -412,8 +412,8 @@
       "citation": {
         "section": "5.1 Lodging",
         "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
-        "char_start": 5569,
-        "char_end": 5655,
+        "char_start": 6012,
+        "char_end": 6098,
         "citation_verified": true
       }
     },
@@ -443,8 +443,8 @@
       "citation": {
         "section": "4.1 Local conveyance",
         "quote": "Local conveyance (cabs, auto-rickshaws and metro) is reimbursed up to INR 1,500 per day.",
-        "char_start": 4055,
-        "char_end": 4143,
+        "char_start": 4446,
+        "char_end": 4534,
         "citation_verified": true
       }
     },
@@ -474,8 +474,8 @@
       "citation": {
         "section": "4.4 Fuel",
         "quote": "Fuel for personal vehicles used on company business is reimbursed up to INR 5,000 per claim.",
-        "char_start": 5267,
-        "char_end": 5359,
+        "char_start": 5658,
+        "char_end": 5750,
         "citation_verified": true
       }
     },
@@ -505,8 +505,8 @@
       "citation": {
         "section": "6.2 Mobile and internet",
         "quote": "Mobile and internet bills are reimbursed up to INR 1,000 per month.",
-        "char_start": 6695,
-        "char_end": 6762,
+        "char_start": 7138,
+        "char_end": 7205,
         "citation_verified": true
       }
     },
@@ -536,8 +536,8 @@
       "citation": {
         "section": "6.1 Office supplies",
         "quote": "Office supplies bought on a weekend need a note from the manager explaining why they could not wait until a working day.",
-        "char_start": 6261,
-        "char_end": 6381,
+        "char_start": 6704,
+        "char_end": 6824,
         "citation_verified": true
       }
     }

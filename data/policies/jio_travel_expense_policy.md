@@ -18,7 +18,7 @@ The policy applies to all permanent employees, fixed-term employees and interns 
 
 ### 2.1 Eligibility
 
-An expense is reimbursable only if it was incurred wholly and necessarily for Company business, was paid by the employee personally, and has not been reimbursed by anyone else. Employees should spend Company money as carefully as they would spend their own and choose the most economical option that still allows them to do their job well.
+An expense is reimbursable only if it was incurred wholly and necessarily for Company business, was paid by the employee personally, and has not been reimbursed by anyone else. Every expense needs a business purpose. An expense that does not fall into one of the categories in sections 4 to 6 must carry a short note explaining its business purpose. Employees should spend Company money as carefully as they would spend their own and choose the most economical option that still allows them to do their job well.
 
 ### 2.2 Approvals
 
@@ -36,7 +36,7 @@ Claims are paid in Indian rupees. Expenses paid in a foreign currency are conver
 
 ### 3.1 Documentation
 
-Every expense must be supported by an original, legible bill or receipt showing the vendor name, the date, the amount and what was purchased. Photographs of bills are acceptable if all four corners and every printed figure are clearly visible. Any single expense of INR 5,000 or more must be supported by a GST tax invoice bearing the vendor's GSTIN. Employees should ask the vendor for a tax invoice in the Company's name at the time of purchase, because it is rarely possible to obtain one later. Finance validates each GSTIN before payment.
+Every expense must be supported by an original, legible bill or receipt showing the vendor name, the date, the amount and what was purchased. Photographs of bills are acceptable if all four corners and every printed figure are clearly visible. A payment confirmation on its own, such as a UPI success screen or a card slip, is not a bill. It proves that money was paid, not what was bought, so it must be accompanied by the bill or invoice for the same expense. Any single expense of INR 5,000 or more must be supported by a GST tax invoice bearing the vendor's GSTIN. Employees should ask the vendor for a tax invoice in the Company's name at the time of purchase, because it is rarely possible to obtain one later. Finance validates each GSTIN before payment.
 
 ### 3.2 Proof of payment
 
@@ -62,7 +62,7 @@ Intercity travel should be booked through the Company travel desk wherever possi
 
 ### 4.4 Fuel
 
-Employees who use a personal vehicle for Company business may claim fuel. Fuel for personal vehicles used on company business is reimbursed up to INR 5,000 per claim. Fuel claims should include the fuel station bill and a note of the trips made.
+Employees who use a personal vehicle for Company business may claim fuel. Fuel for personal vehicles used on company business is reimbursed up to INR 5,000 per claim. Every fuel claim must include the fuel station bill and a trip note stating the business purpose, the date and the places visited.
 
 ## 5. Lodging
 
@@ -82,11 +82,11 @@ Stationery and small office supplies needed urgently may be bought locally and c
 
 ### 6.2 Mobile and internet
 
-Employees whose role requires them to be reachable outside office hours may claim their mobile or home internet bill. Mobile and internet bills are reimbursed up to INR 1,000 per month. The bill must be in the employee's name.
+Employees whose role requires them to be reachable outside office hours may claim their mobile or home internet bill. Mobile and internet bills are reimbursed up to INR 1,000 per month. The bill must be in the employee's name. Prepaid recharges count as mobile bills and are reimbursable only for a number registered in the employee's name.
 
 ### 6.3 Non-reimbursable items
 
-The following are never reimbursed: alcohol and tobacco, traffic and parking fines, personal entertainment, gifts to government officials, travel insurance bought separately when the Company already provides cover, and any expense the employee cannot explain. Tips are reimbursable only when included on the bill and not exceeding ten percent of it.
+The following are never reimbursed: alcohol and tobacco, traffic and parking fines, personal entertainment, personal grooming such as salon and spa services, personal shopping, personal mobile recharges for a number not in the employee's name, gifts to government officials, travel insurance bought separately when the Company already provides cover, and any expense the employee cannot explain. Money transferred to an individual person (a person-to-person payment) is never reimbursed, even when it settles a bill; the employee should ask the vendor for a bill instead. Tips are reimbursable only when included on the bill and not exceeding ten percent of it.
 
 ## 7. Exceptions and audit
 
