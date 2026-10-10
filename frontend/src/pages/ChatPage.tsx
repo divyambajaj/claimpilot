@@ -408,7 +408,7 @@ export function ChatPage() {
             aria-label="Open claim"
           >
             <span className="min-w-0 flex-1">
-              <span className="block text-xs text-ink-3">{pluralize(claim.lines.filter((l) => l.status !== "excluded").length, "line")} · Reimbursable</span>
+              <span className="block text-xs text-ink-3">{pluralize(claim.lines.filter((l) => !l.linked_to_line_id).length, "line")} · Reimbursable</span>
               <span className="mono block text-md font-medium text-ink">{formatINR(claim.reimbursable_inr)}</span>
             </span>
             {claim.status === "ready_to_submit" ? <StatusPill status="complete" /> : claim.open_questions.length ? <StatusPill status="missing_info" /> : null}

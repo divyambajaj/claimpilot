@@ -33,7 +33,7 @@ interface Props<T> {
 
 export function FieldChip<T>({ label, field, format, mono, onEdit, inputType = "text" }: Props<T>) {
   const [open, setOpen] = useState(false);
-  const [right, setRight] = useState(false);
+  const [shift, setShift] = useState(0);
   const [draft, setDraft] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -61,9 +61,12 @@ export function FieldChip<T>({ label, field, format, mono, onEdit, inputType = "
   function toggle() {
     const el = ref.current;
     if (!open && el) {
-      // open leftwards when a 288px popover would be clipped by the scrolling list it sits in
-      const box = el.closest("ul")?.getBoundingClientRect();
-      setRight(el.getBoundingClientRect().left + 288 > (box?.right ?? window.innerWidth));
+      // slide the 288px popover left so the scrolling list it sits in does not clip it
+      const list = el.closest("ul");
+      const boxLeft = list?.getBoundingClientRect().left ?? 0;
+      const boxRight = boxLeft + (list?.clientWidth ?? window.innerWidth); // clientWidth excludes the scrollbar
+      const left = el.getBoundingClientRect().left;
+      setShift(Math.max(boxLeft + 4 - left, Math.min(0, boxRight - 4 - (left + 288))));
     }
     setOpen((o) => !o);
     setDraft(null);
@@ -110,7 +113,8 @@ export function FieldChip<T>({ label, field, format, mono, onEdit, inputType = "
           id={popId}
           role="dialog"
           aria-label={`${label} details`}
-          className={`animate-in absolute ${right ? "right-0" : "left-0"} top-full z-30 mt-1.5 block w-72 rounded-lg border border-line bg-surface p-3 text-left shadow-pop`}
+          style={{ left: shift }}
+          className={`animate-in absolute top-full z-30 mt-1.5 block w-72 rounded-lg border border-line bg-surface p-3 text-left shadow-pop`}
         >
           <span className="flex items-baseline justify-between">
             <span className="text-xs font-medium text-ink">{label}</span>
