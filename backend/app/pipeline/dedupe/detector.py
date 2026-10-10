@@ -134,7 +134,9 @@ def apply_upi_link(upi: LineItem, invoice: LineItem, link: UpiLink) -> tuple[Lin
         message=f"Payment screenshot attached as proof of payment for {invoice.extracted.vendor_name.value}.",
         evidence={"linked_to": invoice.id, **link.evidence},
     )
-    upi = upi.model_copy(update={"linked_to_line_id": invoice.id, "findings": [*upi.findings, note]})
+    # policy findings it earned as a standalone expense (screenshot uploaded before its bill) no longer apply
+    kept = [f for f in upi.findings if f.kind not in (FindingKind.POLICY, FindingKind.MISSING)]
+    upi = upi.model_copy(update={"linked_to_line_id": invoice.id, "findings": [*kept, note]})
     invoice = invoice.model_copy(
         update={
             "linked_proof_line_id": upi.id,

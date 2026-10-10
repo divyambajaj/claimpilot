@@ -5,7 +5,7 @@ import datetime as dt
 import numpy as np
 
 from app.domain.enums import FindingKind, Severity
-from app.domain.models import Document
+from app.domain.models import Document, Finding
 from app.pipeline.dedupe.detector import DuplicateDetector, apply_upi_link, duplicate_finding
 from app.pipeline.dedupe.fuzzy import amount_match, fuzzy_score, norm_vendor
 from app.pipeline.dedupe.phash import perceptual_match
@@ -215,7 +215,9 @@ class TestDetector:
         # two bills printed from one template: dHash 2 bits apart, but different expenses
         docs = {"D-A": _doc("D-A", "s1", "8480e08880a09c00"), "D-B": _doc("D-B", "s2", "8480e08880a09c03")}
         a = make_line("A", raw_text=RIDE_A, vendor_name="Harbourview Residency", total_amount=5376.0)
-        other_amount = make_line("B", raw_text=RIDE_B, vendor_name="Harbourview Residency", total_amount=4200.0)
+        other_amount = make_line(
+            "B", raw_text=RIDE_B, vendor_name="Harbourview Residency", total_amount=4200.0
+        )
         other_vendor = make_line("B", raw_text=RIDE_B, vendor_name="Banyan Court Inn", total_amount=5376.0)
         for b in (other_amount, other_vendor):
             match = self.det.compare(b, a, docs)
@@ -230,8 +232,13 @@ class TestDetector:
         assert (link.upi_line_id, link.invoice_line_id) == ("U", "H")
         reverse = self.det.find_upi_link(bill, [upi, bill])
         assert (reverse.upi_line_id, reverse.invoice_line_id) == ("U", "H")
+        stale = Finding(
+            id="c", kind=FindingKind.POLICY, severity=Severity.WARN, rule_id="MEALS_CAP", message="x"
+        )
+        upi = upi.model_copy(update={"findings": [stale]})  # screenshot was rated before its bill arrived
         upi2, bill2 = apply_upi_link(upi, bill, link)
         assert upi2.linked_to_line_id == "H"
+        assert [f.rule_id for f in upi2.findings] == ["UPI_LINK"]
         assert upi2.findings[-1].evidence["linked_to"] == "H"
         assert bill2.has_proof_of_payment
         assert bill2.linked_proof_line_id == "U"

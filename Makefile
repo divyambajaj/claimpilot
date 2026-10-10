@@ -1,4 +1,4 @@
-.PHONY: install dev backend frontend test lint fmt eval eval-baseline synth record-demo build serve
+.PHONY: install dev backend frontend test lint fmt eval eval-live eval-baseline synth record-demo build serve
 
 PY := PYTHONPATH=backend uv run
 UVICORN := uv run uvicorn app.main:app --app-dir backend
@@ -34,6 +34,9 @@ fmt:
 
 eval:
 	$(PY) python -m app.evaluation.runner --subset full --provider replay --gate
+
+eval-live:  # full eval through the live provider, recording replay files (LLM_PROVIDER=claude_code by default)
+	$(PY) python -m app.evaluation.runner --subset full --provider $${LLM_PROVIDER:-claude_code} --record
 
 eval-baseline:
 	$(PY) python -m app.evaluation.runner --subset full --provider replay --write-baseline

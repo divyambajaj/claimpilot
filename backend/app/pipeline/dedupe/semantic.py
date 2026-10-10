@@ -1,5 +1,6 @@
 """Layer 3: lightweight lexical embedding (hashed char 3-5-grams) for re-photographed or re-printed bills."""
 
+import re
 import zlib
 from typing import Protocol
 
@@ -21,7 +22,9 @@ class HashedNgramEmbedder:
         self.dims, self.n_min, self.n_max = dims, n_min, n_max
 
     def embed(self, text: str) -> np.ndarray:
-        norm = " ".join(text.lower().split())
+        # punctuation runs (dashed rules, "====") would otherwise dominate the counts: the eval found a
+        # restaurant bill and a fuel slip at cosine 0.93 through their "------" separators alone
+        norm = " ".join(re.sub(r"[^\w]+", " ", text.lower()).split())
         vec = np.zeros(self.dims, dtype=np.float32)
         for n in range(self.n_min, self.n_max + 1):
             for i in range(len(norm) - n + 1):

@@ -509,6 +509,7 @@ def build_hotel(rng, key, date, nights, tariff, method="card", upi_ref=None, leg
         city=city,
         category="lodging",
     )
+    fields.pop("attendees_count")  # "Pax: 1" on a folio is not a meal headcount; either reading is fine
     if upi_ref:
         fields.pop("upi_txn_id")
     return doc, fields, []

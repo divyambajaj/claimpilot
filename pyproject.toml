@@ -59,7 +59,6 @@ filterwarnings = ["ignore::DeprecationWarning:pypdfium2.*"]
 
 [tool.coverage.run]
 source = ["backend/app"]
-omit = ["backend/app/evaluation/*"]
 
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:", "raise NotImplementedError"]

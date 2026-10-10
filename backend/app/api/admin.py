@@ -1,19 +1,24 @@
 """Admin API: metrics, traces, audit trail, labels, policies/rulesets, eval runs (bearer-token gated)."""
 
+import asyncio
 import datetime as dt
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi.responses import StreamingResponse
 
 from app.api.claims import audit_rows
 from app.api.deps import Container, container, require_admin
+from app.api.events import SSE_HEADERS
 from app.api.schemas import AuditRow, EvalRunIn, PolicyIn, PolicyOut, RuleSetOut, TraceSummary
 from app.domain.models import CorrectionLabel, EvalRun, Trace
+from app.evaluation.runner import run_eval
 from app.observability import metrics
 from app.rules.compiler import compile_policy
 from app.rules.dsl import RuleSet
 
 router = APIRouter(prefix="/admin", tags=["admin"], dependencies=[Depends(require_admin)])
-EVAL_NOT_READY = "The evaluation runner ships in a later milestone."
+EVAL_TOPIC = "admin:eval"
+_eval_tasks: dict[int, asyncio.Task[None]] = {}  # one running eval per app container
 
 
 def _ruleset_out(ruleset: RuleSet, active: bool) -> RuleSetOut:
@@ -133,11 +138,32 @@ def eval_run(run_id: str, c: Container = Depends(container)):
     return c.repo.get_eval_run(run_id)
 
 
-@router.post("/eval/run", status_code=501)
-def start_eval(body: EvalRunIn | None = None):
-    raise HTTPException(501, EVAL_NOT_READY)
+async def _run_eval(c: Container, subset: str) -> None:
+    def progress(done: int, total: int, fixture_id: str | None) -> None:
+        data = {"done": done, "total": total} | ({"fixture_id": fixture_id} if fixture_id else {})
+        c.broker.publish(EVAL_TOPIC, "progress", data)
+
+    try:
+        run = await run_eval(c.settings, subset, c.llm.provider, progress)
+    except Exception as exc:  # surfaced to the dashboard; the API process keeps serving
+        c.broker.publish(EVAL_TOPIC, "error", {"message": f"Evaluation failed: {exc}"})
+        return
+    c.repo.save_eval_run(run)
+    c.broker.publish(EVAL_TOPIC, "done", {"run": run})
 
 
-@router.get("/eval/events", status_code=501)
-def eval_events():
-    raise HTTPException(501, EVAL_NOT_READY)
+@router.post("/eval/run", status_code=202)
+async def start_eval(body: EvalRunIn | None = None, c: Container = Depends(container)):
+    """Start an eval in the background; follow it on /admin/eval/events (progress, done, error)."""
+    running = _eval_tasks.get(id(c))
+    if running is not None and not running.done():
+        raise HTTPException(409, "An evaluation is already running.")
+    subset = (body or EvalRunIn()).subset
+    _eval_tasks[id(c)] = asyncio.create_task(_run_eval(c, subset))
+    return {"subset": subset, "status": "started"}
+
+
+@router.get("/eval/events")
+async def eval_events(request: Request, c: Container = Depends(container)):
+    stream = c.broker.stream(EVAL_TOPIC, request.is_disconnected)
+    return StreamingResponse(stream, media_type="text/event-stream", headers=SSE_HEADERS)

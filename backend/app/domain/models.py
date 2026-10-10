@@ -227,6 +227,7 @@ class EvalRun(BaseModel):
     passed_gate: bool
     git_sha: str | None = None
     subset: str | None = None
+    details: dict[str, Any] = Field(default_factory=dict)  # per-rule, dup layers, UPI links, Brier, gate
 
 
 class CorrectionLabel(BaseModel):
