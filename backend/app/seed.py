@@ -58,7 +58,9 @@ async def seed_demo(orch: Orchestrator, user_id: str = "sample-team") -> None:
 
     if orch.repo.list_claims():
         return
-    settings = orch.settings.model_copy(update={"LLM_PROVIDER": "replay", "LLM_RECORD": False, "REPLAY_DELAY_S": 0.0})
+    settings = orch.settings.model_copy(
+        update={"LLM_PROVIDER": "replay", "LLM_RECORD": False, "REPLAY_DELAY_S": 0.0}
+    )
     started, now = utcnow(), orch.clock()
     manifest, rows = load_fixtures()
     history = manifest["claims"]
