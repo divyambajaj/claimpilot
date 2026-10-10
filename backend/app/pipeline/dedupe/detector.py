@@ -102,9 +102,10 @@ class DuplicateDetector:
 def duplicate_finding(line: LineItem, match: DuplicateMatch) -> Finding:
     old = match.line.extracted
     what = "the same file as" if match.same_file else "a likely duplicate of"
+    d = old.date.value
     message = (
         f"This looks like {what} {old.vendor_name.value or 'an expense'} "
-        f"₹{match.line.amount_inr:,.0f} on {old.date.value or 'an unknown date'}"
+        f"₹{match.line.amount_inr:,.0f} on {f'{d.day} {d:%b %Y}' if d else 'an unknown date'}"
         f"{'' if match.line.claim_id == line.claim_id else ' from an earlier claim'}."
     )
     return Finding(

@@ -127,5 +127,6 @@ def overview(
                 "ece": r.metrics.ece,
             }
             for r in sorted(eval_runs, key=lambda r: r.created_at)
+            if r.subset != "smoke"  # a smoke score is not comparable with the full-set trend
         ],
     }
