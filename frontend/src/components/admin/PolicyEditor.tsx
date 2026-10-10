@@ -95,7 +95,7 @@ export function PolicyEditor() {
       <div className="card flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
         <div className="min-w-0">
           <div className="truncate text-sm font-medium text-ink">{policy.name}</div>
-          <div className="mono text-2xs text-ink-3">sha {policy.sha256.slice(0, 12)} · compiled {formatDateTime(ruleset.compiled_at)} · {ruleset.provider}/{ruleset.model} · prompt {ruleset.compiler_prompt_version}</div>
+          <div className="mono text-2xs text-ink-3">sha {policy.sha256.slice(0, 12)} · compiled {formatDateTime(ruleset.compiled_at)} · {ruleset.provider === "hand-authored" ? "hand-authored rules" : `${ruleset.provider}/${ruleset.model} · prompt ${ruleset.compiler_prompt_version}`}</div>
         </div>
         <div className="ml-auto flex items-center gap-2">
           <label className="text-xs text-ink-3" htmlFor="rs-version">Ruleset</label>

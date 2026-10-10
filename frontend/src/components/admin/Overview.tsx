@@ -18,6 +18,8 @@ export function Overview() {
   if (err) return <p className="text-sm text-bad">Could not load metrics: {err}</p>;
   if (!m) return <div className="flex justify-center py-20"><Spinner /></div>;
   const k = m.kpis;
+  const a = m.assumptions;
+  const saved = a ? a.manual_employee_min + a.manual_finance_min - a.agent_employee_min - a.agent_finance_min : 0;
   const evalTrend = m.eval_trend.map((r) => ({ ...r, label: shortDate(r.created_at.slice(0, 10)) }));
 
   return (
@@ -30,7 +32,7 @@ export function Overview() {
         <KpiTile label="Extract latency, p50" value={formatMs(k.p50_latency_ms)} note="Per document" />
         <KpiTile label="Extract latency, p95" value={formatMs(k.p95_latency_ms)} note="Per document" />
         <KpiTile label="Error rate" value={formatPct(k.error_rate, 1)} note={`Retries ${formatPct(k.retry_rate, 1)}`} />
-        <KpiTile label="Time saved" value={`${formatNumber(k.time_saved_hours)} h`} note="Assumes 14 min saved per claim" />
+        <KpiTile label="Time saved" value={`${formatNumber(k.time_saved_hours, k.time_saved_hours < 10 ? 1 : 0)} h`} note={a ? `Assumes ${formatNumber(saved)} min saved per claim` : "Synthetic assumption"} />
         <KpiTile label="Duplicates prevented" value={formatINR(k.duplicate_inr_prevented, { decimals: false })} note="Confirmed duplicate lines" />
         <KpiTile label="Ready on first pass" value={formatPct(k.first_pass_ready_rate)} note="Claims needing no answers" />
       </KpiGrid>
@@ -48,19 +50,19 @@ export function Overview() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Cost per claim" note="₹, from span cost × FX">
+        <ChartCard title="Cost per claim" note="₹, from span cost × FX" empty={m.cost_trend.length === 0 && "No traced LLM calls in this period."}>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={m.cost_trend} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
               <CartesianGrid vertical={false} stroke={C.grid} />
               <XAxis dataKey="date" {...axisProps} tickFormatter={shortDate} interval={6} />
-              <YAxis {...axisProps} domain={[0, (max: number) => Math.ceil(max)]} allowDecimals={false} tickFormatter={(v: number) => `₹${v}`} />
+              <YAxis {...axisProps} domain={[0, "auto"]} allowDecimals={false} tickFormatter={(v: number) => `₹${v}`} />
               <Tooltip content={<ChartTooltip labelFormat={shortDate} format={(v) => formatINR(v)} />} cursor={{ stroke: C.muted }} />
-              <Line isAnimationActive={false} dataKey="cost_per_claim_inr" name="Cost / claim" stroke={C.s1} strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 2, stroke: "#fff" }} />
+              <Line isAnimationActive={false} dataKey="cost_per_claim_inr" name="Cost / claim" stroke={C.s1} strokeWidth={2} dot={m.cost_trend.length < 8 ? { r: 3, fill: C.s1, strokeWidth: 0 } : false} activeDot={{ r: 4, strokeWidth: 2, stroke: "#fff" }} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Violations by rule" note="Findings raised, last 30 days">
+        <ChartCard title="Violations by rule" note="Findings raised, last 30 days" empty={m.violations_by_rule.length === 0 && "No policy findings yet. They appear as claims are checked."}>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={m.violations_by_rule} layout="vertical" margin={{ top: 0, right: 28, bottom: 0, left: 0 }} barCategoryGap={6}>
               <XAxis type="number" hide />
@@ -73,7 +75,7 @@ export function Overview() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Duplicate catches by layer" note="Confirmed duplicates and the amount kept out of claims">
+        <ChartCard title="Duplicate catches by layer" note="Confirmed duplicates and the amount kept out of claims" empty={!m.duplicates_by_layer.some((d) => d.count > 0) && "No duplicates confirmed yet. Re-uploading a receipt from an earlier claim shows up here."}>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={m.duplicates_by_layer.map((d) => ({ ...d, label: d.layer[0].toUpperCase() + d.layer.slice(1), caption: `${d.count} · ${formatINR(d.amount_inr, { decimals: false })}` }))} layout="vertical" margin={{ top: 0, right: 110, bottom: 0, left: 0 }} barCategoryGap={18}>
               <XAxis type="number" hide />
@@ -86,7 +88,7 @@ export function Overview() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Eval field accuracy" note="Per eval run">
+        <ChartCard title="Eval field accuracy" note="Per eval run" empty={evalTrend.length === 0 && "No evaluation runs yet. Start one from the Evaluation tab."}>
           <ResponsiveContainer width="100%" height={180}>
             <LineChart data={evalTrend} margin={{ top: 4, right: 8, bottom: 0, left: -16 }}>
               <CartesianGrid vertical={false} stroke={C.grid} />
@@ -98,7 +100,7 @@ export function Overview() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Eval calibration error (ECE)" note="Lower is better">
+        <ChartCard title="Eval calibration error (ECE)" note="Lower is better" empty={evalTrend.length === 0 && "Calibration is measured by each evaluation run."}>
           <ResponsiveContainer width="100%" height={180}>
             <LineChart data={evalTrend} margin={{ top: 4, right: 8, bottom: 0, left: -16 }}>
               <CartesianGrid vertical={false} stroke={C.grid} />
@@ -110,7 +112,12 @@ export function Overview() {
           </ResponsiveContainer>
         </ChartCard>
       </div>
-      <p className="text-xs text-ink-3">Impact figures use synthetic assumptions: 18 min manual handling per claim versus 4 min with the agent.</p>
+      {a && (
+        <p className="text-xs text-ink-3">
+          Impact figures use synthetic assumptions: {formatNumber(a.manual_employee_min + a.manual_finance_min)} min manual handling per claim versus{" "}
+          {formatNumber(a.agent_employee_min + a.agent_finance_min)} min with the agent.
+        </p>
+      )}
     </div>
   );
 }

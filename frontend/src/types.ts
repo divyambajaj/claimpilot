@@ -380,6 +380,8 @@ export interface MetricsOverview {
   violations_by_rule: { rule_id: string; title: string; count: number }[];
   duplicates_by_layer: { layer: "perceptual" | "fuzzy" | "semantic"; count: number; amount_inr: number }[];
   eval_trend: { run_id: string; created_at: string; field_accuracy: number; ece: number }[];
+  /** Synthetic impact assumptions behind time_saved_hours (backend config.ImpactParams). */
+  assumptions?: { manual_employee_min: number; manual_finance_min: number; agent_employee_min: number; agent_finance_min: number };
 }
 
 /** UI contract for GET /admin/audit (cross-claim findings table). */

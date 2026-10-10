@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Play } from "lucide-react";
-import { api } from "../../api/client";
+import { api, ApiError } from "../../api/client";
 import type { CorrectionLabel, EvalRun } from "../../types";
 import { fieldLabel, formatDateTime, formatMs, formatPct } from "../../lib/format";
 import { Pill, Spinner } from "../ui";
@@ -17,10 +17,13 @@ export function EvalPanel() {
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
-    api.evalRuns().then((r) => {
-      setRuns(r);
-      setSelId(r[0]?.id ?? null);
-    });
+    api
+      .evalRuns()
+      .then((r) => {
+        setRuns(r);
+        setSelId(r[0]?.id ?? null);
+      })
+      .catch(() => setRuns([]));
     api.labels().then(setLabels).catch(() => setLabels([]));
     return api.subscribeEval((e) => {
       if (e.type === "progress") setProgress({ done: e.data.done, total: e.data.total });
@@ -53,12 +56,12 @@ export function EvalPanel() {
 
   async function start() {
     setErr(null);
-    setProgress({ done: 0, total: subset === "smoke" ? 6 : 60 });
+    setProgress({ done: 0, total: 0 }); // the real total arrives with the first progress event
     try {
       await api.startEval(subset);
     } catch (e) {
       setProgress(null);
-      setErr(e instanceof Error ? e.message : "Could not start eval");
+      setErr(e instanceof ApiError && e.status === 501 ? "The evaluation runner is not available on this server yet." : e instanceof Error ? e.message : "Could not start eval");
     }
   }
 
@@ -79,7 +82,7 @@ export function EvalPanel() {
           <div className="inline-flex rounded-md border border-line p-0.5" role="group" aria-label="Fixture subset">
             {(["smoke", "full"] as const).map((s) => (
               <button key={s} type="button" onClick={() => setSubset(s)} aria-pressed={subset === s} className={`h-7 rounded px-2.5 text-xs ${subset === s ? "bg-sunken text-ink" : "text-ink-3 hover:text-ink"}`}>
-                {s === "smoke" ? "Smoke · 6" : "Full · 60"}
+                {s === "smoke" ? "Smoke set" : "Full set"}
               </button>
             ))}
           </div>
@@ -91,12 +94,14 @@ export function EvalPanel() {
           <div className="min-w-[200px] flex-1">
             <div className="flex justify-between text-xs text-ink-2">
               <span>Running {subset} set in replay mode</span>
-              <span className="mono">{progress.done}/{progress.total}</span>
+              <span className="mono">{progress.total ? `${progress.done}/${progress.total}` : "starting"}</span>
             </div>
             <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-sunken">
-              <div className="h-full bg-accent transition-[width] duration-200" style={{ width: `${(progress.done / progress.total) * 100}%` }} />
+              <div className="h-full bg-accent transition-[width] duration-200" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
             </div>
           </div>
+        ) : runs.length === 0 ? (
+          <span className="text-xs text-ink-3">No runs yet. A smoke run scores a handful of synthetic receipts against ground truth.</span>
         ) : (
           <label className="flex items-center gap-2 text-xs text-ink-3">
             Run
@@ -180,6 +185,11 @@ export function EvalPanel() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line">
+                {comparison.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="px-4 py-8 text-center text-ink-3">Each run adds a row here, so providers and prompt versions can be compared side by side.</td>
+                  </tr>
+                )}
                 {comparison.map((r, i) => (
                   <tr key={r.id} className={r.id === selId ? "bg-accent-soft/50" : ""}>
                     <td className="px-4 py-2 text-ink">{r.provider} <span className="text-ink-3">/ {r.model}</span>{i === 0 && <span className="ml-2 text-2xs text-accent">best</span>}</td>

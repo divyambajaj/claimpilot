@@ -16,7 +16,8 @@ export const axisProps = {
   tick: { fontSize: 11, fill: C.axis },
 } as const;
 
-export function ChartCard({ title, note, legend, children, className = "" }: { title: string; note?: ReactNode; legend?: ReactNode; children: ReactNode; className?: string }) {
+/** `empty` replaces the chart with a quiet placeholder when there is nothing to plot yet. */
+export function ChartCard({ title, note, legend, children, className = "", empty }: { title: string; note?: ReactNode; legend?: ReactNode; children: ReactNode; className?: string; empty?: string | false }) {
   return (
     <section className={`card p-4 ${className}`}>
       <div className="flex items-start justify-between gap-3">
@@ -26,7 +27,11 @@ export function ChartCard({ title, note, legend, children, className = "" }: { t
         </div>
         {legend}
       </div>
-      <div className="mt-4">{children}</div>
+      {empty ? (
+        <div className="mt-4 flex h-[160px] items-center justify-center rounded-md border border-dashed border-line px-6 text-center text-xs text-ink-3">{empty}</div>
+      ) : (
+        <div className="mt-4">{children}</div>
+      )}
     </section>
   );
 }

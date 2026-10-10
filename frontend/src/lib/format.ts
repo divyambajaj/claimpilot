@@ -20,6 +20,7 @@ export function formatPct(r: number, digits = 0): string {
 }
 
 export function formatMs(ms: number): string {
+  if (ms < 10) return `${Number(ms.toFixed(1))} ms`;
   if (ms < 1000) return `${Math.round(ms)} ms`;
   return `${(ms / 1000).toFixed(ms < 10000 ? 1 : 0)} s`;
 }

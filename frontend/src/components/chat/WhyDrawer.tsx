@@ -7,7 +7,11 @@ export function describeEvidence(f: Finding, lines: LineItem[]): string[] {
   const e = f.evidence as Record<string, unknown>;
   const idx = (id: unknown) => lines.findIndex((l) => l.id === id) + 1;
   const out: string[] = [];
-  if (e.matched_line_id) {
+  if (e.matched_line_id && !idx(e.matched_line_id) && e.matched_claim_id) {
+    const layers = e.layers as { perceptual?: { signal?: string } } | undefined;
+    const how = layers?.perceptual?.signal === "sha256" ? "the identical file" : `score ${Number(e.score).toFixed(2)}, ${e.layer} layer`;
+    out.push(`Matches a ${e.matched_amount_inr != null ? `${formatINR(Number(e.matched_amount_inr))} ` : ""}receipt already in claim ${String(e.matched_claim_id)} (${how}).`);
+  } else if (e.matched_line_id) {
     const n = idx(e.matched_line_id) || Number(e.matched_index) || "?";
     const same = [e.vendor_sim !== undefined && Number(e.vendor_sim) > 0.8 && "vendor", e.amount_match && "amount", e.date_delta_days === 0 && "date"].filter(Boolean);
     out.push(`Matches receipt #${n}${same.length ? ` — same ${same.join(", ")}` : ""} (score ${Number(e.score).toFixed(2)}, ${e.layer} layer)`);
@@ -28,9 +32,11 @@ interface Props {
   lines: LineItem[];
   rule?: Rule;
   onClose: () => void;
+  /** Resolve an open duplicate finding; omitted when the claim can no longer be edited. */
+  onAction?: (action: "override_duplicate" | "confirm_duplicate") => void;
 }
 
-export function WhyDrawer({ finding, line, lines, rule, onClose }: Props) {
+export function WhyDrawer({ finding, line, lines, rule, onClose, onAction }: Props) {
   const f = finding;
   const citation = f?.citation ?? rule?.citation ?? null;
   const title = rule?.title ?? (f?.kind === "duplicate" ? (f.evidence.linked_to ? "Proof of payment" : "Possible duplicate") : "Check");
@@ -82,6 +88,13 @@ export function WhyDrawer({ finding, line, lines, rule, onClose }: Props) {
               </dl>
             )}
           </section>
+
+          {onAction && f.kind === "duplicate" && !f.evidence.linked_to && f.resolution === "open" && (
+            <section className="flex flex-wrap gap-2">
+              <button type="button" className="btn-secondary" onClick={() => onAction("override_duplicate")}>Not a duplicate, keep it</button>
+              <button type="button" className="btn-ghost" onClick={() => onAction("confirm_duplicate")}>Yes, leave it out</button>
+            </section>
+          )}
 
           {f.resolution !== "open" && (
             <section>

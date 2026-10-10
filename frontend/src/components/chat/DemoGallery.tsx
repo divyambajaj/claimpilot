@@ -41,12 +41,17 @@ export function DemoGallery({ open, receipts, onClose, onAdd }: Props) {
   useEffect(() => {
     if (open) setSel(new Set((receipts ?? []).map((r) => r.name)));
   }, [open, receipts]);
-  const toggle = (n: string) => setSel((s) => (s.has(n) ? (s.delete(n), new Set(s)) : new Set(s).add(n)));
+  const toggle = (n: string) =>
+    setSel((s) => {
+      const next = new Set(s); // copy first: StrictMode runs updaters twice, so never mutate `s`
+      if (!next.delete(n)) next.add(n);
+      return next;
+    });
 
   return (
     <Drawer open={open} onClose={onClose} title="Sample receipts">
       <p className="text-sm text-ink-2">
-        Synthetic receipts from a two-day Mumbai trip. They include a duplicate photo, a UPI screenshot that pays an invoice, and a handwritten bill.
+        Synthetic receipts, all fictional. They include a UPI screenshot that pays the hotel folio and an invoice with a mistyped GSTIN.
       </p>
       {!receipts ? (
         <div className="flex justify-center py-10"><Spinner /></div>

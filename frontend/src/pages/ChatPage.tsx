@@ -18,9 +18,11 @@ const nextId = () => `m${++mid}-${Math.random().toString(36).slice(2, 7)}`; // r
 export function summarize(claim: Claim, nDocs: number): string {
   const L = claim.lines;
   const missing = L.filter((l) => l.status === "missing_info").length;
-  const dups = L.filter((l) => l.findings.some((f) => f.kind === "duplicate" && f.resolution === "open" && f.severity !== "info")).length;
-  const blocked = L.filter((l) => l.findings.some((f) => f.severity === "block" && f.resolution === "open")).length;
-  const other = L.filter((l) => l.status === "flagged").length - dups - blocked;
+  const isDup = (l: LineItem) => l.findings.some((f) => f.kind === "duplicate" && f.resolution === "open" && f.severity !== "info");
+  const isBlocked = (l: LineItem) => l.findings.some((f) => f.severity === "block" && f.resolution === "open");
+  const dups = L.filter(isDup).length;
+  const blocked = L.filter((l) => isBlocked(l) && !isDup(l)).length;
+  const other = L.filter((l) => l.status === "flagged" && !isDup(l) && !isBlocked(l)).length;
   const linked = L.filter((l) => l.linked_proof_line_id);
   const parts: string[] = [];
   if (missing) parts.push(`${missing} ${missing === 1 ? "needs a detail" : "need a detail"}`);
@@ -115,9 +117,21 @@ export function ChatPage() {
     if (claimRef.current) return claimRef.current;
     const c = await api.createClaim();
     updateClaim(c);
-    unsub.current = api.subscribeClaim(c.id, onEvent, () =>
-      push({ id: nextId(), kind: "assistant", tone: "error", text: "Lost the live connection. Refresh to see the latest state." }),
-    );
+    // The stream opens with the current claim; wait for it so no stage event of the first upload is missed.
+    await new Promise<void>((resolve) => {
+      const timer = setTimeout(resolve, 3000);
+      unsub.current = api.subscribeClaim(
+        c.id,
+        (e) => {
+          if (e.type === "claim_update") {
+            clearTimeout(timer);
+            resolve();
+          }
+          onEvent(e);
+        },
+        () => push({ id: nextId(), kind: "assistant", tone: "error", text: "Lost the live connection. Refresh to see the latest state." }),
+      );
+    });
     return c;
   }
 
@@ -152,14 +166,14 @@ export function ChatPage() {
   const onFiles = (files: File[]) =>
     startBatch(`Added ${pluralize(files.length, "file")}`, files.map((f) => f.name), (id) => api.uploadDocuments(id, files));
 
-  const openGallery = () => {
-    setGalleryOpen(true);
-    if (!receipts) api.demoReceipts().then(setReceipts).catch(() => setReceipts([]));
-  };
+  const openGallery = () => setGalleryOpen(true);
+  useEffect(() => {
+    if (galleryOpen && !receipts) api.demoReceipts().then(setReceipts).catch(() => setReceipts([]));
+  }, [galleryOpen, receipts]);
 
   const onSamples = (names: string[]) => {
     setGalleryOpen(false);
-    startBatch(`Added ${pluralize(names.length, "sample receipt")}`, names.map((n) => `${n}.jpg`), (id) => api.addDemoDocuments(id, names));
+    startBatch(`Added ${pluralize(names.length, "sample receipt")}`, names, (id) => api.addDemoDocuments(id, names));
   };
 
   async function onAnswer(messageId: string, answers: AnswerIn[]) {
@@ -193,6 +207,37 @@ export function ChatPage() {
     }
   }
 
+  /** Finance decides asynchronously (mock: ~20 s); poll a few times so the decision lands in the chat. */
+  async function awaitDecision(claimId: string) {
+    for (let i = 0; i < 8; i++) {
+      await new Promise((r) => setTimeout(r, 5000));
+      const c = await api.getClaim(claimId).catch(() => null);
+      if (claimRef.current?.id !== claimId) return;
+      if (c && (c.status === "approved" || c.status === "rejected")) {
+        updateClaim(c);
+        push(
+          c.status === "approved"
+            ? { id: nextId(), kind: "assistant", tone: "ok", text: `Finance approved ${c.finance_reference} for ${formatINR(c.reimbursable_inr)}.` }
+            : { id: nextId(), kind: "assistant", tone: "error", text: `Finance rejected ${c.finance_reference}.` },
+        );
+        return;
+      }
+    }
+  }
+
+  async function onLineAction(action: "override_duplicate" | "confirm_duplicate") {
+    const c = claimRef.current;
+    if (!c || !why) return;
+    try {
+      const updated = await api.lineAction(c.id, why.line.id, action);
+      updateClaim(updated);
+      setWhy(null);
+      askNew(updated.open_questions);
+    } catch (err) {
+      push({ id: nextId(), kind: "assistant", tone: "error", text: `Could not update the line: ${err instanceof Error ? err.message : "unknown error"}.` });
+    }
+  }
+
   async function onSubmit() {
     const c = claimRef.current;
     if (!c) return;
@@ -202,6 +247,7 @@ export function ChatPage() {
       const fresh = await api.getClaim(c.id).catch(() => ({ ...c, status: "submitted" as const, finance_reference, submitted_at: new Date().toISOString() }));
       updateClaim(fresh);
       push({ id: nextId(), kind: "assistant", tone: "ok", text: `Submitted to Finance. Reference ${finance_reference}. You will see the approval here once it is processed.` });
+      void awaitDecision(c.id);
     } catch (err) {
       push({ id: nextId(), kind: "assistant", tone: "error", text: `Could not submit: ${err instanceof Error ? err.message : "unknown error"}.` });
     } finally {
@@ -212,7 +258,7 @@ export function ChatPage() {
   const rule = why?.f.rule_id ? ruleset?.rules.find((r) => r.id === why.f.rule_id) : undefined;
   const started = messages.length > 0;
   const processing = progressId.current !== null;
-  const submitted = claim?.status === "submitted" || claim?.status === "approved";
+  const submitted = claim?.status === "submitted" || claim?.status === "approved" || claim?.status === "rejected";
   const panel = claim ? (
     <ClaimCard claim={claim} onSubmit={onSubmit} submitting={submitting} onWhy={(f, line) => setWhy({ f, line })} />
   ) : (
@@ -303,7 +349,14 @@ export function ChatPage() {
         onClose={() => setGalleryOpen(false)}
         onAdd={onSamples}
       />
-      <WhyDrawer finding={why?.f ?? null} line={why?.line ?? null} lines={claim?.lines ?? []} rule={rule} onClose={() => setWhy(null)} />
+      <WhyDrawer
+        finding={why?.f ?? null}
+        line={why?.line ?? null}
+        lines={claim?.lines ?? []}
+        rule={rule}
+        onClose={() => setWhy(null)}
+        onAction={submitted ? undefined : onLineAction}
+      />
     </div>
   );
 }

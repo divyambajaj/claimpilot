@@ -1,4 +1,4 @@
-.PHONY: install dev backend frontend test lint fmt eval eval-baseline synth record-demo build
+.PHONY: install dev backend frontend test lint fmt eval eval-baseline synth record-demo build serve
 
 PY := PYTHONPATH=backend uv run
 UVICORN := uv run uvicorn app.main:app --app-dir backend
@@ -49,3 +49,9 @@ build:
 	npm --prefix frontend ci
 	npm --prefix frontend run build
 	uv sync --no-dev
+
+# Single port: FastAPI serves the built SPA from frontend/dist at http://localhost:8000
+serve:
+	npm --prefix frontend ci
+	npm --prefix frontend run build
+	$(UVICORN) --port 8000

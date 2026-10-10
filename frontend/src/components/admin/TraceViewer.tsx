@@ -5,6 +5,7 @@ import { formatDateTime, formatMs } from "../../lib/format";
 import { Empty, Pill, Spinner } from "../ui";
 
 const ms = (iso: string) => new Date(iso).getTime();
+const isLLM = (s: Span) => s.name === "llm" || s.name.startsWith("llm.");
 
 const BAR: Record<string, string> = { ok: "bg-[#00806A]", retry: "bg-[#BF8233]", error: "bg-bad" };
 
@@ -17,7 +18,8 @@ export function TraceViewer() {
   useEffect(() => {
     api.traces().then((t) => {
       setList(t);
-      setSel(t[0]?.id ?? null);
+      // open the richest trace first (an upload batch), not a one-span submit
+      setSel(t.reduce<TraceSummary | null>((best, x) => (!best || x.span_count > best.span_count ? x : best), null)?.id ?? null);
     });
   }, []);
   useEffect(() => {
@@ -25,7 +27,7 @@ export function TraceViewer() {
     setTrace(null);
     api.trace(sel).then((t) => {
       setTrace(t);
-      setSpan(t.spans.find((s) => s.name === "extract") ?? t.spans[0] ?? null);
+      setSpan(t.spans.find(isLLM) ?? t.spans[0] ?? null);
     });
   }, [sel]);
 
@@ -71,6 +73,7 @@ function Waterfall({ trace, selected, onSelect }: { trace: Trace; selected: Span
     return { t0, total: Math.max(t1 - t0, 1), rows };
   }, [trace]);
   const ticks = [0, 0.25, 0.5, 0.75, 1];
+  const replayed = trace.spans.some((s) => s.attributes.replayed === true);
   const cost = trace.spans.reduce((a, s) => a + Number(s.attributes.cost_usd ?? 0), 0);
 
   return (
@@ -81,6 +84,7 @@ function Waterfall({ trace, selected, onSelect }: { trace: Trace; selected: Span
           <p className="mono text-2xs text-ink-3">{trace.id} · claim {trace.claim_id}</p>
         </div>
         <p className="mono text-xs text-ink-2">{formatMs(total)} · ${cost.toFixed(4)}</p>
+        {replayed && <p className="w-full text-2xs text-ink-3">LLM responses replayed from a recording; the original call latency is in each llm span's latency_ms.</p>}
       </header>
       <div className="overflow-x-auto">
         <div className="min-w-[560px]">
@@ -99,7 +103,7 @@ function Waterfall({ trace, selected, onSelect }: { trace: Trace; selected: Span
               const left = ((ms(s.start) - t0) / total) * 100;
               const width = Math.max(((ms(s.end) - ms(s.start)) / total) * 100, 0.4);
               const on = selected?.id === s.id;
-              const quiet = s.name !== "extract" && s.name !== "llm.compile_policy" && s.status === "ok";
+              const quiet = !isLLM(s) && s.status === "ok";
               return (
                 <li key={s.id}>
                   <button type="button" onClick={() => onSelect(s)} className={`grid w-full grid-cols-[180px_1fr] items-center px-4 py-[5px] text-left ${on ? "bg-accent-soft/60" : "hover:bg-page"}`}>

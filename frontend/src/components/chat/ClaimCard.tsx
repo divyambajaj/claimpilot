@@ -20,13 +20,14 @@ export function claimHint(claim: Claim): string {
   const blocked = lines.filter((l) => l.status === "flagged" || l.status === "error" || l.status === "missing_info").length;
   if (blocked > 0) return `${pluralize(blocked, "line")} still need attention.`;
   if (claim.status === "ready_to_submit") return "Ready to submit.";
+  if (lines.every((l) => l.status === "excluded" || l.status === "error")) return "Every line is left out. Add other receipts, or tap Why? on a flag to keep a line.";
   return "Waiting for checks.";
 }
 
 export function ClaimCard({ claim, onSubmit, submitting, onWhy }: Props) {
   const proofIds = new Set(claim.lines.map((l) => l.linked_proof_line_id).filter(Boolean));
   const byId = new Map(claim.lines.map((l) => [l.id, l]));
-  const visible = claim.lines.map((l, i) => ({ l, i })).filter(({ l }) => !proofIds.has(l.id));
+  const visible = claim.lines.filter((l) => !proofIds.has(l.id));
   const counted = claim.lines.filter((l) => l.status !== "excluded" && l.status !== "processing");
   const attention = claim.lines.filter((l) => l.status === "missing_info" || l.status === "flagged").length;
   const submitted = claim.status === "submitted" || claim.status === "approved" || claim.status === "rejected";
@@ -50,7 +51,7 @@ export function ClaimCard({ claim, onSubmit, submitting, onWhy }: Props) {
         <div className="px-4 py-10 text-center text-sm text-ink-3">Line items appear here as receipts are read.</div>
       ) : (
         <ul className="min-h-0 flex-1 divide-y divide-line overflow-y-auto">
-          {visible.map(({ l, i }) => (
+          {visible.map((l, i) => (
             <LineItemCard key={l.id} line={l} index={i + 1} proof={l.linked_proof_line_id ? byId.get(l.linked_proof_line_id) : undefined} onWhy={onWhy} />
           ))}
         </ul>
@@ -69,9 +70,9 @@ export function ClaimCard({ claim, onSubmit, submitting, onWhy }: Props) {
         </dl>
 
         {submitted ? (
-          <div className="mt-3 rounded-md border border-ok/20 bg-ok-soft px-3 py-2.5" role="status">
-            <div className="flex items-center gap-2 text-sm font-medium text-ok">
-              <Check size={16} strokeWidth={1.75} /> Submitted to Finance
+          <div className={`mt-3 rounded-md border px-3 py-2.5 ${claim.status === "rejected" ? "border-bad/20 bg-bad-soft" : "border-ok/20 bg-ok-soft"}`} role="status">
+            <div className={`flex items-center gap-2 text-sm font-medium ${claim.status === "rejected" ? "text-bad" : "text-ok"}`}>
+              <Check size={16} strokeWidth={1.75} /> {claim.status === "approved" ? "Approved by Finance" : claim.status === "rejected" ? "Rejected by Finance" : "Submitted to Finance"}
             </div>
             <div className="mt-1 text-xs text-ink-2">
               Reference <span className="mono text-ink">{claim.finance_reference}</span>

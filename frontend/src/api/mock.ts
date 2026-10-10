@@ -352,6 +352,7 @@ const overview: MetricsOverview = (() => {
       { layer: "semantic", count: 6, amount_inr: 8830 },
     ],
     eval_trend: [],
+    assumptions: { manual_employee_min: 12, manual_finance_min: 6, agent_employee_min: 2.5, agent_finance_min: 1.5 },
   };
 })();
 
