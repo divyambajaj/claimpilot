@@ -1,0 +1,175 @@
+{
+  "seed": 20261008,
+  "eval_date": "2026-10-08",
+  "user_id": "eval-user",
+  "ruleset": "acme_v1.json",
+  "n_receipts": 61,
+  "claims": [
+    {
+      "id": "eval_c01",
+      "title": "Mumbai client visit",
+      "smoke": true,
+      "fixtures": [
+        "fx_001",
+        "fx_002",
+        "fx_003",
+        "fx_004",
+        "fx_005"
+      ]
+    },
+    {
+      "id": "eval_c02",
+      "title": "Bengaluru sales review",
+      "smoke": true,
+      "fixtures": [
+        "fx_006",
+        "fx_007",
+        "fx_008",
+        "fx_009"
+      ]
+    },
+    {
+      "id": "eval_c03",
+      "title": "Pune plant audit",
+      "smoke": false,
+      "fixtures": [
+        "fx_010",
+        "fx_011",
+        "fx_012",
+        "fx_013",
+        "fx_014"
+      ]
+    },
+    {
+      "id": "eval_c04",
+      "title": "Chennai vendor meeting",
+      "smoke": false,
+      "fixtures": [
+        "fx_015",
+        "fx_016",
+        "fx_017",
+        "fx_018",
+        "fx_019"
+      ]
+    },
+    {
+      "id": "eval_c05",
+      "title": "Delhi conference",
+      "smoke": false,
+      "fixtures": [
+        "fx_020",
+        "fx_021",
+        "fx_022",
+        "fx_023",
+        "fx_024"
+      ]
+    },
+    {
+      "id": "eval_c06",
+      "title": "Hyderabad training",
+      "smoke": false,
+      "fixtures": [
+        "fx_025",
+        "fx_026",
+        "fx_027",
+        "fx_028"
+      ]
+    },
+    {
+      "id": "eval_c07",
+      "title": "Jaipur site visit",
+      "smoke": false,
+      "fixtures": [
+        "fx_029",
+        "fx_030",
+        "fx_031",
+        "fx_032",
+        "fx_033"
+      ]
+    },
+    {
+      "id": "eval_c08",
+      "title": "Mumbai quarterly review",
+      "smoke": false,
+      "fixtures": [
+        "fx_034",
+        "fx_035",
+        "fx_036",
+        "fx_037",
+        "fx_038"
+      ]
+    },
+    {
+      "id": "eval_c09",
+      "title": "Kolkata distributor meet",
+      "smoke": false,
+      "fixtures": [
+        "fx_039",
+        "fx_040",
+        "fx_041",
+        "fx_042",
+        "fx_043",
+        "fx_044"
+      ]
+    },
+    {
+      "id": "eval_c10",
+      "title": "Bengaluru offsite",
+      "smoke": false,
+      "fixtures": [
+        "fx_045",
+        "fx_046",
+        "fx_047",
+        "fx_048",
+        "fx_049",
+        "fx_050",
+        "fx_051"
+      ]
+    },
+    {
+      "id": "eval_c11",
+      "title": "Chennai follow-up",
+      "smoke": false,
+      "fixtures": [
+        "fx_052",
+        "fx_053",
+        "fx_054",
+        "fx_055",
+        "fx_056",
+        "fx_057"
+      ]
+    },
+    {
+      "id": "eval_c12",
+      "title": "Hyderabad review",
+      "smoke": false,
+      "fixtures": [
+        "fx_058",
+        "fx_059",
+        "fx_060",
+        "fx_061"
+      ]
+    }
+  ],
+  "counts": {
+    "cash": 1,
+    "decoy": 4,
+    "dup_exact": 8,
+    "dup_rephoto": 6,
+    "fuel_cap": 1,
+    "gst_block": 1,
+    "invalid_gstin": 3,
+    "late": 1,
+    "local_travel_cap": 1,
+    "lodging_cap": 3,
+    "meals_cap": 3,
+    "missing_covers": 1,
+    "missing_date": 2,
+    "missing_gstin": 2,
+    "smudged": 1,
+    "upi_pair": 16,
+    "upi_txn_link": 1,
+    "weekend": 1
+  },
+  "note": "Synthetic: every vendor, person, GSTIN and UPI id is fictional."
+}

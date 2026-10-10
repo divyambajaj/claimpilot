@@ -211,6 +211,18 @@ class TestDetector:
         )
         assert self.det.find_duplicate(upi, [ride_a], {}) is None
 
+    def test_near_image_needs_same_amount_and_vendor(self) -> None:
+        # two bills printed from one template: dHash 2 bits apart, but different expenses
+        docs = {"D-A": _doc("D-A", "s1", "8480e08880a09c00"), "D-B": _doc("D-B", "s2", "8480e08880a09c03")}
+        a = make_line("A", raw_text=RIDE_A, vendor_name="Harbourview Residency", total_amount=5376.0)
+        other_amount = make_line("B", raw_text=RIDE_B, vendor_name="Harbourview Residency", total_amount=4200.0)
+        other_vendor = make_line("B", raw_text=RIDE_B, vendor_name="Banyan Court Inn", total_amount=5376.0)
+        for b in (other_amount, other_vendor):
+            match = self.det.compare(b, a, docs)
+            assert match is None or match.layer != "perceptual"
+        same = make_line("B", raw_text=RIDE_B, vendor_name="Harbourview Residency", total_amount=5376.0)
+        assert self.det.compare(same, a, docs).layer == "perceptual"
+
     def test_upi_link_both_orders_and_apply(self) -> None:
         upi = make_line("U", **TestUpiLink.upi)
         bill = make_line("H", **TestUpiLink.bill)

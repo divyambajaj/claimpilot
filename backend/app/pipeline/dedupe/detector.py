@@ -4,12 +4,13 @@ from dataclasses import dataclass
 
 from app.domain.enums import FindingKind, Severity
 from app.domain.models import Document, Finding, LineItem
-from app.pipeline.dedupe.fuzzy import FIRE_AT, amount_match, fuzzy_score
+from app.pipeline.dedupe.fuzzy import FIRE_AT, amount_match, fuzzy_score, vendor_similarity
 from app.pipeline.dedupe.phash import perceptual_match
 from app.pipeline.dedupe.semantic import Embedder, HashedNgramEmbedder, cosine, line_text
 from app.pipeline.dedupe.upi_link import is_upi_screenshot, upi_link_evidence
 
 SEMANTIC_WITH_AMOUNT = 0.85
+PERCEPTUAL_VENDOR_MIN = 0.70
 SEMANTIC_ALONE = 0.92
 
 
@@ -42,11 +43,16 @@ class DuplicateDetector:
         perceptual = perceptual_match(
             [docs[d] for d in new.document_ids if d in docs], [docs[d] for d in old.document_ids if d in docs]
         )
+        amounts = amount_match(new.amount_inr, old.amount_inr)
+        vendors = vendor_similarity(new.extracted.vendor_name.value, old.extracted.vendor_name.value)
         if perceptual:
             score, ev = perceptual
             layers["perceptual"] = {"score": score, **ev}
             same_file = ev["signal"] == "sha256"
-            fired = ("perceptual", score)
+            # a 64-bit dHash only sees layout: bills from one printer template collide, so a near (not
+            # byte-identical) image must also agree on amount and vendor (found by the eval's decoys)
+            if same_file or (amounts and vendors >= PERCEPTUAL_VENDOR_MIN):
+                fired = ("perceptual", score)
 
         f_score, f_ev = fuzzy_score(new, old)
         layers["fuzzy"] = {"score": f_score, **f_ev}
@@ -54,7 +60,6 @@ class DuplicateDetector:
             fired = ("fuzzy", f_score)
 
         cos = cosine(self.embedder.embed(line_text(new)), self.embedder.embed(line_text(old)))
-        amounts = amount_match(new.amount_inr, old.amount_inr)
         s_score = 0.9 if cos >= SEMANTIC_WITH_AMOUNT and amounts else 0.85 if cos >= SEMANTIC_ALONE else 0.0
         layers["semantic"] = {"score": s_score, "cosine": round(cos, 4)}
         if fired is None and s_score:
