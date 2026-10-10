@@ -26,6 +26,7 @@ test:
 lint:
 	uv run ruff check .
 	uv run ruff format --check .
+	uv run python backend/scripts/check_replay_provenance.py
 	@! grep -rEn 'sk-ant-[A-Za-z0-9_-]{10,}|AIza[0-9A-Za-z_-]{30,}' --include='*.py' --include='*.ts' --include='*.tsx' --include='*.json' --include='*.md' --exclude-dir=node_modules --exclude-dir=.venv . || (echo "possible API key committed" && exit 1)
 
 fmt:
