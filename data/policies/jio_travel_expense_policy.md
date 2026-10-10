@@ -1,12 +1,14 @@
-# Acme Analytics India Pvt Ltd — Travel and Expense Policy
+Illustrative sample policy created for the ClaimPilot internal demo; not an actual Jio Platforms Limited policy.
 
-Version 3.2, effective 1 April 2026. Owner: Finance Controllership. This is a fictional policy written for the ClaimPilot demo.
+# Jio Platforms Limited — Travel and Expense Policy
+
+Version 3.2, effective 1 April 2026. Owner: Finance Controllership.
 
 ## 1. Purpose and scope
 
 ### 1.1 Purpose
 
-This policy explains which business expenses Acme Analytics India Pvt Ltd ("the Company") reimburses, how employees should claim them, and what evidence Finance needs to approve a claim quickly. The aim is simple: employees should never be out of pocket for legitimate business spending, and the Company should be able to show any auditor exactly why each rupee was paid.
+This policy explains which business expenses Jio Platforms Limited ("the Company") reimburses, how employees should claim them, and what evidence Finance needs to approve a claim quickly. The aim is simple: employees should never be out of pocket for legitimate business spending, and the Company should be able to show any auditor exactly why each rupee was paid.
 
 ### 1.2 Scope
 

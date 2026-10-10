@@ -1,6 +1,6 @@
-"""Build data/rulesets/acme_v1.json from hand-authored rules; citation offsets are located in code.
+"""Build data/rulesets/jio_v1.json from hand-authored rules; citation offsets are located in code.
 
-Run: `uv run python backend/scripts/build_acme_ruleset.py`. Fails if any quote is not verbatim in the policy.
+Run: `uv run python backend/scripts/build_jio_ruleset.py`. Fails if any quote is not verbatim in the policy.
 """
 
 import datetime as dt
@@ -16,8 +16,8 @@ from app.domain.models import PolicyDoc
 from app.rules.compiler import build_ruleset, smoke_test
 from app.rules.dsl import RuleSetDraft
 
-POLICY = REPO_ROOT / "data" / "policies" / "acme_india_travel_policy.md"
-OUT = REPO_ROOT / "data" / "rulesets" / "acme_v1.json"
+POLICY = REPO_ROOT / "data" / "policies" / "jio_travel_expense_policy.md"
+OUT = REPO_ROOT / "data" / "rulesets" / "jio_v1.json"
 METROS = ["Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Chennai", "Kolkata", "Pune"]
 
 
@@ -235,7 +235,7 @@ def main() -> None:
     sha = hashlib.sha256(text.encode()).hexdigest()
     policy = PolicyDoc(
         id=f"pol_{sha[:12]}",
-        name="Acme India Travel & Expense Policy",
+        name="Jio Platforms Travel & Expense Policy",
         text=text,
         sha256=sha,
         created_at=dt.datetime(2026, 10, 1),

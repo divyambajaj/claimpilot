@@ -442,7 +442,7 @@ function makeTrace(id: string): Trace {
     return sp;
   };
   if (s.kind === "policy") {
-    const root = mk("compile", 0, s.duration_ms, null, "ok", { policy_id: "pol_acme_india", ruleset_version: 1 });
+    const root = mk("compile", 0, s.duration_ms, null, "ok", { policy_id: "pol_jio_platforms", ruleset_version: 1 });
     mk("llm.compile_policy", 40, 12100, root.id, "ok", { provider: "replay", model: "recorded", prompt_name: "compile_policy", prompt_version: "v1", tokens_in: 3120, tokens_out: 2480, cost_usd: 0.041, replayed: true, attempt: 1 });
     mk("verify_citations", 12160, 1400, root.id, "ok", { rules: 9, verified: 9 });
     return { id: s.id, claim_id: s.claim_id, kind: s.kind, spans };
@@ -664,7 +664,7 @@ export function createMockApi(): Api {
     labels: () => guard(() => labels),
     policies: () =>
       guard((): Policy[] => [
-        { id: "pol_acme_india", name: "Acme India Travel and Expense Policy", text: policyText, sha256: rulesets[0].policy_sha256, created_at: "2026-10-01T09:30:00Z", ruleset_versions: rulesets.map((r) => r.version), active_ruleset_version: rulesets.find((r) => r.active)?.version ?? null },
+        { id: "pol_jio_platforms", name: "Jio Platforms Travel and Expense Policy", text: policyText, sha256: rulesets[0].policy_sha256, created_at: "2026-10-01T09:30:00Z", ruleset_versions: rulesets.map((r) => r.version), active_ruleset_version: rulesets.find((r) => r.active)?.version ?? null },
       ]),
     ruleset: (v) =>
       guard(() => {

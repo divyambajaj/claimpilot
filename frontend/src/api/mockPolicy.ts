@@ -1,10 +1,10 @@
 import type { Citation, Rule, RuleSet } from "../types";
 
 /** Fictional policy used by the mock layer (all names synthetic). */
-export const POLICY_TEXT = `# Acme India Travel and Expense Policy
+export const POLICY_TEXT = `# Jio Platforms Travel and Expense Policy
 
 ## 1. Purpose
-This policy explains which business expenses Acme India reimburses and what evidence each claim needs. It applies to all full-time employees and contractors on assignment.
+This policy explains which business expenses Jio Platforms reimburses and what evidence each claim needs. It applies to all full-time employees and contractors on assignment.
 
 ## 2. Submission
 ### 2.1 Who may claim
@@ -212,7 +212,7 @@ export function buildRuleset(text: string, version: number, compiledAt: string):
   const rules = buildRules(text).filter((r) => r.citation.citation_verified);
   return {
     version,
-    policy_id: "pol_acme_india",
+    policy_id: "pol_jio_platforms",
     policy_sha256: fakeSha(text),
     compiled_at: compiledAt,
     compiler_prompt_version: "v1",

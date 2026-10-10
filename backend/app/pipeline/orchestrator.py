@@ -169,7 +169,7 @@ class Orchestrator:
     def ruleset(self) -> RuleSet:
         ruleset = self.repo.active_ruleset()
         if ruleset is None:
-            raise RuntimeError("no active ruleset; load data/rulesets/acme_v1.json")
+            raise RuntimeError("no active ruleset; load data/rulesets/jio_v1.json")
         return ruleset
 
     def context(self, claim: Claim) -> PlanContext:

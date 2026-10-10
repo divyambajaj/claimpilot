@@ -19,8 +19,8 @@ from app.rules.dsl import Action, Cond, RuleSet
 from app.rules.engine import eval_cond, evaluate, merge_resolutions, render_message
 from tests.factories import NOW, TODAY, VALID_GSTIN, FakeProvider, make_line
 
-RULESET = RuleSet.model_validate_json((REPO_ROOT / "data" / "rulesets" / "acme_v1.json").read_text())
-POLICY_TEXT = (REPO_ROOT / "data" / "policies" / "acme_india_travel_policy.md").read_text()
+RULESET = RuleSet.model_validate_json((REPO_ROOT / "data" / "rulesets" / "jio_v1.json").read_text())
+POLICY_TEXT = (REPO_ROOT / "data" / "policies" / "jio_travel_expense_policy.md").read_text()
 GOLDEN = Path(__file__).parents[1] / "golden" / "rules_findings"
 BAD_GSTIN = VALID_GSTIN[:14] + ("A" if VALID_GSTIN[14] != "A" else "B")
 
@@ -428,7 +428,7 @@ def _draft(quote: str = TestCitations.QUOTE) -> dict:
 class TestCompiler:
     async def test_compiles_verifies_and_stores(self, make_client, repo: Repo) -> None:
         ruleset, dropped = await compile_policy(
-            make_client(FakeProvider([_draft()])), repo, "Acme", POLICY_TEXT, NOW
+            make_client(FakeProvider([_draft()])), repo, "Jio", POLICY_TEXT, NOW
         )
         assert dropped == ["MADE_UP"]
         assert [r.id for r in ruleset.rules] == ["MEAL_CAP"]
@@ -439,18 +439,18 @@ class TestCompiler:
 
     async def test_repair_path(self, make_client, repo: Repo) -> None:
         provider = FakeProvider([{"rules": "nope"}, _draft()])
-        ruleset, _ = await compile_policy(make_client(provider), repo, "Acme", POLICY_TEXT, NOW)
+        ruleset, _ = await compile_policy(make_client(provider), repo, "Jio", POLICY_TEXT, NOW)
         assert len(provider.requests) == 2
         assert ruleset.rules
 
     async def test_invalid_thrice(self, make_client, repo: Repo) -> None:
         with pytest.raises(CompileError):
-            await compile_policy(make_client(FakeProvider([{"x": 1}] * 3)), repo, "Acme", POLICY_TEXT, NOW)
+            await compile_policy(make_client(FakeProvider([{"x": 1}] * 3)), repo, "Jio", POLICY_TEXT, NOW)
 
     async def test_no_verifiable_rules(self, make_client, repo: Repo) -> None:
         draft = _draft("Totally invented sentence about llamas and budgets.")
         with pytest.raises(CompileError, match="verbatim"):
-            await compile_policy(make_client(FakeProvider([draft])), repo, "Acme", POLICY_TEXT, NOW)
+            await compile_policy(make_client(FakeProvider([draft])), repo, "Jio", POLICY_TEXT, NOW)
 
     def test_smoke_test_passes_shipped_ruleset(self) -> None:
         smoke_test(RULESET)

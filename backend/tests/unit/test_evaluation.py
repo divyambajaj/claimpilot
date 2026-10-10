@@ -85,7 +85,7 @@ class TestGenerator:
         assert sum("missing_date" in r["scenario"] or "missing_gstin" in r["scenario"] for r in rows) >= 4
 
     def test_expected_rules_exist_in_ruleset(self, generated) -> None:
-        ruleset = RuleSet.model_validate_json((REPO_ROOT / "data" / "rulesets" / "acme_v1.json").read_text())
+        ruleset = RuleSet.model_validate_json((REPO_ROOT / "data" / "rulesets" / "jio_v1.json").read_text())
         fired = {rule for r in generated[1] for rule in r["expected_rules"]}
         assert fired <= {r.id for r in ruleset.rules} and len(fired) >= 4
 

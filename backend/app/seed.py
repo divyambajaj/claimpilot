@@ -14,9 +14,9 @@ from app.observability.tracing import Tracer, utcnow
 from app.pipeline.orchestrator import Orchestrator, Upload
 from app.rules.dsl import RuleSet
 
-RULESET_FILE = "acme_v1.json"
-POLICY_FILE = "acme_india_travel_policy.md"
-POLICY_NAME = "Acme India Travel & Expense Policy"
+RULESET_FILE = "jio_v1.json"
+POLICY_FILE = "jio_travel_expense_policy.md"
+POLICY_NAME = "Jio Platforms Travel & Expense Policy"
 SAMPLE_JUSTIFICATION = "Client meeting approved in advance by the department head."
 MAX_ROUNDS = 5
 HISTORY_USER = "asha.rao"

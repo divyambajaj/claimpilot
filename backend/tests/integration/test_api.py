@@ -176,7 +176,7 @@ class TestLiveProviderPath:
     def test_compile_policy_endpoint(self, fake_client) -> None:
         client, _ = fake_client([_draft()])
         with client:
-            r = client.post("/api/admin/policies", json={"name": "Acme v2", "text": POLICY_TEXT})
+            r = client.post("/api/admin/policies", json={"name": "Jio v2", "text": POLICY_TEXT})
             assert r.status_code == 200
             body = r.json()
             assert (body["version"], body["active"], [x["id"] for x in body["rules"]]) == (
@@ -319,7 +319,7 @@ class TestSeedAndSpa:
     def test_seed_rejects_mismatched_policy(self, settings: Settings, tmp_path: Path) -> None:
         policies = tmp_path / "pol"
         policies.mkdir()
-        (policies / "acme_india_travel_policy.md").write_text("edited")
+        (policies / "jio_travel_expense_policy.md").write_text("edited")
         data = settings.DATA_DIR
         (data / "policies").unlink()
         (data / "policies").symlink_to(policies)
