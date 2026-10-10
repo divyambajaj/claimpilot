@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Secrets and local state
+.env
+data/uploads/
+data/*.db
+data/*.db-*
+
+# Frontend
+node_modules/
+frontend/dist/
+frontend/coverage/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
