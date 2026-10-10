@@ -1,0 +1,118 @@
+{
+  "fingerprint": "f27ab673f0d61fe7e37f60b633343842251815ff439147bc8a90c10cf77fca76",
+  "recorded_at": "2026-10-10T19:43:04.661665+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "63d41650312ecffa373299493f48f47390d9c5aaf238bd5c3caffd66e7f5a112:0",
+        "bytes": 150369,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 8937,
+  "usage": {
+    "input_tokens": 43553,
+    "output_tokens": 1276,
+    "cost_usd": 0.050635200000000005
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "Park Lane Rooms",
+        "confidence": 0.9,
+        "source_snippet": "Park Lane Rooms"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-05",
+        "confidence": 0.98,
+        "source_snippet": "05 Oct 2026, 10:27 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹4,704"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 4704,
+        "confidence": 0.98,
+        "source_snippet": "₹4,704"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "UPI Transaction ID"
+      },
+      "upi_txn_id": {
+        "value": "680914543712",
+        "confidence": 0.97,
+        "source_snippet": "UPI Transaction ID 680914543712"
+      },
+      "payee_name": {
+        "value": "Park Lane Rooms",
+        "confidence": 0.98,
+        "source_snippet": "Paid to Park Lane Rooms"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.65,
+        "source_snippet": "Park Lane Rooms"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.8,
+        "source_snippet": "p***********s@paynow"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.95,
+        "source_snippet": "K. Mehta (xx••••)"
+      },
+      "items": [],
+      "raw_text": "10:27 90%\nPayNow\nPayment Successful\n₹4,704\n05 Oct 2026, 10:27 PM\nPaid to\nPark Lane Rooms\np***********s@paynow\nFrom\nK. Mehta (xx••••)\nUPI Transaction ID 680914543712\nPayNow Txn ID PN2610052227CS64\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"Park Lane Rooms\", \"confidence\": 0.9, \"source_snippet\": \"Park Lane Rooms\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-05\", \"confidence\": 0.98, \"source_snippet\": \"05 Oct 2026, 10:27 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b94,704\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"total_amount\": {\"value\": 4704, \"confidence\": 0.98, \"source_snippet\": \"\\u20b94,704\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"UPI Transaction ID\"}, \"upi_txn_id\": {\"value\": \"680914543712\", \"confidence\": 0.97, \"source_snippet\": \"UPI Transaction ID 680914543712\"}, \"payee_name\": {\"value\": \"Park Lane Rooms\", \"confidence\": 0.98, \"source_snippet\": \"Paid to Park Lane Rooms\"}, \"city\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.65, \"source_snippet\": \"Park Lane Rooms\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.8, \"source_snippet\": \"p***********s@paynow\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.95, \"source_snippet\": \"K. Mehta (xx••••)\"}, \"items\": [], \"raw_text\": \"10:27 90%\\nPayNow\\nPayment Successful\\n\\u20b94,704\\n05 Oct 2026, 10:27 PM\\nPaid to\\nPark Lane Rooms\\n************s@paynow\\nFrom\\nK. Mehta (xx••••)\\nUPI Transaction ID 680914543712\\nPayNow Txn ID PN2610052227CS64\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

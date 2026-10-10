@@ -1,0 +1,118 @@
+{
+  "fingerprint": "f4dd5b1b8cceee086a2892118484d75bb232ca53bbf1d15beeeb0fd2e6b3d4c4",
+  "recorded_at": "2026-10-10T19:42:41.535159+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "e269b8b2bb644fbfa4d3a00b7f2fe2f4edc212745ead6e3d4f6bafec2ada30d0:0",
+        "bytes": 144987,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 9209,
+  "usage": {
+    "input_tokens": 43549,
+    "output_tokens": 1245,
+    "cost_usd": 0.0503168
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "RydeGo",
+        "confidence": 0.95,
+        "source_snippet": "RydeGo"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-02",
+        "confidence": 0.98,
+        "source_snippet": "02 Oct 2026, 6:54 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹720"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 720,
+        "confidence": 0.98,
+        "source_snippet": "₹720"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "356234752078",
+        "confidence": 0.95,
+        "source_snippet": "UPI Transaction ID 356234752078"
+      },
+      "payee_name": {
+        "value": "RydeGo",
+        "confidence": 0.98,
+        "source_snippet": "Paid to RydeGo"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "travel_local",
+        "confidence": 0.7,
+        "source_snippet": "RydeGo r****o@paynow"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.85,
+        "source_snippet": "r****o@paynow"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.93,
+        "source_snippet": "K. Mehta (xx••••)"
+      },
+      "items": [],
+      "raw_text": "6:54 57%\nPayNow\nPayment Successful\n₹720\n02 Oct 2026, 6:54 PM\nPaid to\nRydeGo\nr****o@paynow\nFrom\nK. Mehta (xx••••)\nUPI Transaction ID 356234752078\nPayNow Txn ID PN2610021854GU38\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"RydeGo\", \"confidence\": 0.95, \"source_snippet\": \"RydeGo\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-02\", \"confidence\": 0.98, \"source_snippet\": \"02 Oct 2026, 6:54 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b9720\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"total_amount\": {\"value\": 720, \"confidence\": 0.98, \"source_snippet\": \"\\u20b9720\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"356234752078\", \"confidence\": 0.95, \"source_snippet\": \"UPI Transaction ID 356234752078\"}, \"payee_name\": {\"value\": \"RydeGo\", \"confidence\": 0.98, \"source_snippet\": \"Paid to RydeGo\"}, \"city\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"category\": {\"value\": \"travel_local\", \"confidence\": 0.7, \"source_snippet\": \"RydeGo r****o@paynow\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.85, \"source_snippet\": \"r****o@paynow\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.93, \"source_snippet\": \"K. Mehta (xx••••)\"}, \"items\": [], \"raw_text\": \"6:54 57%\\nPayNow\\nPayment Successful\\n\\u20b9720\\n02 Oct 2026, 6:54 PM\\nPaid to\\nRydeGo\\n*****o@paynow\\nFrom\\nK. Mehta (xx••••)\\nUPI Transaction ID 356234752078\\nPayNow Txn ID PN2610021854GU38\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

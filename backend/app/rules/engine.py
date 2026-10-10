@@ -152,18 +152,19 @@ def evaluate(
                 facts[line.id]["category"] = rule.action.category.value  # type: ignore[union-attr]
 
     for rule in ruleset.rules:
-        if rule.action.type == "set_category":
-            continue
-        if rule.scope == "line":
+        if rule.scope == "line" and rule.action.type != "set_category":
             for line in active:
                 _apply_line_rule(rule, line.id, facts[line.id], outcomes[line.id])
-        elif rule.scope == "day_category":
-            _apply_group_rule(rule, active, facts, outcomes, prior_day_totals)
+    # a blocked line is not reimbursed, so it must not count towards daily, vendor or claim totals
+    payable = [x for x in active if not any(f.severity == Severity.BLOCK for f in outcomes[x.id].findings)]
+    for rule in ruleset.rules:
+        if rule.scope == "day_category":
+            _apply_group_rule(rule, payable, facts, outcomes, prior_day_totals)
         elif rule.scope == "vendor_day":
-            _apply_vendor_day_rule(rule, active, facts, outcomes)
+            _apply_vendor_day_rule(rule, payable, facts, outcomes)
 
     claim_findings = [
-        f for r in ruleset.rules if r.scope == "claim" for f in _apply_claim_rule(r, active, outcomes)
+        f for r in ruleset.rules if r.scope == "claim" for f in _apply_claim_rule(r, payable, outcomes)
     ]
 
     for outcome in outcomes.values():

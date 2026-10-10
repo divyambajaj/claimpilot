@@ -1,0 +1,179 @@
+{
+  "fingerprint": "2b87a51597f7d63fe1792fd93bf4757c1ced2130c1f091d4a27258b579142ba3",
+  "recorded_at": "2026-10-10T19:37:23.845892+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "4f951e37f3995d964c33557dadf43090a0ba1e7df07c46e91a12305236fbd6df:0",
+        "bytes": 72200,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 12977,
+  "usage": {
+    "input_tokens": 43304,
+    "output_tokens": 2054,
+    "cost_usd": 0.057419200000000004
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.95,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Coastal Curry House",
+        "confidence": 0.99,
+        "source_snippet": "COASTAL CURRY HOUSE"
+      },
+      "vendor_gstin": {
+        "value": "33AMKCF4143H1Z3",
+        "confidence": 0.97,
+        "source_snippet": "GSTIN: 33AMKCF4143H1Z3"
+      },
+      "invoice_number": {
+        "value": "CC/2609/8981",
+        "confidence": 0.98,
+        "source_snippet": "Bill No: CC/2609/8981"
+      },
+      "date": {
+        "value": "2026-09-22",
+        "confidence": 0.98,
+        "source_snippet": "Date: 22/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 1840,
+        "confidence": 0.99,
+        "source_snippet": "Sub Total 1,840.00"
+      },
+      "tax_amount": {
+        "value": 92,
+        "confidence": 0.97,
+        "source_snippet": "CGST @ 2.5% 46.00 SGST @ 2.5% 46.00"
+      },
+      "total_amount": {
+        "value": 1932,
+        "confidence": 0.99,
+        "source_snippet": "GRAND TOTAL Rs. 1,932.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.98,
+        "source_snippet": "Paid by: CARD (VISA xx••••)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.98,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Chennai",
+        "confidence": 0.9,
+        "source_snippet": "Chennai 600018"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.9,
+        "source_snippet": "Paneer Tikka ... Fish Curry Meals"
+      },
+      "attendees_count": {
+        "value": 2,
+        "confidence": 0.98,
+        "source_snippet": "Table: 9  Covers: 2"
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.95,
+        "source_snippet": "COASTAL CURRY HOUSE"
+      },
+      "payer_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Paneer Tikka",
+          "quantity": 1,
+          "unit_price": 340,
+          "amount": 340
+        },
+        {
+          "description": "Masala Chaas",
+          "quantity": 1,
+          "unit_price": 70,
+          "amount": 70
+        },
+        {
+          "description": "Filter Coffee",
+          "quantity": 1,
+          "unit_price": 90,
+          "amount": 90
+        },
+        {
+          "description": "Fish Curry Meals",
+          "quantity": 1,
+          "unit_price": 420,
+          "amount": 420
+        },
+        {
+          "description": "Mango Lassi",
+          "quantity": 1,
+          "unit_price": 140,
+          "amount": 140
+        },
+        {
+          "description": "Tandoori Roti",
+          "quantity": 1,
+          "unit_price": 40,
+          "amount": 40
+        },
+        {
+          "description": "Chicken Chettinad",
+          "quantity": 1,
+          "unit_price": 380,
+          "amount": 380
+        },
+        {
+          "description": "Masala Dosa",
+          "quantity": 1,
+          "unit_price": 180,
+          "amount": 180
+        },
+        {
+          "description": "Gulab Jamun",
+          "quantity": 1,
+          "unit_price": 120,
+          "amount": 120
+        },
+        {
+          "description": "Butter Naan",
+          "quantity": 1,
+          "unit_price": 60,
+          "amount": 60
+        }
+      ],
+      "raw_text": "COASTAL CURRY HOUSE\n12 Khader Nawaz Khan Road, Nungambakkam\nChennai 600018\nPh: 057-29943779\nGSTIN: 33AMKCF4143H1Z3\nFSSAI Lic No: 19932040507639\nTAX INVOICE\nBill No: CC/2609/8981   Date: 22/09/2026\nTable: 9  Covers: 2   Time: 12:16\nSteward: Ramesh\nItem  Qty  Rate  Amount\nPaneer Tikka 1 340.00 340.00\nMasala Chaas 1 70.00 70.00\nFilter Coffee 1 90.00 90.00\nFish Curry Meals 1 420.00 420.00\nMango Lassi 1 140.00 140.00\nTandoori Roti 1 40.00 40.00\nChicken Chettinad 1 380.00 380.00\nMasala Dosa 1 180.00 180.00\nGulab Jamun 1 120.00 120.00\nButter Naan 1 60.00 60.00\nSub Total 1,840.00\nCGST @ 2.5% 46.00\nSGST @ 2.5% 46.00\nGRAND TOTAL Rs. 1,932.00\nPaid by: CARD (VISA xx••••)\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.95, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Coastal Curry House\", \"confidence\": 0.99, \"source_snippet\": \"COASTAL CURRY HOUSE\"}, \"vendor_gstin\": {\"value\": \"33AMKCF4143H1Z3\", \"confidence\": 0.97, \"source_snippet\": \"GSTIN: 33AMKCF4143H1Z3\"}, \"invoice_number\": {\"value\": \"CC/2609/8981\", \"confidence\": 0.98, \"source_snippet\": \"Bill No: CC/2609/8981\"}, \"date\": {\"value\": \"2026-09-22\", \"confidence\": 0.98, \"source_snippet\": \"Date: 22/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 1840, \"confidence\": 0.99, \"source_snippet\": \"Sub Total 1,840.00\"}, \"tax_amount\": {\"value\": 92, \"confidence\": 0.97, \"source_snippet\": \"CGST @ 2.5% 46.00 SGST @ 2.5% 46.00\"}, \"total_amount\": {\"value\": 1932, \"confidence\": 0.99, \"source_snippet\": \"GRAND TOTAL Rs. 1,932.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.98, \"source_snippet\": \"Paid by: CARD (VISA xx••••)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.98, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Chennai\", \"confidence\": 0.9, \"source_snippet\": \"Chennai 600018\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.9, \"source_snippet\": \"Paneer Tikka ... Fish Curry Meals\"}, \"attendees_count\": {\"value\": 2, \"confidence\": 0.98, \"source_snippet\": \"Table: 9  Covers: 2\"}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.95, \"source_snippet\": \"COASTAL CURRY HOUSE\"}, \"payer_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"Paneer Tikka\", \"quantity\": 1, \"unit_price\": 340, \"amount\": 340}, {\"description\": \"Masala Chaas\", \"quantity\": 1, \"unit_price\": 70, \"amount\": 70}, {\"description\": \"Filter Coffee\", \"quantity\": 1, \"unit_price\": 90, \"amount\": 90}, {\"description\": \"Fish Curry Meals\", \"quantity\": 1, \"unit_price\": 420, \"amount\": 420}, {\"description\": \"Mango Lassi\", \"quantity\": 1, \"unit_price\": 140, \"amount\": 140}, {\"description\": \"Tandoori Roti\", \"quantity\": 1, \"unit_price\": 40, \"amount\": 40}, {\"description\": \"Chicken Chettinad\", \"quantity\": 1, \"unit_price\": 380, \"amount\": 380}, {\"description\": \"Masala Dosa\", \"quantity\": 1, \"unit_price\": 180, \"amount\": 180}, {\"description\": \"Gulab Jamun\", \"quantity\": 1, \"unit_price\": 120, \"amount\": 120}, {\"description\": \"Butter Naan\", \"quantity\": 1, \"unit_price\": 60, \"amount\": 60}], \"raw_text\": \"COASTAL CURRY HOUSE\\n12 Khader Nawaz Khan Road, Nungambakkam\\nChennai 600018\\nPh: 057-29943779\\nGSTIN: 33AMKCF4143H1Z3\\nFSSAI Lic No: 19932040507639\\nTAX INVOICE\\nBill No: CC/2609/8981   Date: 22/09/2026\\nTable: 9  Covers: 2   Time: 12:16\\nSteward: Ramesh\\nItem  Qty  Rate  Amount\\nPaneer Tikka 1 340.00 340.00\\nMasala Chaas 1 70.00 70.00\\nFilter Coffee 1 90.00 90.00\\nFish Curry Meals 1 420.00 420.00\\nMango Lassi 1 140.00 140.00\\nTandoori Roti 1 40.00 40.00\\nChicken Chettinad 1 380.00 380.00\\nMasala Dosa 1 180.00 180.00\\nGulab Jamun 1 120.00 120.00\\nButter Naan 1 60.00 60.00\\nSub Total 1,840.00\\nCGST @ 2.5% 46.00\\nSGST @ 2.5% 46.00\\nGRAND TOTAL Rs. 1,932.00\\nPaid by: CARD (VISA xx••••)\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"good\"}"
+  }
+}

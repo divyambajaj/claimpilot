@@ -1,0 +1,118 @@
+{
+  "fingerprint": "1a0bc9bdc83f284e4e7d2643824456a297bd3d07255eea51fd936e82f2a586f5",
+  "recorded_at": "2026-10-10T19:44:50.258264+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "0cf9e33326ed0e53e73bc809cf6ecae17f2779d02c64c37d24d0e05393b9062f:0",
+        "bytes": 167199,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 12299,
+  "usage": {
+    "input_tokens": 43571,
+    "output_tokens": 1323,
+    "cost_usd": 0.032333
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.97,
+        "source_snippet": "Recharge Successful"
+      },
+      "vendor_name": {
+        "value": "Skyline Mobile",
+        "confidence": 0.8,
+        "source_snippet": "Recharge of Skyline Mobile XXXXXXXX37"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.98,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.98,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.98,
+        "source_snippet": "06 Oct 2026, 9:50 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹399"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 399,
+        "confidence": 0.98,
+        "source_snippet": "₹399"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "104121738548",
+        "confidence": 0.97,
+        "source_snippet": "UPI Transaction ID 104121738548"
+      },
+      "payee_name": {
+        "value": "Recharge of Skyline Mobile XXXXXXXX37",
+        "confidence": 0.9,
+        "source_snippet": "Recharge of Skyline Mobile XXXXXXXX37"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "internet_phone",
+        "confidence": 0.9,
+        "source_snippet": "Recharge of Skyline Mobile XXXXXXXX37"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.85,
+        "source_snippet": "s************d@paynow"
+      },
+      "payer_name": {
+        "value": "N. Joshi",
+        "confidence": 0.93,
+        "source_snippet": "N. Joshi (xx••••)"
+      },
+      "items": [],
+      "raw_text": "9:50 92%\nPayNow\nRecharge Successful\n₹399\n06 Oct 2026, 9:50 PM\nPaid to\nRecharge of Skyline Mobile XXXXXXXX37\ns************d@paynow\nFrom\nN. Joshi (xx••••)\nUPI Transaction ID 104121738548\nPayNow Txn ID PN2610062150BV93\nNote Prepaid plan\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.97, \"source_snippet\": \"Recharge Successful\"}, \"vendor_name\": {\"value\": \"Skyline Mobile\", \"confidence\": 0.8, \"source_snippet\": \"Recharge of Skyline Mobile XXXXXXXX37\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.98, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.98, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.98, \"source_snippet\": \"06 Oct 2026, 9:50 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b9399\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"total_amount\": {\"value\": 399, \"confidence\": 0.98, \"source_snippet\": \"\\u20b9399\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"104121738548\", \"confidence\": 0.97, \"source_snippet\": \"UPI Transaction ID 104121738548\"}, \"payee_name\": {\"value\": \"Recharge of Skyline Mobile XXXXXXXX37\", \"confidence\": 0.9, \"source_snippet\": \"Recharge of Skyline Mobile XXXXXXXX37\"}, \"city\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"category\": {\"value\": \"internet_phone\", \"confidence\": 0.9, \"source_snippet\": \"Recharge of Skyline Mobile XXXXXXXX37\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.85, \"source_snippet\": \"s************d@paynow\"}, \"payer_name\": {\"value\": \"N. Joshi\", \"confidence\": 0.93, \"source_snippet\": \"N. Joshi (xx••••)\"}, \"items\": [], \"raw_text\": \"9:50 92%\\nPayNow\\nRecharge Successful\\n\\u20b9399\\n06 Oct 2026, 9:50 PM\\nPaid to\\nRecharge of Skyline Mobile XXXXXXXX37\\n*************d@paynow\\nFrom\\nN. Joshi (xx••••)\\nUPI Transaction ID 104121738548\\nPayNow Txn ID PN2610062150BV93\\nNote Prepaid plan\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

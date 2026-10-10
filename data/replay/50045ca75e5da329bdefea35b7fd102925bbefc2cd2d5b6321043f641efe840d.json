@@ -1,0 +1,137 @@
+{
+  "fingerprint": "50045ca75e5da329bdefea35b7fd102925bbefc2cd2d5b6321043f641efe840d",
+  "recorded_at": "2026-10-10T19:35:59.745823+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "0896dca307b68dff21d8fe34618766f9c32f921925c03b95a0e0ad833c77b570:0",
+        "bytes": 62687,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 19469,
+  "usage": {
+    "input_tokens": 66889,
+    "output_tokens": 3283,
+    "cost_usd": 0.0802552
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "ride_receipt",
+        "confidence": 0.95,
+        "source_snippet": "Thanks for riding, Mehta"
+      },
+      "vendor_name": {
+        "value": "RydeGo Mobility Pvt Ltd",
+        "confidence": 0.97,
+        "source_snippet": "RydeGo Mobility Pvt Ltd"
+      },
+      "vendor_gstin": {
+        "value": "27AAJCR5521Q1ZR",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN 27AAJCR5521Q1ZR"
+      },
+      "invoice_number": {
+        "value": "RG-MA-986354",
+        "confidence": 0.97,
+        "source_snippet": "Invoice No: RG-MA-986354"
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.98,
+        "source_snippet": "06 Oct 2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "Rs. 705.00"
+      },
+      "subtotal": {
+        "value": 672.43,
+        "confidence": 0.7,
+        "source_snippet": "Trip fare 651.43 / Platform fee 21.00"
+      },
+      "tax_amount": {
+        "value": 32.57,
+        "confidence": 0.97,
+        "source_snippet": "GST @ 5% on trip fare 32.57"
+      },
+      "total_amount": {
+        "value": 705,
+        "confidence": 0.99,
+        "source_snippet": "Amount paid Rs. 705.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.97,
+        "source_snippet": "Payment UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": "RydeGo Mobility Pvt Ltd",
+        "confidence": 0.8,
+        "source_snippet": "RydeGo Mobility Pvt Ltd"
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.9,
+        "source_snippet": "Bandra Kurla Complex, Mumbai"
+      },
+      "category": {
+        "value": "travel_local",
+        "confidence": 0.9,
+        "source_snippet": "Go Mini ride"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.95,
+        "source_snippet": "RydeGo Mobility Pvt Ltd"
+      },
+      "payer_name": {
+        "value": "Mehta",
+        "confidence": 0.6,
+        "source_snippet": "Thanks for riding, Mehta"
+      },
+      "items": [
+        {
+          "description": "Trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 651.43
+        },
+        {
+          "description": "Platform fee",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 21
+        },
+        {
+          "description": "GST @ 5% on trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 32.57
+        }
+      ],
+      "raw_text": "RydeGo\nThanks for riding, Mehta\nWe hope you enjoyed your Go Mini ride this evening.\nTotal Rs. 705.00\n06 Oct 2026\nTrip details\n18:05 Bandra Kurla Complex, Mumbai\n18:49 CSMT Airport T2, Mumbai\n31.2 km | 39 min | Go Mini\nFare breakdown\nTrip fare 651.43\nPlatform fee 21.00\nGST @ 5% on trip fare 32.57\nAmount paid Rs. 705.00\nPayment UPI (PayNow)\nInvoice No: RG-MA-986354\nRydeGo Mobility Pvt Ltd | GSTIN 27AAJCR5521Q1ZR\nThis is a computer generated invoice.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"ride_receipt\", \"confidence\": 0.95, \"source_snippet\": \"Thanks for riding, Mehta\"}, \"vendor_name\": {\"value\": \"RydeGo Mobility Pvt Ltd\", \"confidence\": 0.97, \"source_snippet\": \"RydeGo Mobility Pvt Ltd\"}, \"vendor_gstin\": {\"value\": \"27AAJCR5521Q1ZR\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN 27AAJCR5521Q1ZR\"}, \"invoice_number\": {\"value\": \"RG-MA-986354\", \"confidence\": 0.97, \"source_snippet\": \"Invoice No: RG-MA-986354\"}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.98, \"source_snippet\": \"06 Oct 2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"Rs. 705.00\"}, \"subtotal\": {\"value\": 672.43, \"confidence\": 0.7, \"source_snippet\": \"Trip fare 651.43 / Platform fee 21.00\"}, \"tax_amount\": {\"value\": 32.57, \"confidence\": 0.97, \"source_snippet\": \"GST @ 5% on trip fare 32.57\"}, \"total_amount\": {\"value\": 705, \"confidence\": 0.99, \"source_snippet\": \"Amount paid Rs. 705.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.97, \"source_snippet\": \"Payment UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": \"RydeGo Mobility Pvt Ltd\", \"confidence\": 0.8, \"source_snippet\": \"RydeGo Mobility Pvt Ltd\"}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.9, \"source_snippet\": \"Bandra Kurla Complex, Mumbai\"}, \"category\": {\"value\": \"travel_local\", \"confidence\": 0.9, \"source_snippet\": \"Go Mini ride\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.95, \"source_snippet\": \"RydeGo Mobility Pvt Ltd\"}, \"payer_name\": {\"value\": \"Mehta\", \"confidence\": 0.6, \"source_snippet\": \"Thanks for riding, Mehta\"}, \"items\": [{\"description\": \"Trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 651.43}, {\"description\": \"Platform fee\", \"quantity\": null, \"unit_price\": null, \"amount\": 21}, {\"description\": \"GST @ 5% on trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 32.57}], \"raw_text\": \"RydeGo\\nThanks for riding, Mehta\\nWe hope you enjoyed your Go Mini ride this evening.\\nTotal Rs. 705.00\\n06 Oct 2026\\nTrip details\\n18:05 Bandra Kurla Complex, Mumbai\\n18:49 CSMT Airport T2, Mumbai\\n31.2 km | 39 min | Go Mini\\nFare breakdown\\nTrip fare 651.43\\nPlatform fee 21.00\\nGST @ 5% on trip fare 32.57\\nAmount paid Rs. 705.00\\nPayment UPI (PayNow)\\nInvoice No: RG-MA-986354\\nRydeGo Mobility Pvt Ltd | GSTIN 27AAJCR5521Q1ZR\\nThis is a computer generated invoice.\", \"quality\": \"good\"}"
+  }
+}

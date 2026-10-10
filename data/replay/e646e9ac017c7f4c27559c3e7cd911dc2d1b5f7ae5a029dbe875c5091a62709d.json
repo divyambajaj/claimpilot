@@ -1,0 +1,118 @@
+{
+  "fingerprint": "e646e9ac017c7f4c27559c3e7cd911dc2d1b5f7ae5a029dbe875c5091a62709d",
+  "recorded_at": "2026-10-10T19:44:41.963371+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "286e249692b36299c65620f335d9ba3f9980019c8af3f39a0984ab681a26f8eb:0",
+        "bytes": 51701,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 9398,
+  "usage": {
+    "input_tokens": 43571,
+    "output_tokens": 1304,
+    "cost_usd": 0.0510024
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "Glow Unisex Salon",
+        "confidence": 0.97,
+        "source_snippet": "Glow Unisex Salon"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.98,
+        "source_snippet": "06 Oct 2026, 3:31 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹650"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 650,
+        "confidence": 0.98,
+        "source_snippet": "₹650"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "UPI Transaction ID 122050861215"
+      },
+      "upi_txn_id": {
+        "value": "122050861215",
+        "confidence": 0.97,
+        "source_snippet": "UPI Transaction ID 122050861215"
+      },
+      "payee_name": {
+        "value": "Glow Unisex Salon",
+        "confidence": 0.98,
+        "source_snippet": "Glow Unisex Salon"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "personal",
+        "confidence": 0.85,
+        "source_snippet": "Glow Unisex Salon ... Note Haircut"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.85,
+        "source_snippet": "Glow Unisex Salon g*************n@paynow"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.93,
+        "source_snippet": "K. Mehta (xx••••)"
+      },
+      "items": [],
+      "raw_text": "3:31 95%\nPayNow\nPayment Successful\n₹650\n06 Oct 2026, 3:31 PM\nPaid to\nGlow Unisex Salon\ng*************n@paynow\nFrom\nK. Mehta (xx••••)\nUPI Transaction ID 122050861215\nPayNow Txn ID PN2610061531BN73\nNote Haircut\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"Glow Unisex Salon\", \"confidence\": 0.97, \"source_snippet\": \"Glow Unisex Salon\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.98, \"source_snippet\": \"06 Oct 2026, 3:31 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b9650\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"total_amount\": {\"value\": 650, \"confidence\": 0.98, \"source_snippet\": \"\\u20b9650\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"UPI Transaction ID 122050861215\"}, \"upi_txn_id\": {\"value\": \"122050861215\", \"confidence\": 0.97, \"source_snippet\": \"UPI Transaction ID 122050861215\"}, \"payee_name\": {\"value\": \"Glow Unisex Salon\", \"confidence\": 0.98, \"source_snippet\": \"Glow Unisex Salon\"}, \"city\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"category\": {\"value\": \"personal\", \"confidence\": 0.85, \"source_snippet\": \"Glow Unisex Salon ... Note Haircut\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.85, \"source_snippet\": \"Glow Unisex Salon g*************n@paynow\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.93, \"source_snippet\": \"K. Mehta (xx••••)\"}, \"items\": [], \"raw_text\": \"3:31 95%\\nPayNow\\nPayment Successful\\n\\u20b9650\\n06 Oct 2026, 3:31 PM\\nPaid to\\nGlow Unisex Salon\\n**************n@paynow\\nFrom\\nK. Mehta (xx••••)\\nUPI Transaction ID 122050861215\\nPayNow Txn ID PN2610061531BN73\\nNote Haircut\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

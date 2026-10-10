@@ -1,0 +1,125 @@
+{
+  "fingerprint": "907415a85f0c27c497427314660420307bcd3f8cdbd56ca89b81f20020b3c59d",
+  "recorded_at": "2026-10-10T19:43:23.474863+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "b5e633a7f100b304fab67955c51a39e2bbcd6d166c1118f15652694aaf0626e4:0",
+        "bytes": 622985,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11431,
+  "usage": {
+    "input_tokens": 43703,
+    "output_tokens": 1695,
+    "cost_usd": 0.0554366
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Harbourview Residency",
+        "confidence": 0.98,
+        "source_snippet": "HARBOURVIEW RESIDENCY"
+      },
+      "vendor_gstin": {
+        "value": "29KNZCJ3930M1ZL",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN: 29KNZCJ3930M1ZL"
+      },
+      "invoice_number": {
+        "value": "HR-82344",
+        "confidence": 0.97,
+        "source_snippet": "Folio No: HR-82344"
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.95,
+        "source_snippet": "Bill Date: 06/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 5200,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 5,200.00"
+      },
+      "tax_amount": {
+        "value": 624,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 312.00 SGST @ 6% 312.00"
+      },
+      "total_amount": {
+        "value": 5824,
+        "confidence": 0.99,
+        "source_snippet": "TOTAL (INR) 5,824.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.93,
+        "source_snippet": "Settlement: UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Bengaluru",
+        "confidence": 0.9,
+        "source_snippet": "14 Residency Road, Bengaluru 560062"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.95,
+        "source_snippet": "Room Tariff - Executive"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "HARBOURVIEW RESIDENCY"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited",
+        "confidence": 0.9,
+        "source_snippet": "Company: Jio Platforms Limited"
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Executive",
+          "quantity": 1,
+          "unit_price": 5200,
+          "amount": 5200
+        }
+      ],
+      "raw_text": "HARBOURVIEW RESIDENCY\n14 Residency Road, Bengaluru 560062\nTel: +91 XXXXX XXX76\nGSTIN: 29KNZCJ3930M1ZL\nGUEST FOLIO / TAX INVOICE\nFolio No: HR-82344    Bill Date: 06/10/2026\nGuest: K. Mehta    Room: 573 (Executive)\nArrival: 05/10/2026    Departure: 06/10/2026\nCompany: Jio Platforms Limited    Nights: 1  Pax: 1\nDate | Particulars | CGST | SGST | Amount\n05/10/26 | Room Tariff - Executive | 312.00 | 312.00 | 5,200.00\nTaxable Value 5,200.00\nCGST @ 6% 312.00\nSGST @ 6% 312.00\nTOTAL (INR) 5,824.00\nLess: Settlement (5,824.00)\nBalance 0.00\nSettlement: UPI (PayNow)\nGuest Signature ____    Cashier ____\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "rotated"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Harbourview Residency\", \"confidence\": 0.98, \"source_snippet\": \"HARBOURVIEW RESIDENCY\"}, \"vendor_gstin\": {\"value\": \"29KNZCJ3930M1ZL\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN: 29KNZCJ3930M1ZL\"}, \"invoice_number\": {\"value\": \"HR-82344\", \"confidence\": 0.97, \"source_snippet\": \"Folio No: HR-82344\"}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.95, \"source_snippet\": \"Bill Date: 06/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 5200, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 5,200.00\"}, \"tax_amount\": {\"value\": 624, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 312.00 SGST @ 6% 312.00\"}, \"total_amount\": {\"value\": 5824, \"confidence\": 0.99, \"source_snippet\": \"TOTAL (INR) 5,824.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.93, \"source_snippet\": \"Settlement: UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"city\": {\"value\": \"Bengaluru\", \"confidence\": 0.9, \"source_snippet\": \"14 Residency Road, Bengaluru 560062\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.95, \"source_snippet\": \"Room Tariff - Executive\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"HARBOURVIEW RESIDENCY\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited\", \"confidence\": 0.9, \"source_snippet\": \"Company: Jio Platforms Limited\"}, \"items\": [{\"description\": \"Room Tariff - Executive\", \"quantity\": 1, \"unit_price\": 5200, \"amount\": 5200}], \"raw_text\": \"HARBOURVIEW RESIDENCY\\n14 Residency Road, Bengaluru 560062\\nTel: +91 XXXXX XXX76\\nGSTIN: 29KNZCJ3930M1ZL\\nGUEST FOLIO / TAX INVOICE\\nFolio No: HR-82344    Bill Date: 06/10/2026\\nGuest: K. Mehta    Room: 573 (Executive)\\nArrival: 05/10/2026    Departure: 06/10/2026\\nCompany: Jio Platforms Limited    Nights: 1  Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n05/10/26 | Room Tariff - Executive | 312.00 | 312.00 | 5,200.00\\nTaxable Value 5,200.00\\nCGST @ 6% 312.00\\nSGST @ 6% 312.00\\nTOTAL (INR) 5,824.00\\nLess: Settlement (5,824.00)\\nBalance 0.00\\nSettlement: UPI (PayNow)\\nGuest Signature ____    Cashier ____\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"rotated\"}"
+  }
+}

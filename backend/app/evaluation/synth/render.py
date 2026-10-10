@@ -414,13 +414,13 @@ def upi(doc: Doc, rng: random.Random) -> tuple[Image.Image, list[str]]:
     cy = p.y + 70
     p.ops.append(("check", (w // 2, cy, 70, (22, 150, 90))))
     p.y = cy + 100
-    p.line("Payment Successful", "sans_bold", 32, "c")
+    p.line(doc.get("title", "Payment Successful"), "sans_bold", 32, "c")
     p.gap(6)
     p.line(f"₹{inr(doc['total_amount'], 0 if doc['total_amount'].is_integer() else 2)}", "unicode", 58, "c")
     p.line(doc["datetime_print"], "sans", 20, "c", ink=(100, 100, 100))
     p.gap(30)
     p.rule(dashed=False)
-    p.line("Paid to", "sans", 18, ink=(110, 110, 110))
+    p.line(doc.get("to_label", "Paid to"), "sans", 18, ink=(110, 110, 110))
     p.line(doc["payee_print"], "sans_bold", 24)
     p.line(doc["payee_vpa"], "sans", 19, ink=(80, 80, 80))
     p.gap(8)

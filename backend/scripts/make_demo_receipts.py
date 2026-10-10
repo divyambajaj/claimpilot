@@ -1,8 +1,9 @@
-"""Render the curated demo gallery: one Mumbai client trip (5-6 Oct 2026), twelve documents.
+"""Render the curated demo gallery: one Mumbai client trip (5-6 Oct 2026), thirteen documents.
 
 Story beats: airport ride and a re-photographed copy of it (duplicate), a dinner over the per-person meal
 cap, a hotel folio paid by UPI plus its payment screenshot (linked as proof), a handwritten fuel bill with a
-smudged date (the agent asks), and a stationery invoice over Rs 5,000 whose GSTIN fails the checksum (blocked).
+smudged date (the agent asks for the date and a trip note), a stationery invoice over Rs 5,000 whose GSTIN fails
+the checksum (blocked), and a UPI transfer to a colleague for a shared cab (a person-to-person payment: blocked).
 
 Run explicitly: `uv run python backend/scripts/make_demo_receipts.py`, then `make record-demo`. Replay
 fingerprints hash the file bytes, so regenerating means re-recording.
@@ -143,6 +144,24 @@ def main() -> None:
                 "Presentation supplies, Fort Stationery Mart",
                 "invoice",
                 "Tax invoice above Rs 5,000; GSTIN fails checksum",
+            ),
+        ),
+        "upi_paynow_cab_share.png": (
+            "upi",
+            build_upi(
+                rng("p2p"),
+                "Rohan Desai",
+                D2,
+                350.0,
+                vpa="rohan.desai-2@okpaynow",
+                note="Cab share",
+                kind="individual",
+            ),
+            [],
+            (
+                "UPI transfer to Rohan Desai",
+                "upi_screenshot",
+                "Cab fare paid back to a colleague's personal UPI ID",
             ),
         ),
         "ride_rydego_return_airport.png": (

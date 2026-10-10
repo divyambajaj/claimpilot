@@ -1,0 +1,125 @@
+{
+  "fingerprint": "4f9a7dd0fca34e4c68a8dd695a1b8ecf9f73c6f9900cfaad982dfb5641134cd0",
+  "recorded_at": "2026-10-10T19:44:00.831585+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "181c59de416eb3f1a2dee0107d7194ef0e32b7d1a9bacd320d530b4b15403e52:0",
+        "bytes": 30614,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10368,
+  "usage": {
+    "input_tokens": 42893,
+    "output_tokens": 1398,
+    "cost_usd": 0.049222800000000004
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "fuel",
+        "confidence": 0.95,
+        "source_snippet": "PRODUCT: PETROL"
+      },
+      "vendor_name": {
+        "value": "Highway Star Filling Station",
+        "confidence": 0.98,
+        "source_snippet": "HIGHWAY STAR FILLING STATION"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": "80281",
+        "confidence": 0.95,
+        "source_snippet": "RCPT NO: 80281"
+      },
+      "date": {
+        "value": "2026-10-07",
+        "confidence": 0.93,
+        "source_snippet": "DATE: 07/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "AMOUNT (Rs):"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 1500,
+        "confidence": 0.99,
+        "source_snippet": "AMOUNT (Rs): 1,500.00"
+      },
+      "payment_method": {
+        "value": "cash",
+        "confidence": 0.98,
+        "source_snippet": "MODE: CASH"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Chennai",
+        "confidence": 0.9,
+        "source_snippet": "Chennai - 600052"
+      },
+      "category": {
+        "value": "fuel",
+        "confidence": 0.97,
+        "source_snippet": "PRODUCT: PETROL"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "HIGHWAY STAR FILLING STATION"
+      },
+      "payer_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Petrol",
+          "quantity": 14.5,
+          "unit_price": 103.44,
+          "amount": 1500
+        }
+      ],
+      "raw_text": "*** WELCOME ***\nHIGHWAY STAR FILLING STATION\nGST Road, Guindy\nChennai - 600052\nRCPT NO: 80281\nDATE: 07/10/2026\nTIME: 12:43:16\nFP ID / NOZZLE: 02 / 3\nPRODUCT: PETROL\nRATE (Rs/L): 103.44\nVOLUME (L): 14.50\nAMOUNT (Rs): 1,500.00\nVEHICLE NO: TA05GH5134\nMODE: CASH\nSAVE FUEL SAVE MONEY\nTHANK YOU - VISIT AGAIN",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"fuel\", \"confidence\": 0.95, \"source_snippet\": \"PRODUCT: PETROL\"}, \"vendor_name\": {\"value\": \"Highway Star Filling Station\", \"confidence\": 0.98, \"source_snippet\": \"HIGHWAY STAR FILLING STATION\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"invoice_number\": {\"value\": \"80281\", \"confidence\": 0.95, \"source_snippet\": \"RCPT NO: 80281\"}, \"date\": {\"value\": \"2026-10-07\", \"confidence\": 0.93, \"source_snippet\": \"DATE: 07/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"AMOUNT (Rs):\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"total_amount\": {\"value\": 1500, \"confidence\": 0.99, \"source_snippet\": \"AMOUNT (Rs): 1,500.00\"}, \"payment_method\": {\"value\": \"cash\", \"confidence\": 0.98, \"source_snippet\": \"MODE: CASH\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"city\": {\"value\": \"Chennai\", \"confidence\": 0.9, \"source_snippet\": \"Chennai - 600052\"}, \"category\": {\"value\": \"fuel\", \"confidence\": 0.97, \"source_snippet\": \"PRODUCT: PETROL\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"HIGHWAY STAR FILLING STATION\"}, \"payer_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"Petrol\", \"quantity\": 14.5, \"unit_price\": 103.44, \"amount\": 1500}], \"raw_text\": \"*** WELCOME ***\\nHIGHWAY STAR FILLING STATION\\nGST Road, Guindy\\nChennai - 600052\\nRCPT NO: 80281\\nDATE: 07/10/2026\\nTIME: 12:43:16\\nFP ID / NOZZLE: 02 / 3\\nPRODUCT: PETROL\\nRATE (Rs/L): 103.44\\nVOLUME (L): 14.50\\nAMOUNT (Rs): 1,500.00\\nVEHICLE NO: TA05GH5134\\nMODE: CASH\\nSAVE FUEL SAVE MONEY\\nTHANK YOU - VISIT AGAIN\", \"quality\": \"good\"}"
+  }
+}

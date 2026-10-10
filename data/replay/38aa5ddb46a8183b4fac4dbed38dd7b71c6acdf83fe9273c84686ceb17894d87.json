@@ -1,0 +1,131 @@
+{
+  "fingerprint": "38aa5ddb46a8183b4fac4dbed38dd7b71c6acdf83fe9273c84686ceb17894d87",
+  "recorded_at": "2026-10-10T19:44:58.530363+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "b895bce92359ff4b5a7cfe089b3cf7fb359fa0e100f8790ccc326d00d4c58750:0",
+        "bytes": 420024,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 20130,
+  "usage": {
+    "input_tokens": 67215,
+    "output_tokens": 3253,
+    "cost_usd": 0.08062459999999999
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.98,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Fort Stationery Mart",
+        "confidence": 0.98,
+        "source_snippet": "FORT STATIONERY MART"
+      },
+      "vendor_gstin": {
+        "value": "27TPSFG9067W1ZG",
+        "confidence": 0.9,
+        "source_snippet": "GSTIN: 27TPSFG9067W1ZG"
+      },
+      "invoice_number": {
+        "value": "FOR/26-27/1540",
+        "confidence": 0.97,
+        "source_snippet": "Invoice No: FOR/26-27/1540"
+      },
+      "date": {
+        "value": "2026-10-07",
+        "confidence": 0.97,
+        "source_snippet": "Date: 07/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "Invoice Total (Rs.) 4,484.00"
+      },
+      "subtotal": {
+        "value": 3800,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 3,800.00"
+      },
+      "tax_amount": {
+        "value": 684,
+        "confidence": 0.97,
+        "source_snippet": "CGST @ 9% 342.00 SGST @ 9% 342.00"
+      },
+      "total_amount": {
+        "value": 4484,
+        "confidence": 0.98,
+        "source_snippet": "Invoice Total (Rs.) 4,484.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.95,
+        "source_snippet": "Payment received: Card"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.9,
+        "source_snippet": "Mumbai 400024"
+      },
+      "category": {
+        "value": "office",
+        "confidence": 0.85,
+        "source_snippet": "Box File, Lever Arch"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.95,
+        "source_snippet": "FORT STATIONERY MART"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited",
+        "confidence": 0.95,
+        "source_snippet": "Bill to: Jio Platforms Limited (walk-in)"
+      },
+      "items": [
+        {
+          "description": "Box File, Lever Arch",
+          "quantity": 10,
+          "unit_price": 120,
+          "amount": 1200
+        },
+        {
+          "description": "Whiteboard 4x3 ft",
+          "quantity": 1,
+          "unit_price": 2600,
+          "amount": 2600
+        }
+      ],
+      "raw_text": "FORT STATIONERY MART    TAX INVOICE\nPerin Nariman Street, Fort    Invoice No: FOR/26-27/1540\nMumbai 400024 | Ph XXXXXXXX54    Date: 07/10/2026\nGSTIN: 27TPSFG9067W1ZG\nBill to: Jio Platforms Limited (walk-in)\nPlace of supply: Maharashtra (27)\n# Description HSN Qty Rate Amount\n1 Box File, Lever Arch 4820 10 120.00 1,200.00\n2 Whiteboard 4x3 ft 9610 1 2,600.00 2,600.00\nTaxable Value 3,800.00\nCGST @ 9% 342.00\nSGST @ 9% 342.00\nInvoice Total (Rs.) 4,484.00\nAmount in words: Rupees Four Thousand Four Hundred Eighty-Four Only\nPayment received: Card\nE. & O.E.\nFor Fort Stationery Mart\nAuthorised Signatory",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.98, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Fort Stationery Mart\", \"confidence\": 0.98, \"source_snippet\": \"FORT STATIONERY MART\"}, \"vendor_gstin\": {\"value\": \"27TPSFG9067W1ZG\", \"confidence\": 0.9, \"source_snippet\": \"GSTIN: 27TPSFG9067W1ZG\"}, \"invoice_number\": {\"value\": \"FOR/26-27/1540\", \"confidence\": 0.97, \"source_snippet\": \"Invoice No: FOR/26-27/1540\"}, \"date\": {\"value\": \"2026-10-07\", \"confidence\": 0.97, \"source_snippet\": \"Date: 07/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"Invoice Total (Rs.) 4,484.00\"}, \"subtotal\": {\"value\": 3800, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 3,800.00\"}, \"tax_amount\": {\"value\": 684, \"confidence\": 0.97, \"source_snippet\": \"CGST @ 9% 342.00 SGST @ 9% 342.00\"}, \"total_amount\": {\"value\": 4484, \"confidence\": 0.98, \"source_snippet\": \"Invoice Total (Rs.) 4,484.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.95, \"source_snippet\": \"Payment received: Card\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.9, \"source_snippet\": \"Mumbai 400024\"}, \"category\": {\"value\": \"office\", \"confidence\": 0.85, \"source_snippet\": \"Box File, Lever Arch\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.95, \"source_snippet\": \"FORT STATIONERY MART\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited\", \"confidence\": 0.95, \"source_snippet\": \"Bill to: Jio Platforms Limited (walk-in)\"}, \"items\": [{\"description\": \"Box File, Lever Arch\", \"quantity\": 10, \"unit_price\": 120, \"amount\": 1200}, {\"description\": \"Whiteboard 4x3 ft\", \"quantity\": 1, \"unit_price\": 2600, \"amount\": 2600}], \"raw_text\": \"FORT STATIONERY MART    TAX INVOICE\\nPerin Nariman Street, Fort    Invoice No: FOR/26-27/1540\\nMumbai 400024 | Ph XXXXXXXX54    Date: 07/10/2026\\nGSTIN: 27TPSFG9067W1ZG\\nBill to: Jio Platforms Limited (walk-in)\\nPlace of supply: Maharashtra (27)\\n# Description HSN Qty Rate Amount\\n1 Box File, Lever Arch 4820 10 120.00 1,200.00\\n2 Whiteboard 4x3 ft 9610 1 2,600.00 2,600.00\\nTaxable Value 3,800.00\\nCGST @ 9% 342.00\\nSGST @ 9% 342.00\\nInvoice Total (Rs.) 4,484.00\\nAmount in words: Rupees Four Thousand Four Hundred Eighty-Four Only\\nPayment received: Card\\nE. & O.E.\\nFor Fort Stationery Mart\\nAuthorised Signatory\", \"quality\": \"good\"}"
+  }
+}

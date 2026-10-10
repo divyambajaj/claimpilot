@@ -1,0 +1,118 @@
+{
+  "fingerprint": "bb9b2888e86563fa7212178e95b12058948d60215ebfa476a56a4278a5cb59f4",
+  "recorded_at": "2026-10-10T19:43:58.340082+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "8b18811a27ea9f4611648fee09f1931567852285a0ce147c4efd8188f6070cfc:0",
+        "bytes": 151919,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10072,
+  "usage": {
+    "input_tokens": 43551,
+    "output_tokens": 1279,
+    "cost_usd": 0.050661
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "Coastal Curry House",
+        "confidence": 0.95,
+        "source_snippet": "Coastal Curry House"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-07",
+        "confidence": 0.98,
+        "source_snippet": "07 Oct 2026, 6:32 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "₹1,166"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 1166,
+        "confidence": 0.98,
+        "source_snippet": "₹1,166"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "UPI Transaction ID"
+      },
+      "upi_txn_id": {
+        "value": "481412149064",
+        "confidence": 0.97,
+        "source_snippet": "UPI Transaction ID 481412149064"
+      },
+      "payee_name": {
+        "value": "Coastal Curry House",
+        "confidence": 0.98,
+        "source_snippet": "Paid to Coastal Curry House"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.7,
+        "source_snippet": "Coastal Curry House"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.85,
+        "source_snippet": "Coastal Curry House c************o@paynow"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.93,
+        "source_snippet": "K. Mehta (xx••••)"
+      },
+      "items": [],
+      "raw_text": "6:32 67%\nPayNow\nPayment Successful\n₹1,166\n07 Oct 2026, 6:32 PM\nPaid to\nCoastal Curry House\nc************o@paynow\nFrom\nK. Mehta (xx••••)\nUPI Transaction ID 481412149064\nPayNow Txn ID PN2610071832HP31\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"Coastal Curry House\", \"confidence\": 0.95, \"source_snippet\": \"Coastal Curry House\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-07\", \"confidence\": 0.98, \"source_snippet\": \"07 Oct 2026, 6:32 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"\\u20b91,166\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"total_amount\": {\"value\": 1166, \"confidence\": 0.98, \"source_snippet\": \"\\u20b91,166\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"UPI Transaction ID\"}, \"upi_txn_id\": {\"value\": \"481412149064\", \"confidence\": 0.97, \"source_snippet\": \"UPI Transaction ID 481412149064\"}, \"payee_name\": {\"value\": \"Coastal Curry House\", \"confidence\": 0.98, \"source_snippet\": \"Paid to Coastal Curry House\"}, \"city\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"category\": {\"value\": \"meals\", \"confidence\": 0.7, \"source_snippet\": \"Coastal Curry House\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.85, \"source_snippet\": \"Coastal Curry House c************o@paynow\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.93, \"source_snippet\": \"K. Mehta (xx••••)\"}, \"items\": [], \"raw_text\": \"6:32 67%\\nPayNow\\nPayment Successful\\n\\u20b91,166\\n07 Oct 2026, 6:32 PM\\nPaid to\\nCoastal Curry House\\n*************o@paynow\\nFrom\\nK. Mehta (xx••••)\\nUPI Transaction ID 481412149064\\nPayNow Txn ID PN2610071832HP31\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

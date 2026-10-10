@@ -1,0 +1,125 @@
+{
+  "fingerprint": "8e955a213fada3e5bd45ec76a0b052f95517e54708f039b18e623d756b8816f5",
+  "recorded_at": "2026-10-10T19:42:29.915306+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "a414ad1aa6e0265eaf70e63a21e5f5fe472fbc7406fb40c7d93447abf6e475f3:0",
+        "bytes": 637321,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10917,
+  "usage": {
+    "input_tokens": 43482,
+    "output_tokens": 1698,
+    "cost_usd": 0.054575000000000005
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.98,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Harbourview Residency",
+        "confidence": 0.98,
+        "source_snippet": "HARBOURVIEW RESIDENCY"
+      },
+      "vendor_gstin": {
+        "value": "27XCXCN9446H1ZT",
+        "confidence": 0.9,
+        "source_snippet": "GSTIN: 27XCXCN9446H1ZT"
+      },
+      "invoice_number": {
+        "value": "HR-55476",
+        "confidence": 0.98,
+        "source_snippet": "Folio No: HR-55476"
+      },
+      "date": {
+        "value": "2026-08-27",
+        "confidence": 0.97,
+        "source_snippet": "Bill Date: 27/08/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 5000,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 5,000.00"
+      },
+      "tax_amount": {
+        "value": 600,
+        "confidence": 0.97,
+        "source_snippet": "CGST @ 6% 300.00 SGST @ 6% 300.00"
+      },
+      "total_amount": {
+        "value": 5600,
+        "confidence": 0.99,
+        "source_snippet": "TOTAL (INR) 5,600.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.97,
+        "source_snippet": "Settlement: Credit Card xx••••"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.9,
+        "source_snippet": "Marine Drive, Churchgate, Mumbai 400032"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.8,
+        "source_snippet": "Room Tariff - Superior"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "HARBOURVIEW RESIDENCY"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited",
+        "confidence": 0.9,
+        "source_snippet": "Company: Jio Platforms Limited"
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Superior",
+          "quantity": 1,
+          "unit_price": 5000,
+          "amount": 5000
+        }
+      ],
+      "raw_text": "HR\nHARBOURVIEW RESIDENCY\nMarine Drive, Churchgate, Mumbai 400032\nTel: +91 XXXXX XXX06\nGSTIN: 27XCXCN9446H1ZT\nGUEST FOLIO / TAX INVOICE\nFolio No: HR-55476    Bill Date: 27/08/2026\nGuest: K. Mehta    Room: 904 (Superior)\nArrival: 26/08/2026    Departure: 27/08/2026\nCompany: Jio Platforms Limited    Nights: 1  Pax: 1\nDate | Particulars | CGST | SGST | Amount\n26/08/26 | Room Tariff - Superior | 300.00 | 300.00 | 5,000.00\nTaxable Value 5,000.00\nCGST @ 6% 300.00\nSGST @ 6% 300.00\nTOTAL (INR) 5,600.00\nLess: Settlement (5,600.00)\nBalance 0.00\nSettlement: Credit Card xx••••\nGuest Signature ____    Cashier ____\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.98, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Harbourview Residency\", \"confidence\": 0.98, \"source_snippet\": \"HARBOURVIEW RESIDENCY\"}, \"vendor_gstin\": {\"value\": \"27XCXCN9446H1ZT\", \"confidence\": 0.9, \"source_snippet\": \"GSTIN: 27XCXCN9446H1ZT\"}, \"invoice_number\": {\"value\": \"HR-55476\", \"confidence\": 0.98, \"source_snippet\": \"Folio No: HR-55476\"}, \"date\": {\"value\": \"2026-08-27\", \"confidence\": 0.97, \"source_snippet\": \"Bill Date: 27/08/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 5000, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 5,000.00\"}, \"tax_amount\": {\"value\": 600, \"confidence\": 0.97, \"source_snippet\": \"CGST @ 6% 300.00 SGST @ 6% 300.00\"}, \"total_amount\": {\"value\": 5600, \"confidence\": 0.99, \"source_snippet\": \"TOTAL (INR) 5,600.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.97, \"source_snippet\": \"Settlement: Credit Card xx••••\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.9, \"source_snippet\": \"Marine Drive, Churchgate, Mumbai 400032\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.8, \"source_snippet\": \"Room Tariff - Superior\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"HARBOURVIEW RESIDENCY\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited\", \"confidence\": 0.9, \"source_snippet\": \"Company: Jio Platforms Limited\"}, \"items\": [{\"description\": \"Room Tariff - Superior\", \"quantity\": 1, \"unit_price\": 5000, \"amount\": 5000}], \"raw_text\": \"HR\\nHARBOURVIEW RESIDENCY\\nMarine Drive, Churchgate, Mumbai 400032\\nTel: +91 XXXXX XXX06\\nGSTIN: 27XCXCN9446H1ZT\\nGUEST FOLIO / TAX INVOICE\\nFolio No: HR-55476    Bill Date: 27/08/2026\\nGuest: K. Mehta    Room: 904 (Superior)\\nArrival: 26/08/2026    Departure: 27/08/2026\\nCompany: Jio Platforms Limited    Nights: 1  Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n26/08/26 | Room Tariff - Superior | 300.00 | 300.00 | 5,000.00\\nTaxable Value 5,000.00\\nCGST @ 6% 300.00\\nSGST @ 6% 300.00\\nTOTAL (INR) 5,600.00\\nLess: Settlement (5,600.00)\\nBalance 0.00\\nSettlement: Credit Card xx••••\\nGuest Signature ____    Cashier ____\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

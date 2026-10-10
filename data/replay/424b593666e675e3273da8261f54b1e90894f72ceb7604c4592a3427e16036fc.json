@@ -1,0 +1,131 @@
+{
+  "fingerprint": "424b593666e675e3273da8261f54b1e90894f72ceb7604c4592a3427e16036fc",
+  "recorded_at": "2026-10-10T19:42:01.587785+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "6dcb8e4594ab6849e26ff72ad9c74529624816882d1e4cbd9408bd7cca514ac2:0",
+        "bytes": 81384,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 12494,
+  "usage": {
+    "input_tokens": 43484,
+    "output_tokens": 1774,
+    "cost_usd": 0.05533540000000001
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Banyan Court Inn",
+        "confidence": 0.98,
+        "source_snippet": "BANYAN COURT INN"
+      },
+      "vendor_gstin": {
+        "value": "08RGKFH5045M1Z6",
+        "confidence": 0.95,
+        "source_snippet": "GSTIN: 08RGKFH5045M1Z6"
+      },
+      "invoice_number": {
+        "value": "BC-38187",
+        "confidence": 0.98,
+        "source_snippet": "Folio No: BC-38187"
+      },
+      "date": {
+        "value": "2026-10-01",
+        "confidence": 0.97,
+        "source_snippet": "Bill Date: 01/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 4800,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 4,800.00"
+      },
+      "tax_amount": {
+        "value": 576,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 288.00 SGST @ 6% 288.00"
+      },
+      "total_amount": {
+        "value": 5376,
+        "confidence": 0.99,
+        "source_snippet": "TOTAL (INR) 5,376.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.97,
+        "source_snippet": "Settlement: Credit Card xx••••"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Jaipur",
+        "confidence": 0.9,
+        "source_snippet": "Civil Lines, Jaipur 302055"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.8,
+        "source_snippet": "Room Tariff - Deluxe"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "BANYAN COURT INN"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited",
+        "confidence": 0.9,
+        "source_snippet": "Company: Jio Platforms Limited"
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Deluxe (29/09/26)",
+          "quantity": 1,
+          "unit_price": 2400,
+          "amount": 2400
+        },
+        {
+          "description": "Room Tariff - Deluxe (30/09/26)",
+          "quantity": 1,
+          "unit_price": 2400,
+          "amount": 2400
+        }
+      ],
+      "raw_text": "BC\nBANYAN COURT INN\nCivil Lines, Jaipur 302055\nTel: +91 XXXXX XXX10\nGSTIN: 08RGKFH5045M1Z6\nGUEST FOLIO / TAX INVOICE\nFolio No: BC-38187    Bill Date: 01/10/2026\nGuest: K. Mehta    Room: 221 (Deluxe)\nArrival: 29/09/2026    Departure: 01/10/2026\nCompany: Jio Platforms Limited    Nights: 2  Pax: 1\nDate | Particulars | CGST | SGST | Amount\n29/09/26 | Room Tariff - Deluxe | 144.00 | 144.00 | 2,400.00\n30/09/26 | Room Tariff - Deluxe | 144.00 | 144.00 | 2,400.00\nTaxable Value 4,800.00\nCGST @ 6% 288.00\nSGST @ 6% 288.00\nTOTAL (INR) 5,376.00\nLess: Settlement (5,376.00)\nBalance 0.00\nSettlement: Credit Card xx••••\nGuest Signature ____________    Cashier ____________\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Banyan Court Inn\", \"confidence\": 0.98, \"source_snippet\": \"BANYAN COURT INN\"}, \"vendor_gstin\": {\"value\": \"08RGKFH5045M1Z6\", \"confidence\": 0.95, \"source_snippet\": \"GSTIN: 08RGKFH5045M1Z6\"}, \"invoice_number\": {\"value\": \"BC-38187\", \"confidence\": 0.98, \"source_snippet\": \"Folio No: BC-38187\"}, \"date\": {\"value\": \"2026-10-01\", \"confidence\": 0.97, \"source_snippet\": \"Bill Date: 01/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 4800, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 4,800.00\"}, \"tax_amount\": {\"value\": 576, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 288.00 SGST @ 6% 288.00\"}, \"total_amount\": {\"value\": 5376, \"confidence\": 0.99, \"source_snippet\": \"TOTAL (INR) 5,376.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.97, \"source_snippet\": \"Settlement: Credit Card xx••••\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Jaipur\", \"confidence\": 0.9, \"source_snippet\": \"Civil Lines, Jaipur 302055\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.8, \"source_snippet\": \"Room Tariff - Deluxe\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"BANYAN COURT INN\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited\", \"confidence\": 0.9, \"source_snippet\": \"Company: Jio Platforms Limited\"}, \"items\": [{\"description\": \"Room Tariff - Deluxe (29/09/26)\", \"quantity\": 1, \"unit_price\": 2400, \"amount\": 2400}, {\"description\": \"Room Tariff - Deluxe (30/09/26)\", \"quantity\": 1, \"unit_price\": 2400, \"amount\": 2400}], \"raw_text\": \"BC\\nBANYAN COURT INN\\nCivil Lines, Jaipur 302055\\nTel: +91 XXXXX XXX10\\nGSTIN: 08RGKFH5045M1Z6\\nGUEST FOLIO / TAX INVOICE\\nFolio No: BC-38187    Bill Date: 01/10/2026\\nGuest: K. Mehta    Room: 221 (Deluxe)\\nArrival: 29/09/2026    Departure: 01/10/2026\\nCompany: Jio Platforms Limited    Nights: 2  Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n29/09/26 | Room Tariff - Deluxe | 144.00 | 144.00 | 2,400.00\\n30/09/26 | Room Tariff - Deluxe | 144.00 | 144.00 | 2,400.00\\nTaxable Value 4,800.00\\nCGST @ 6% 288.00\\nSGST @ 6% 288.00\\nTOTAL (INR) 5,376.00\\nLess: Settlement (5,376.00)\\nBalance 0.00\\nSettlement: Credit Card xx••••\\nGuest Signature ____________    Cashier ____________\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

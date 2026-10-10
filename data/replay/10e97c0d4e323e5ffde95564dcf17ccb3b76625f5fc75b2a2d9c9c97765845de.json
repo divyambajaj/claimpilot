@@ -1,0 +1,143 @@
+{
+  "fingerprint": "10e97c0d4e323e5ffde95564dcf17ccb3b76625f5fc75b2a2d9c9c97765845de",
+  "recorded_at": "2026-10-10T19:42:57.195721+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "c4685d13db7d3785058ba33f2e8e804efa116ac882e27ada1e48d3a1a536398f:0",
+        "bytes": 300641,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 18898,
+  "usage": {
+    "input_tokens": 67234,
+    "output_tokens": 3323,
+    "cost_usd": 0.0813436
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "ride_receipt",
+        "confidence": 0.95,
+        "source_snippet": "Thanks for riding, Mehta"
+      },
+      "vendor_name": {
+        "value": "RydeGo Mobility Pvt Ltd",
+        "confidence": 0.95,
+        "source_snippet": "RydeGo Mobility Pvt Ltd | GSTIN 33AAJCR5521Q1ZY"
+      },
+      "vendor_gstin": {
+        "value": "33AAJCR5521Q1ZY",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN 33AAJCR5521Q1ZY"
+      },
+      "invoice_number": {
+        "value": "RG-TA-913397",
+        "confidence": 0.95,
+        "source_snippet": "Invoice No: RG-TA-913397"
+      },
+      "date": {
+        "value": "2026-09-23",
+        "confidence": 0.98,
+        "source_snippet": "23 Sep 2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "Rs. 1,850.00"
+      },
+      "subtotal": {
+        "value": 1768.33,
+        "confidence": 0.6,
+        "source_snippet": "Trip fare 1,633.33 / Tolls & parking 120.00 / Platform fee 15.00"
+      },
+      "tax_amount": {
+        "value": 81.67,
+        "confidence": 0.95,
+        "source_snippet": "GST @ 5% on trip fare 81.67"
+      },
+      "total_amount": {
+        "value": 1850,
+        "confidence": 0.99,
+        "source_snippet": "Amount paid Rs. 1,850.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.97,
+        "source_snippet": "Card xx••••"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Chennai",
+        "confidence": 0.85,
+        "source_snippet": "T. Nagar, Chennai"
+      },
+      "category": {
+        "value": "travel_local",
+        "confidence": 0.9,
+        "source_snippet": "Go Mini ride"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "RydeGo Mobility Pvt Ltd"
+      },
+      "payer_name": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 1633.33
+        },
+        {
+          "description": "Tolls & parking",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 120
+        },
+        {
+          "description": "Platform fee",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 15
+        },
+        {
+          "description": "GST @ 5% on trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 81.67
+        }
+      ],
+      "raw_text": "RydeGo\nThanks for riding, Mehta\nWe hope you enjoyed your Go Mini ride this afternoon.\nTotal Rs. 1,850.00\n23 Sep 2026\nTrip details\n12:46 T. Nagar, Chennai\n13:36 Anna Salai, Chennai\n26.9 km | 50 min | Go Mini\nFare breakdown\nTrip fare 1,633.33\nTolls & parking 120.00\nPlatform fee 15.00\nGST @ 5% on trip fare 81.67\nAmount paid Rs. 1,850.00\nPayment Card xx••••\nInvoice No: RG-TA-913397\nRydeGo Mobility Pvt Ltd | GSTIN 33AAJCR5521Q1ZY\nThis is a computer generated invoice.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"ride_receipt\", \"confidence\": 0.95, \"source_snippet\": \"Thanks for riding, Mehta\"}, \"vendor_name\": {\"value\": \"RydeGo Mobility Pvt Ltd\", \"confidence\": 0.95, \"source_snippet\": \"RydeGo Mobility Pvt Ltd | GSTIN 33AAJCR5521Q1ZY\"}, \"vendor_gstin\": {\"value\": \"33AAJCR5521Q1ZY\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN 33AAJCR5521Q1ZY\"}, \"invoice_number\": {\"value\": \"RG-TA-913397\", \"confidence\": 0.95, \"source_snippet\": \"Invoice No: RG-TA-913397\"}, \"date\": {\"value\": \"2026-09-23\", \"confidence\": 0.98, \"source_snippet\": \"23 Sep 2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"Rs. 1,850.00\"}, \"subtotal\": {\"value\": 1768.33, \"confidence\": 0.6, \"source_snippet\": \"Trip fare 1,633.33 / Tolls & parking 120.00 / Platform fee 15.00\"}, \"tax_amount\": {\"value\": 81.67, \"confidence\": 0.95, \"source_snippet\": \"GST @ 5% on trip fare 81.67\"}, \"total_amount\": {\"value\": 1850, \"confidence\": 0.99, \"source_snippet\": \"Amount paid Rs. 1,850.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.97, \"source_snippet\": \"Card xx••••\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Chennai\", \"confidence\": 0.85, \"source_snippet\": \"T. Nagar, Chennai\"}, \"category\": {\"value\": \"travel_local\", \"confidence\": 0.9, \"source_snippet\": \"Go Mini ride\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"RydeGo Mobility Pvt Ltd\"}, \"payer_name\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"items\": [{\"description\": \"Trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 1633.33}, {\"description\": \"Tolls & parking\", \"quantity\": null, \"unit_price\": null, \"amount\": 120}, {\"description\": \"Platform fee\", \"quantity\": null, \"unit_price\": null, \"amount\": 15}, {\"description\": \"GST @ 5% on trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 81.67}], \"raw_text\": \"RydeGo\\nThanks for riding, Mehta\\nWe hope you enjoyed your Go Mini ride this afternoon.\\nTotal Rs. 1,850.00\\n23 Sep 2026\\nTrip details\\n12:46 T. Nagar, Chennai\\n13:36 Anna Salai, Chennai\\n26.9 km | 50 min | Go Mini\\nFare breakdown\\nTrip fare 1,633.33\\nTolls & parking 120.00\\nPlatform fee 15.00\\nGST @ 5% on trip fare 81.67\\nAmount paid Rs. 1,850.00\\nPayment Card xx••••\\nInvoice No: RG-TA-913397\\nRydeGo Mobility Pvt Ltd | GSTIN 33AAJCR5521Q1ZY\\nThis is a computer generated invoice.\", \"quality\": \"good\"}"
+  }
+}

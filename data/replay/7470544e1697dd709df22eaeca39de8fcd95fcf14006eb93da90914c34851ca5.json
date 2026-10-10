@@ -1,0 +1,118 @@
+{
+  "fingerprint": "7470544e1697dd709df22eaeca39de8fcd95fcf14006eb93da90914c34851ca5",
+  "recorded_at": "2026-10-10T19:44:35.903413+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "62273c00448e68d9a1af540277a5204cd6a4066a6db4eaa39c3e4a6bd4d0d7c4:0",
+        "bytes": 158138,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10416,
+  "usage": {
+    "input_tokens": 43571,
+    "output_tokens": 1281,
+    "cost_usd": 0.0507724
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "Quillmark Traders",
+        "confidence": 0.97,
+        "source_snippet": "Quillmark Traders"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-05",
+        "confidence": 0.98,
+        "source_snippet": "05 Oct 2026, 1:39 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹1,450"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 1450,
+        "confidence": 0.98,
+        "source_snippet": "₹1,450"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "426392419259",
+        "confidence": 0.97,
+        "source_snippet": "UPI Transaction ID 426392419259"
+      },
+      "payee_name": {
+        "value": "Quillmark Traders",
+        "confidence": 0.98,
+        "source_snippet": "Paid to Quillmark Traders"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "office",
+        "confidence": 0.75,
+        "source_snippet": "Printer paper"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "Quillmark Traders q**************s@paynow"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.93,
+        "source_snippet": "K. Mehta (xx••••)"
+      },
+      "items": [],
+      "raw_text": "1:39 37%\nPayNow\nPayment Successful\n₹1,450\n05 Oct 2026, 1:39 PM\nPaid to\nQuillmark Traders\nq**************s@paynow\nFrom\nK. Mehta (xx••••)\nUPI Transaction ID 426392419259\nPayNow Txn ID PN2610051339DL35\nNote Printer paper\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"Quillmark Traders\", \"confidence\": 0.97, \"source_snippet\": \"Quillmark Traders\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-05\", \"confidence\": 0.98, \"source_snippet\": \"05 Oct 2026, 1:39 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b91,450\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"total_amount\": {\"value\": 1450, \"confidence\": 0.98, \"source_snippet\": \"\\u20b91,450\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"426392419259\", \"confidence\": 0.97, \"source_snippet\": \"UPI Transaction ID 426392419259\"}, \"payee_name\": {\"value\": \"Quillmark Traders\", \"confidence\": 0.98, \"source_snippet\": \"Paid to Quillmark Traders\"}, \"city\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"category\": {\"value\": \"office\", \"confidence\": 0.75, \"source_snippet\": \"Printer paper\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"Quillmark Traders q**************s@paynow\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.93, \"source_snippet\": \"K. Mehta (xx••••)\"}, \"items\": [], \"raw_text\": \"1:39 37%\\nPayNow\\nPayment Successful\\n\\u20b91,450\\n05 Oct 2026, 1:39 PM\\nPaid to\\nQuillmark Traders\\n***************s@paynow\\nFrom\\nK. Mehta (xx••••)\\nUPI Transaction ID 426392419259\\nPayNow Txn ID PN2610051339DL35\\nNote Printer paper\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

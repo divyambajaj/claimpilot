@@ -59,19 +59,35 @@ class TestGenerator:
         out, rows = generated
         by_id = {r["id"]: r for r in rows}
         manifest = json.loads((out / "manifest.json").read_text())
-        assert 55 <= len(rows) <= 65 and len(manifest["claims"]) == 12
-        assert {k: manifest["counts"][k] for k in ("dup_exact", "dup_rephoto", "upi_pair", "decoy")} == {
+        assert 65 <= len(rows) <= 75 and len(manifest["claims"]) == 14
+        planted = ("dup_exact", "dup_rephoto", "upi_pair", "decoy", "upi_no_bill", "p2p_transfer")
+        planted += (
+            "personal_expense",
+            "personal_recharge",
+            "split_bill",
+            "payer_mismatch",
+            "fuel_no_trip_note",
+        )
+        assert {k: manifest["counts"][k] for k in planted} == {
             "dup_exact": 8,
             "dup_rephoto": 6,
             "upi_pair": 16,
             "decoy": 4,
+            "upi_no_bill": 4,
+            "p2p_transfer": 1,
+            "personal_expense": 1,
+            "personal_recharge": 1,
+            "split_bill": 2,
+            "payer_mismatch": 2,
+            "fuel_no_trip_note": 3,
         }
+        assert manifest["employee_name"] == "Kavya Mehta"
         for r in rows:
             if r["dup_kind"] == "exact":  # a re-upload of the very same file
                 assert (out / r["file"]).read_bytes() == (out / by_id[r["dup_of"]]["file"]).read_bytes()
             if r["dup_kind"] == "rephoto":
                 assert "perspective" in r["augment"] and r["fields"] == by_id[r["dup_of"]]["fields"]
-            if r["template"] == "upi":
+            if r["upi_pair"] and r["template"] == "upi":
                 inv = by_id[r["upi_pair"]]
                 assert (r["fields"]["total_amount"], r["fields"]["date"]) == (
                     inv["fields"]["total_amount"],
@@ -278,7 +294,7 @@ def oracle_run(tmp_path_factory: pytest.TempPathFactory) -> EvalRun:
             baseline_path=tmp / "none.json",
         )
     )
-    assert seen[0] == (0, 61, None) and seen[-1][0] == 61 and len(seen) == 62
+    assert seen[0] == (0, 68, None) and seen[-1][0] == 68 and len(seen) == 69
     assert not list((tmp / "data" / "uploads").glob("*")), "eval uploads are scratch copies and get removed"
     return run
 
@@ -298,7 +314,7 @@ class TestRunner:
         assert m.field_accuracy == 1.0 and m.violation_accuracy == 1.0 and m.dup_recall == 1.0
         assert d["upi_links"]["recall"] == 1.0 and d["violations"]["mismatches"] == []
         assert m.dup_precision >= 0.9  # one same-template, same-amount hotel pair stays a hard decoy
-        assert oracle_run.provider == "oracle" and oracle_run.n_receipts == 61 and oracle_run.subset == "full"
+        assert oracle_run.provider == "oracle" and oracle_run.n_receipts == 68 and oracle_run.subset == "full"
         assert oracle_run.passed_gate and "no baseline" in d["gate"][0]
         assert sum(b.count for b in oracle_run.reliability_bins) == d["scored_cells"]
 

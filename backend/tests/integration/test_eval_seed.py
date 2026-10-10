@@ -17,6 +17,13 @@ from app.seed import HISTORY_USER, seed_demo
 from tests.factories import NOW
 
 
+@pytest.fixture
+def settings(settings: Settings) -> Settings:
+    return settings.model_copy(
+        update={"PROMPT_VERSION_EXTRACT": None}
+    )  # fixtures are recorded with the latest
+
+
 def _wait_runs(client: TestClient, n: int, timeout: float = 60.0) -> list[dict]:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -32,7 +39,7 @@ class TestEvalApi:
         r = client.post("/api/admin/eval/run", json={"subset": "smoke"})
         assert r.status_code == 202 and r.json() == {"subset": "smoke", "status": "started"}
         run = _wait_runs(client, 1)[0]
-        assert run["subset"] == "smoke" and run["provider"] == "replay" and run["n_receipts"] == 9
+        assert run["subset"] == "smoke" and run["provider"] == "replay" and run["n_receipts"] == 13
         assert run["metrics"]["p50_latency_ms"] > 0 and run["metrics"]["cost_usd_per_receipt"] > 0
         assert client.get(f"/api/admin/eval/runs/{run['id']}").json()["id"] == run["id"]
 
@@ -52,8 +59,8 @@ class TestEvalApi:
         await asyncio.wait_for(listener, 30)
         frames = [f for f in frames if f.startswith("event:")]
         events = [f.split("\n")[0].removeprefix("event: ") for f in frames]
-        assert events[0] == "progress" and events[-1] == "done" and events.count("progress") == 10
-        assert '"done": 0, "total": 9}' in frames[0] and '"fixture_id": "fx_' in frames[1]
+        assert events[0] == "progress" and events[-1] == "done" and events.count("progress") == 14
+        assert '"done": 0, "total": 13}' in frames[0] and '"fixture_id": "fx_' in frames[1]
         assert len(container.repo.list_eval_runs()) == 1
 
     async def test_failure_is_an_error_event(self, container: Container, monkeypatch) -> None:
@@ -107,11 +114,12 @@ class TestSeed:
         claims = container.repo.list_claims()
         history = [c for c in claims if c.user_id == HISTORY_USER]
         sample = next(c for c in claims if c.user_id == "sample-team")
-        assert len(history) == 12 and len({c.created_at.date() for c in history}) >= 8
+        assert len(history) == 14 and len({c.created_at.date() for c in history}) >= 8
         assert sum(c.status == "submitted" for c in history) >= 8
-        assert sample.status == "submitted" and len(sample.lines) == 12
+        assert sample.status == "submitted" and len(sample.lines) == 13
         runs = container.repo.list_eval_runs()
         assert runs and all(r.provider == "replay" and r.subset == "full" for r in runs)
+        assert {r.prompt_version for r in runs} == {"v1", "v2", "v3"}  # v1/v2 from the stored snapshots
         lines = [x for c in claims for x in c.lines]
         assert any(f.kind == "duplicate" for x in lines for f in x.findings)
         spans = container.tracer.spans_since(NOW - dt.timedelta(days=30))

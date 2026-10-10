@@ -1,0 +1,137 @@
+{
+  "fingerprint": "70e762a5b8cd1cef9e516d2e05b31901045f95f0aa9b51a23150c415aa442a7f",
+  "recorded_at": "2026-10-10T19:43:09.354157+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "8bceabdbc0f3f2aaf732eb644f7c0b1299ad862984fc3ac687f7eb437268263d:0",
+        "bytes": 41766,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 9765,
+  "usage": {
+    "input_tokens": 43106,
+    "output_tokens": 1382,
+    "cost_usd": 0.049926200000000004
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "handwritten",
+        "confidence": 0.85,
+        "source_snippet": "CASH MEMO"
+      },
+      "vendor_name": {
+        "value": "Maa Tara Tea Stall",
+        "confidence": 0.97,
+        "source_snippet": "MAA TARA TEA STALL"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": "967",
+        "confidence": 0.95,
+        "source_snippet": "No. 967"
+      },
+      "date": {
+        "value": "2026-10-05",
+        "confidence": 0.8,
+        "source_snippet": "5/10/26"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.9,
+        "source_snippet": "Rs."
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 420,
+        "confidence": 0.9,
+        "source_snippet": "420/-"
+      },
+      "payment_method": {
+        "value": "cash",
+        "confidence": 0.95,
+        "source_snippet": "Paid cash"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Kolkata",
+        "confidence": 0.9,
+        "source_snippet": "Esplanade, Kolkata"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.8,
+        "source_snippet": "Tea / Egg Roll / Ghugni"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.85,
+        "source_snippet": "MAA TARA TEA STALL"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.75,
+        "source_snippet": "M/s K. Mehta"
+      },
+      "items": [
+        {
+          "description": "Tea",
+          "quantity": 3,
+          "unit_price": null,
+          "amount": 60
+        },
+        {
+          "description": "Egg Roll",
+          "quantity": 3,
+          "unit_price": null,
+          "amount": 210
+        },
+        {
+          "description": "Ghugni",
+          "quantity": 3,
+          "unit_price": null,
+          "amount": 150
+        }
+      ],
+      "raw_text": "MAA TARA TEA STALL\nEsplanade, Kolkata\nCASH MEMO\nNo. 967    Date 5/10/26\nM/s K. Mehta\nParticulars  Qty  Rs.\nTea  3  60/-\nEgg Roll  3  210/-\nGhugni  3  150/-\nTotal Rs. 420/-\nPaid cash\nSignature ________",
+      "quality": "handwritten"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"handwritten\", \"confidence\": 0.85, \"source_snippet\": \"CASH MEMO\"}, \"vendor_name\": {\"value\": \"Maa Tara Tea Stall\", \"confidence\": 0.97, \"source_snippet\": \"MAA TARA TEA STALL\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"invoice_number\": {\"value\": \"967\", \"confidence\": 0.95, \"source_snippet\": \"No. 967\"}, \"date\": {\"value\": \"2026-10-05\", \"confidence\": 0.8, \"source_snippet\": \"5/10/26\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.9, \"source_snippet\": \"Rs.\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"total_amount\": {\"value\": 420, \"confidence\": 0.9, \"source_snippet\": \"420/-\"}, \"payment_method\": {\"value\": \"cash\", \"confidence\": 0.95, \"source_snippet\": \"Paid cash\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"city\": {\"value\": \"Kolkata\", \"confidence\": 0.9, \"source_snippet\": \"Esplanade, Kolkata\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.8, \"source_snippet\": \"Tea / Egg Roll / Ghugni\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.85, \"source_snippet\": \"MAA TARA TEA STALL\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.75, \"source_snippet\": \"M/s K. Mehta\"}, \"items\": [{\"description\": \"Tea\", \"quantity\": 3, \"unit_price\": null, \"amount\": 60}, {\"description\": \"Egg Roll\", \"quantity\": 3, \"unit_price\": null, \"amount\": 210}, {\"description\": \"Ghugni\", \"quantity\": 3, \"unit_price\": null, \"amount\": 150}], \"raw_text\": \"MAA TARA TEA STALL\\nEsplanade, Kolkata\\nCASH MEMO\\nNo. 967    Date 5/10/26\\nM/s K. Mehta\\nParticulars  Qty  Rs.\\nTea  3  60/-\\nEgg Roll  3  210/-\\nGhugni  3  150/-\\nTotal Rs. 420/-\\nPaid cash\\nSignature ________\", \"quality\": \"handwritten\"}"
+  }
+}

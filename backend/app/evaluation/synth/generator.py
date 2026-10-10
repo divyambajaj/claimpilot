@@ -22,11 +22,15 @@ from PIL import Image
 from app.config import REPO_ROOT
 from app.evaluation.synth import augment
 from app.evaluation.synth.render import TEMPLATES
+from app.pipeline.redact import redact_text
 from app.pipeline.validate.gstin import ALPHABET, make_gstin
 
 SEED = 20261008
 EVAL_DATE = dt.date(2026, 10, 8)
 EVAL_USER = "eval-user"
+EMPLOYEE = "Kavya Mehta"  # the claimant: printed as guest, rider and UPI payer (payer checks, policy 2.1)
+EMPLOYEE_SHORT = "K. Mehta"
+COMPANY = "Jio Platforms Limited"
 OUT = REPO_ROOT / "data" / "eval" / "fixtures"
 PHOTO_AUGS = {"blur", "rotate", "perspective", "crumple"}
 
@@ -375,7 +379,7 @@ def build_ride(rng, city, date, total, method="card", toll=0.0):
     end = h * 60 + pm + dur
     gst = make_gstin(CITY_PIN[city][0], "AAJCR5521Q")
     doc = {
-        "rider": rng.choice(PEOPLE).split(". ")[1],
+        "rider": EMPLOYEE.split()[-1],
         "product": rng.choice(["Go Mini", "Go Sedan", "Go Prime"]),
         "daypart": "morning" if h < 12 else "afternoon" if h < 17 else "evening",
         "date": date,
@@ -482,10 +486,10 @@ def build_hotel(rng, key, date, nights, tariff, method="card", upi_ref=None, leg
         "invoice_number": f"{initials}-{rng.randint(10000, 99999)}",
         "date_print": date.strftime("%d/%m/%Y"),
         "arrival_print": arrival.strftime("%d/%m/%Y"),
-        "guest": rng.choice(PEOPLE),
+        "guest": EMPLOYEE_SHORT,
         "room": rng.randint(101, 920),
         "room_type": rng.choice(["Deluxe", "Executive", "Superior"]),
-        "company": "Acme India Pvt Ltd",
+        "company": COMPANY,
         "nights": nights,
         "nights_list": nights_list,
         "subtotal": subtotal,
@@ -515,7 +519,7 @@ def build_hotel(rng, key, date, nights, tariff, method="card", upi_ref=None, leg
     return doc, fields, []
 
 
-def build_stationery(rng, key, date, n_items, target, method="card", gstin="valid"):
+def build_stationery(rng, key, date, n_items, target, method="card", gstin="valid", buyer=None):
     name, city, street = STATIONERS[key]
     picks = rng.sample(STATIONERY_ITEMS, n_items)
     items, subtotal = [], 0
@@ -550,7 +554,7 @@ def build_stationery(rng, key, date, n_items, target, method="card", gstin="vali
             f"{name.split()[0][:3].upper()}/{date:%y}-{date.year % 100 + 1}/{rng.randint(100, 2999)}"
         ),
         "date_print": date.strftime("%d/%m/%Y"),
-        "buyer": "Acme India Pvt Ltd (walk-in)",
+        "buyer": buyer or f"{COMPANY} (walk-in)",
         "state": f"{STATE[CITY_PIN[city][0]]} ({CITY_PIN[city][0]})",
         "items": items,
         "subtotal": float(subtotal),
@@ -573,28 +577,36 @@ def build_stationery(rng, key, date, n_items, target, method="card", gstin="vali
         payee_name=None,
         city=city,
         category="office",
+        payer_name=buyer or [COMPANY, f"{COMPANY} (walk-in)"],
     )
     return doc, fields, [{k: v for k, v in it.items() if k != "hsn"} for it in items]
 
 
-def build_upi(rng, payee, date, total, txn_id=None):
+def build_upi(
+    rng, payee, date, total, txn_id=None, payer=None, vpa=None, title=None, note=None, kind="merchant"
+):
+    """`kind`: who received the money (ground truth payee_type); a person gets a 'Money Sent' screen."""
     txn = txn_id or f"{rng.randint(10**11, 10**12 - 1)}"
     h, m = rng.randint(8, 22), rng.randint(0, 59)
     slug = "".join(ch for ch in payee.lower() if ch.isalnum())[:14]
+    person = kind == "individual"
     doc = {
         "status_time": f"{h % 12 or 12}:{m:02d}",
+        "title": title or ("Money Sent" if person else "Payment Successful"),
+        "to_label": "Sent to" if person else "Paid to",
         "total_amount": float(total),
         "datetime_print": f"{date:%d %b %Y}, {h % 12 or 12}:{m:02d} {'AM' if h < 12 else 'PM'}",
         "payee_print": payee,
-        "payee_vpa": f"{slug}@paynow",
-        "payer": f"{rng.choice(PEOPLE)} (xx{rng.randint(1000, 9999)})",
+        "payee_vpa": vpa or f"{slug}@paynow",
+        "payer": f"{payer or EMPLOYEE_SHORT} (xx{rng.randint(1000, 9999)})",
         "upi_txn_id": txn,
         "app_txn_id": (
             f"PN{date:%y%m%d}{h:02d}{m:02d}"
             f"{rng.choice('ABCDEFGHJK')}{rng.choice('LMNPQRSTUV')}{rng.randint(10, 99)}"
         ),
-        "note": rng.choice([None, "Hotel stay", "Bill payment", None]),
+        "note": note or rng.choice([None, "Hotel stay", "Bill payment", None]),
     }
+    shown = payer or EMPLOYEE_SHORT
     fields = {
         "doc_type": "upi_screenshot",
         "vendor_gstin": None,
@@ -605,8 +617,10 @@ def build_upi(rng, payee, date, total, txn_id=None):
         "total_amount": float(total),
         "payment_method": "upi",
         "upi_txn_id": txn,
-        "payee_name": payee,
+        "payee_name": redact_text(payee),  # a recharge names the mobile number; it is stored masked
         "attendees_count": None,
+        "payee_type": kind,
+        "payer_name": [shown, f"{shown} (xx••••)"],  # the masked card/account suffix is optional
     }
     return doc, fields, []
 
@@ -625,7 +639,7 @@ def build_handwritten(rng, key, date, smudge=False, show_date=True, lines=None):
         "address": [f"{street}, {city}"],
         "invoice_number": f"{rng.randint(101, 999)}",
         "date_hand": f"{date.day}/{date.month}/{date:%y}" if show_date else None,
-        "customer": rng.choice(["Acme India", "Mr. Sharma", "Office", None]),
+        "customer": rng.choice(["Jio Platforms", EMPLOYEE_SHORT, "Jio Platforms Ltd", None]),
         "items": items,
         "total_amount": total,
         "payment_hand": rng.choice(["Paid cash", "Cash recd.", "Recd with thanks"]),
@@ -663,6 +677,8 @@ CLAIMS = [
     ("eval_c10", "Bengaluru offsite", False),
     ("eval_c11", "Chennai follow-up", False),
     ("eval_c12", "Hyderabad review", False),
+    ("eval_c13", "Pune workshop: standalone payments", True),
+    ("eval_c14", "Mumbai office supplies", False),
 ]
 
 
@@ -672,8 +688,10 @@ def plan() -> list[Fixture]:
 
     def add(claim: str, template: str, built, rules=(), scenario=(), **kw) -> Fixture:
         doc, fields, items = built
-        if fields.get("category") == "fuel":
-            rules = [*rules, "FUEL_TRIP_NOTE"]  # policy 4.4: every fuel bill needs a trip note
+        if template != "upi":  # prompt v3 may read a bill's vendor as its payee: not scored on bills
+            fields.pop("payee_name", None)
+        if fields.get("category") == "fuel":  # policy 4.4: every fuel bill needs a trip note
+            rules, scenario = [*rules, "FUEL_TRIP_NOTE"], [*scenario, "fuel_no_trip_note"]
         f = Fixture(
             f"fx_{len(fx) + 1:03d}", claim, template, doc, fields, items, list(rules), list(scenario), **kw
         )
@@ -921,6 +939,95 @@ def plan() -> list[Fixture]:
     )
     dup(c, f35, "exact")
     dup(c, f36, "rephoto")
+
+    # Payment screenshots with no bill, a person-to-person transfer, personal spend, a recharge for
+    # someone else's number (live testing accepted all of these as complete expenses).
+    def standalone(claim, built, rules, scenario, category, vendor=True) -> Fixture:
+        doc, fields, items = built
+        fields |= {"category": category} | ({"vendor_name": fields["payee_name"]} if vendor else {})
+        return add(claim, "upi", (doc, fields, items), rules, scenario)
+
+    c = "eval_c13"
+    standalone(
+        c,
+        build_upi(
+            r(64),
+            "Quillmark Traders",
+            D(2026, 10, 5),
+            1450.0,
+            vpa="quillmarktraders@paynow",
+            note="Printer paper",
+        ),
+        ["BILL_REQUIRED"],
+        ["upi_no_bill"],
+        "office",
+    )
+    standalone(
+        c,
+        build_upi(
+            r(65),
+            "Rohan Desai",
+            D(2026, 10, 5),
+            2800.0,
+            vpa="rohan.desai-2@okpaynow",
+            note="Repayment",
+            kind="individual",
+        ),
+        ["BILL_REQUIRED", "OTHER_NEEDS_BUSINESS_PURPOSE", "P2P_TRANSFER_NOT_REIMBURSABLE"],
+        ["p2p_transfer", "upi_no_bill"],
+        "other",
+        vendor=False,
+    )
+    standalone(
+        c,
+        build_upi(
+            r(66), "Glow Unisex Salon", D(2026, 10, 6), 650.0, vpa="glowunisexsalon@paynow", note="Haircut"
+        ),
+        ["BILL_REQUIRED", "PERSONAL_EXPENSE_NOT_REIMBURSABLE"],
+        ["personal_expense", "upi_no_bill"],
+        "personal",
+    )
+    recharge = standalone(
+        c,
+        build_upi(
+            r(67),
+            "Recharge of Skyline Mobile 9800000037",
+            D(2026, 10, 6),
+            399.0,
+            vpa="skylineprepaid@paynow",
+            payer="N. Joshi",
+            title="Recharge Successful",
+            note="Prepaid plan",
+        ),
+        ["BILL_REQUIRED", "MOBILE_BILL_IN_EMPLOYEE_NAME"],
+        ["personal_recharge", "payer_mismatch", "upi_no_bill"],
+        "internet_phone",
+    )
+    recharge.fields["payee_name"] = recharge.fields["vendor_name"] = [
+        recharge.fields["payee_name"],
+        "Skyline Mobile",
+        "Skyline Mobile Prepaid",
+    ]
+
+    c = "eval_c14"  # one purchase split into two bills that each stay under the GST invoice threshold
+    split = [
+        add(
+            c,
+            "stationery",
+            build_stationery(r(68 + i), "fort", D(2026, 10, 7), n, amount),
+            ["SPLIT_BILL_SAME_VENDOR_DAY"],
+            ["split_bill"],
+        )
+        for i, (n, amount) in enumerate([(2, 2950), (3, 2714)])
+    ]
+    split[1].decoy_of = split[0].id
+    add(
+        c,
+        "stationery",
+        build_stationery(r(70), "inkwell", D(2026, 10, 6), 2, 1180, buyer="R. Iyer"),
+        ["PAYER_NOT_EMPLOYEE"],
+        ["payer_mismatch"],
+    )
     return fx
 
 
@@ -1041,7 +1148,8 @@ def generate(out: Path = OUT) -> list[dict[str, Any]]:
         "seed": SEED,
         "eval_date": EVAL_DATE.isoformat(),
         "user_id": EVAL_USER,
-        "ruleset": "acme_v1.json",
+        "ruleset": "jio_v1.json",
+        "employee_name": EMPLOYEE,
         "n_receipts": len(rows),
         "claims": claims,
         "counts": {t: tags.count(t) for t in sorted(set(tags))},

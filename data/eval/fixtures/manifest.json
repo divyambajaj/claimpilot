@@ -2,8 +2,9 @@
   "seed": 20261008,
   "eval_date": "2026-10-08",
   "user_id": "eval-user",
-  "ruleset": "acme_v1.json",
-  "n_receipts": 61,
+  "ruleset": "jio_v1.json",
+  "employee_name": "Kavya Mehta",
+  "n_receipts": 68,
   "claims": [
     {
       "id": "eval_c01",
@@ -149,6 +150,27 @@
         "fx_060",
         "fx_061"
       ]
+    },
+    {
+      "id": "eval_c13",
+      "title": "Pune workshop: standalone payments",
+      "smoke": true,
+      "fixtures": [
+        "fx_062",
+        "fx_063",
+        "fx_064",
+        "fx_065"
+      ]
+    },
+    {
+      "id": "eval_c14",
+      "title": "Mumbai office supplies",
+      "smoke": false,
+      "fixtures": [
+        "fx_066",
+        "fx_067",
+        "fx_068"
+      ]
     }
   ],
   "counts": {
@@ -157,6 +179,7 @@
     "dup_exact": 8,
     "dup_rephoto": 6,
     "fuel_cap": 1,
+    "fuel_no_trip_note": 3,
     "gst_block": 1,
     "invalid_gstin": 3,
     "late": 1,
@@ -166,7 +189,13 @@
     "missing_covers": 1,
     "missing_date": 2,
     "missing_gstin": 2,
+    "p2p_transfer": 1,
+    "payer_mismatch": 2,
+    "personal_expense": 1,
+    "personal_recharge": 1,
     "smudged": 1,
+    "split_bill": 2,
+    "upi_no_bill": 4,
     "upi_pair": 16,
     "upi_txn_link": 1,
     "weekend": 1

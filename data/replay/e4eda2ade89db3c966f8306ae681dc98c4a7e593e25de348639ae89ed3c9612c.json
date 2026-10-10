@@ -1,0 +1,149 @@
+{
+  "fingerprint": "e4eda2ade89db3c966f8306ae681dc98c4a7e593e25de348639ae89ed3c9612c",
+  "recorded_at": "2026-10-10T19:43:47.926484+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "4de4994d2aa1d71b2b09902b17ba06faf3f4d835348c377647061b0e51c6411a:0",
+        "bytes": 507228,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 12710,
+  "usage": {
+    "input_tokens": 43440,
+    "output_tokens": 1854,
+    "cost_usd": 0.0559442
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.95,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Coastal Curry House",
+        "confidence": 0.98,
+        "source_snippet": "COASTAL CURRY HOUSE"
+      },
+      "vendor_gstin": {
+        "value": "33FJMCW3496G1Z9",
+        "confidence": 0.9,
+        "source_snippet": "GSTIN: 33FJMCW3496G1Z9"
+      },
+      "invoice_number": {
+        "value": "CC/2610/1901",
+        "confidence": 0.97,
+        "source_snippet": "Bill No: CC/2610/1901"
+      },
+      "date": {
+        "value": "2026-10-07",
+        "confidence": 0.97,
+        "source_snippet": "Date: 07/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 1110,
+        "confidence": 0.98,
+        "source_snippet": "Sub Total 1,110.00"
+      },
+      "tax_amount": {
+        "value": 55.5,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 2.5% 27.75 SGST @ 2.5% 27.75"
+      },
+      "total_amount": {
+        "value": 1166,
+        "confidence": 0.98,
+        "source_snippet": "GRAND TOTAL Rs. 1,166.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.97,
+        "source_snippet": "Paid by: UPI Ref 351742296557"
+      },
+      "upi_txn_id": {
+        "value": "351742296557",
+        "confidence": 0.93,
+        "source_snippet": "UPI Ref 351742296557"
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Chennai",
+        "confidence": 0.97,
+        "source_snippet": "Chennai 600045"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.9,
+        "source_snippet": "Table: 27 Covers: 2"
+      },
+      "attendees_count": {
+        "value": 2,
+        "confidence": 0.97,
+        "source_snippet": "Covers: 2"
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.95,
+        "source_snippet": "COASTAL CURRY HOUSE"
+      },
+      "payer_name": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Mango Lassi",
+          "quantity": 1,
+          "unit_price": 140,
+          "amount": 140
+        },
+        {
+          "description": "Prawn Fry",
+          "quantity": 1,
+          "unit_price": 460,
+          "amount": 460
+        },
+        {
+          "description": "Paneer Tikka",
+          "quantity": 1,
+          "unit_price": 340,
+          "amount": 340
+        },
+        {
+          "description": "Butter Naan",
+          "quantity": 1,
+          "unit_price": 60,
+          "amount": 60
+        },
+        {
+          "description": "Fresh Lime Soda",
+          "quantity": 1,
+          "unit_price": 110,
+          "amount": 110
+        }
+      ],
+      "raw_text": "COASTAL CURRY HOUSE\n12 Khader Nawaz Khan Road, Nungambakkam\nChennai 600045\nPh: 031-61006350\nGSTIN: 33FJMCW3496G1Z9\nFSSAI Lic No: 11093338208801\nTAX INVOICE\nBill No: CC/2610/1901    Date: 07/10/2026\nTable: 27  Covers: 2    Time: 16:28\nSteward: Farhan\nItem  Qty  Rate  Amount\nMango Lassi 1 140.00 140.00\nPrawn Fry 1 460.00 460.00\nPaneer Tikka 1 340.00 340.00\nButter Naan 1 60.00 60.00\nFresh Lime Soda 1 110.00 110.00\nSub Total 1,110.00\nCGST @ 2.5% 27.75\nSGST @ 2.5% 27.75\nRound Off +0.50\nGRAND TOTAL Rs. 1,166.00\nPaid by: UPI Ref 351742296557\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.95, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Coastal Curry House\", \"confidence\": 0.98, \"source_snippet\": \"COASTAL CURRY HOUSE\"}, \"vendor_gstin\": {\"value\": \"33FJMCW3496G1Z9\", \"confidence\": 0.9, \"source_snippet\": \"GSTIN: 33FJMCW3496G1Z9\"}, \"invoice_number\": {\"value\": \"CC/2610/1901\", \"confidence\": 0.97, \"source_snippet\": \"Bill No: CC/2610/1901\"}, \"date\": {\"value\": \"2026-10-07\", \"confidence\": 0.97, \"source_snippet\": \"Date: 07/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 1110, \"confidence\": 0.98, \"source_snippet\": \"Sub Total 1,110.00\"}, \"tax_amount\": {\"value\": 55.5, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 2.5% 27.75 SGST @ 2.5% 27.75\"}, \"total_amount\": {\"value\": 1166, \"confidence\": 0.98, \"source_snippet\": \"GRAND TOTAL Rs. 1,166.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.97, \"source_snippet\": \"Paid by: UPI Ref 351742296557\"}, \"upi_txn_id\": {\"value\": \"351742296557\", \"confidence\": 0.93, \"source_snippet\": \"UPI Ref 351742296557\"}, \"payee_name\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"city\": {\"value\": \"Chennai\", \"confidence\": 0.97, \"source_snippet\": \"Chennai 600045\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.9, \"source_snippet\": \"Table: 27 Covers: 2\"}, \"attendees_count\": {\"value\": 2, \"confidence\": 0.97, \"source_snippet\": \"Covers: 2\"}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.95, \"source_snippet\": \"COASTAL CURRY HOUSE\"}, \"payer_name\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"items\": [{\"description\": \"Mango Lassi\", \"quantity\": 1, \"unit_price\": 140, \"amount\": 140}, {\"description\": \"Prawn Fry\", \"quantity\": 1, \"unit_price\": 460, \"amount\": 460}, {\"description\": \"Paneer Tikka\", \"quantity\": 1, \"unit_price\": 340, \"amount\": 340}, {\"description\": \"Butter Naan\", \"quantity\": 1, \"unit_price\": 60, \"amount\": 60}, {\"description\": \"Fresh Lime Soda\", \"quantity\": 1, \"unit_price\": 110, \"amount\": 110}], \"raw_text\": \"COASTAL CURRY HOUSE\\n12 Khader Nawaz Khan Road, Nungambakkam\\nChennai 600045\\nPh: 031-61006350\\nGSTIN: 33FJMCW3496G1Z9\\nFSSAI Lic No: 11093338208801\\nTAX INVOICE\\nBill No: CC/2610/1901    Date: 07/10/2026\\nTable: 27  Covers: 2    Time: 16:28\\nSteward: Farhan\\nItem  Qty  Rate  Amount\\nMango Lassi 1 140.00 140.00\\nPrawn Fry 1 460.00 460.00\\nPaneer Tikka 1 340.00 340.00\\nButter Naan 1 60.00 60.00\\nFresh Lime Soda 1 110.00 110.00\\nSub Total 1,110.00\\nCGST @ 2.5% 27.75\\nSGST @ 2.5% 27.75\\nRound Off +0.50\\nGRAND TOTAL Rs. 1,166.00\\nPaid by: UPI Ref 351742296557\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"good\"}"
+  }
+}

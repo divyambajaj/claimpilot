@@ -65,6 +65,12 @@
     "description": "Tax invoice above Rs 5,000; GSTIN fails checksum",
     "amount_inr": 7410.4
   },
+  "upi_paynow_cab_share.png": {
+    "title": "UPI transfer to Rohan Desai",
+    "doc_type": "upi_screenshot",
+    "description": "Cab fare paid back to a colleague's personal UPI ID",
+    "amount_inr": 350.0
+  },
   "ride_rydego_return_airport.png": {
     "title": "Return ride, RydeGo",
     "doc_type": "ride_receipt",

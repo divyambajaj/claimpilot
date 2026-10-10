@@ -1,0 +1,118 @@
+{
+  "fingerprint": "2187367ddb0452766a289c544ee5c65e394b8f2a9e7ed2d68c646b76d99d72b6",
+  "recorded_at": "2026-10-10T19:44:35.389555+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "a94a90295f94ddbe5491d051d4c5d90ef6974a98c57ced8c1963d51c60d5357d:0",
+        "bytes": 51386,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 9176,
+  "usage": {
+    "input_tokens": 43581,
+    "output_tokens": 1275,
+    "cost_usd": 0.031874
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.99,
+        "source_snippet": "Money Sent"
+      },
+      "vendor_name": {
+        "value": "Rohan Desai",
+        "confidence": 0.9,
+        "source_snippet": "Rohan Desai"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-05",
+        "confidence": 0.98,
+        "source_snippet": "05 Oct 2026, 10:07 AM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹2,800"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 2800,
+        "confidence": 0.98,
+        "source_snippet": "₹2,800"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "113556277349",
+        "confidence": 0.97,
+        "source_snippet": "UPI Transaction ID 113556277349"
+      },
+      "payee_name": {
+        "value": "Rohan Desai",
+        "confidence": 0.98,
+        "source_snippet": "Rohan Desai"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "other",
+        "confidence": 0.8,
+        "source_snippet": "Money Sent ... Note Repayment"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "individual",
+        "confidence": 0.95,
+        "source_snippet": "r****.*****-2@okpaynow"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.95,
+        "source_snippet": "K. Mehta (xx••••)"
+      },
+      "items": [],
+      "raw_text": "10:07 92%\nPayNow\nMoney Sent\n₹2,800\n05 Oct 2026, 10:07 AM\nSent to\nRohan Desai\nr****.*****-2@okpaynow\nFrom\nK. Mehta (xx••••)\nUPI Transaction ID 113556277349\nPayNow Txn ID PN2610051007KQ37\nNote Repayment\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.99, \"source_snippet\": \"Money Sent\"}, \"vendor_name\": {\"value\": \"Rohan Desai\", \"confidence\": 0.9, \"source_snippet\": \"Rohan Desai\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-05\", \"confidence\": 0.98, \"source_snippet\": \"05 Oct 2026, 10:07 AM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b92,800\"}, \"subtotal\": {\"value\": null, \"confidence\": 0, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0, \"source_snippet\": null}, \"total_amount\": {\"value\": 2800, \"confidence\": 0.98, \"source_snippet\": \"\\u20b92,800\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"113556277349\", \"confidence\": 0.97, \"source_snippet\": \"UPI Transaction ID 113556277349\"}, \"payee_name\": {\"value\": \"Rohan Desai\", \"confidence\": 0.98, \"source_snippet\": \"Rohan Desai\"}, \"city\": {\"value\": null, \"confidence\": 0, \"source_snippet\": null}, \"category\": {\"value\": \"other\", \"confidence\": 0.8, \"source_snippet\": \"Money Sent ... Note Repayment\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0, \"source_snippet\": null}, \"payee_type\": {\"value\": \"individual\", \"confidence\": 0.95, \"source_snippet\": \"r****.*****-2@okpaynow\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.95, \"source_snippet\": \"K. Mehta (xx••••)\"}, \"items\": [], \"raw_text\": \"10:07 92%\\nPayNow\\nMoney Sent\\n\\u20b92,800\\n05 Oct 2026, 10:07 AM\\nSent to\\nRohan Desai\\n*****.*****-2@okpaynow\\nFrom\\nK. Mehta (xx••••)\\nUPI Transaction ID 113556277349\\nPayNow Txn ID PN2610051007KQ37\\nNote Repayment\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

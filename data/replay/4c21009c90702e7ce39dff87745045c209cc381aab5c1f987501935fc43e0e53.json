@@ -1,0 +1,131 @@
+{
+  "fingerprint": "4c21009c90702e7ce39dff87745045c209cc381aab5c1f987501935fc43e0e53",
+  "recorded_at": "2026-10-10T19:36:52.230489+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "83d048753c6c7d8b2a16920ff6c0f63778bbb19c536eee9082ccb403db2e9572:0",
+        "bytes": 365267,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11386,
+  "usage": {
+    "input_tokens": 43573,
+    "output_tokens": 1777,
+    "cost_usd": 0.0557366
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.98,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Lotus Crest Hotel",
+        "confidence": 0.98,
+        "source_snippet": "LOTUS CREST HOTEL"
+      },
+      "vendor_gstin": {
+        "value": "27DWMCZ1701A1ZB",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN: 27DWMCZ1701A1ZB"
+      },
+      "invoice_number": {
+        "value": "LC-31617",
+        "confidence": 0.95,
+        "source_snippet": "Folio No: LC-31617"
+      },
+      "date": {
+        "value": "2026-09-23",
+        "confidence": 0.97,
+        "source_snippet": "Bill Date: 23/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 5200,
+        "confidence": 0.97,
+        "source_snippet": "Taxable Value 5,200.00"
+      },
+      "tax_amount": {
+        "value": 624,
+        "confidence": 0.93,
+        "source_snippet": "CGST @ 6% 312.00 / SGST @ 6% 312.00"
+      },
+      "total_amount": {
+        "value": 5824,
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR) 5,824.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.97,
+        "source_snippet": "Settlement: Credit Card xx••••"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.99,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Pune",
+        "confidence": 0.9,
+        "source_snippet": "Bund Garden Road, Pune 411091"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.8,
+        "source_snippet": "Room Tariff - Superior"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "LOTUS CREST HOTEL"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited",
+        "confidence": 0.9,
+        "source_snippet": "Company: Jio Platforms Limited"
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Superior (21/09/26)",
+          "quantity": 1,
+          "unit_price": 2600,
+          "amount": 2600
+        },
+        {
+          "description": "Room Tariff - Superior (22/09/26)",
+          "quantity": 1,
+          "unit_price": 2600,
+          "amount": 2600
+        }
+      ],
+      "raw_text": "LC\nLOTUS CREST HOTEL\nBund Garden Road, Pune 411091\nTel: +91 XXXXX XXX77\nGSTIN: 27DWMCZ1701A1ZB\nGUEST FOLIO / TAX INVOICE\nFolio No: LC-31617\nGuest: K. Mehta\nArrival: 21/09/2026\nCompany: Jio Platforms Limited\nBill Date: 23/09/2026\nRoom: 436 (Superior)\nDeparture: 23/09/2026\nNights: 2 Pax: 1\nDate | Particulars | CGST | SGST | Amount\n21/09/26 | Room Tariff - Superior | 156.00 | 156.00 | 2,600.00\n22/09/26 | Room Tariff - Superior | 156.00 | 156.00 | 2,600.00\nTaxable Value 5,200.00\nCGST @ 6% 312.00\nSGST @ 6% 312.00\nTOTAL (INR) 5,824.00\nLess: Settlement (5,824.00)\nBalance 0.00\nSettlement: Credit Card xx••••\nCashier ______\nGuest Signature ______\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "rotated"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.98, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Lotus Crest Hotel\", \"confidence\": 0.98, \"source_snippet\": \"LOTUS CREST HOTEL\"}, \"vendor_gstin\": {\"value\": \"27DWMCZ1701A1ZB\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN: 27DWMCZ1701A1ZB\"}, \"invoice_number\": {\"value\": \"LC-31617\", \"confidence\": 0.95, \"source_snippet\": \"Folio No: LC-31617\"}, \"date\": {\"value\": \"2026-09-23\", \"confidence\": 0.97, \"source_snippet\": \"Bill Date: 23/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 5200, \"confidence\": 0.97, \"source_snippet\": \"Taxable Value 5,200.00\"}, \"tax_amount\": {\"value\": 624, \"confidence\": 0.93, \"source_snippet\": \"CGST @ 6% 312.00 / SGST @ 6% 312.00\"}, \"total_amount\": {\"value\": 5824, \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR) 5,824.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.97, \"source_snippet\": \"Settlement: Credit Card xx••••\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.99, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Pune\", \"confidence\": 0.9, \"source_snippet\": \"Bund Garden Road, Pune 411091\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.8, \"source_snippet\": \"Room Tariff - Superior\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"LOTUS CREST HOTEL\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited\", \"confidence\": 0.9, \"source_snippet\": \"Company: Jio Platforms Limited\"}, \"items\": [{\"description\": \"Room Tariff - Superior (21/09/26)\", \"quantity\": 1, \"unit_price\": 2600, \"amount\": 2600}, {\"description\": \"Room Tariff - Superior (22/09/26)\", \"quantity\": 1, \"unit_price\": 2600, \"amount\": 2600}], \"raw_text\": \"LC\\nLOTUS CREST HOTEL\\nBund Garden Road, Pune 411091\\nTel: +91 XXXXX XXX77\\nGSTIN: 27DWMCZ1701A1ZB\\nGUEST FOLIO / TAX INVOICE\\nFolio No: LC-31617\\nGuest: K. Mehta\\nArrival: 21/09/2026\\nCompany: Jio Platforms Limited\\nBill Date: 23/09/2026\\nRoom: 436 (Superior)\\nDeparture: 23/09/2026\\nNights: 2 Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n21/09/26 | Room Tariff - Superior | 156.00 | 156.00 | 2,600.00\\n22/09/26 | Room Tariff - Superior | 156.00 | 156.00 | 2,600.00\\nTaxable Value 5,200.00\\nCGST @ 6% 312.00\\nSGST @ 6% 312.00\\nTOTAL (INR) 5,824.00\\nLess: Settlement (5,824.00)\\nBalance 0.00\\nSettlement: Credit Card xx••••\\nCashier ______\\nGuest Signature ______\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"rotated\"}"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "fingerprint": "5c8cfd451169e38392b5fac175d302e5c4ab181a7c5e2c0f75d97d0ae52e5344",
+  "recorded_at": "2026-10-10T19:45:10.490668+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "489692d79253547716502aad8604da1f0e4a945255a83ade987d122db5754278:0",
+        "bytes": 161105,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 9436,
+  "usage": {
+    "input_tokens": 43575,
+    "output_tokens": 1284,
+    "cost_usd": 0.0508108
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "Seabreeze Suites",
+        "confidence": 0.95,
+        "source_snippet": "Seabreeze Suites"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-09-23",
+        "confidence": 0.98,
+        "source_snippet": "23 Sep 2026, 3:43 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹7,840"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 7840,
+        "confidence": 0.98,
+        "source_snippet": "₹7,840"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "524888437340",
+        "confidence": 0.98,
+        "source_snippet": "UPI Transaction ID 524888437340"
+      },
+      "payee_name": {
+        "value": "Seabreeze Suites",
+        "confidence": 0.98,
+        "source_snippet": "Paid to Seabreeze Suites"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.6,
+        "source_snippet": "Seabreeze Suites"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.85,
+        "source_snippet": "s************e@paynow"
+      },
+      "payer_name": {
+        "value": "K. Mehta",
+        "confidence": 0.95,
+        "source_snippet": "K. Mehta (xx••••)"
+      },
+      "items": [],
+      "raw_text": "3:43 79%\nPayNow\nPayment Successful\n₹7,840\n23 Sep 2026, 3:43 PM\nPaid to\nSeabreeze Suites\ns************e@paynow\nFrom\nK. Mehta (xx••••)\nUPI Transaction ID 524888437340\nPayNow Txn ID PN2609231543DV57\nNote Bill payment\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"Seabreeze Suites\", \"confidence\": 0.95, \"source_snippet\": \"Seabreeze Suites\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"date\": {\"value\": \"2026-09-23\", \"confidence\": 0.98, \"source_snippet\": \"23 Sep 2026, 3:43 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b97,840\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"total_amount\": {\"value\": 7840, \"confidence\": 0.98, \"source_snippet\": \"\\u20b97,840\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"524888437340\", \"confidence\": 0.98, \"source_snippet\": \"UPI Transaction ID 524888437340\"}, \"payee_name\": {\"value\": \"Seabreeze Suites\", \"confidence\": 0.98, \"source_snippet\": \"Paid to Seabreeze Suites\"}, \"city\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.6, \"source_snippet\": \"Seabreeze Suites\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.85, \"source_snippet\": \"s************e@paynow\"}, \"payer_name\": {\"value\": \"K. Mehta\", \"confidence\": 0.95, \"source_snippet\": \"K. Mehta (xx••••)\"}, \"items\": [], \"raw_text\": \"3:43 79%\\nPayNow\\nPayment Successful\\n\\u20b97,840\\n23 Sep 2026, 3:43 PM\\nPaid to\\nSeabreeze Suites\\n*************e@paynow\\nFrom\\nK. Mehta (xx••••)\\nUPI Transaction ID 524888437340\\nPayNow Txn ID PN2609231543DV57\\nNote Bill payment\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

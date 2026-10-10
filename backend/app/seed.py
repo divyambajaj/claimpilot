@@ -4,13 +4,13 @@ import datetime as dt
 import hashlib
 from pathlib import Path
 
-from app.config import Settings
-from app.domain.models import EXTRACTED_FIELD_NAMES, LineItem, PolicyDoc, Question
+from app.config import REPO_ROOT, Settings
+from app.domain.models import EXTRACTED_FIELD_NAMES, EvalRun, LineItem, PolicyDoc, Question
 from app.domain.repo import Repo
 from app.llm.base import ReplayMissError
 from app.llm.prompts.registry import PromptRegistry
 from app.llm.registry import build_client, build_provider
-from app.observability.tracing import Tracer, utcnow
+from app.observability.tracing import Tracer, new_id, utcnow
 from app.pipeline.orchestrator import Orchestrator, Upload
 from app.rules.dsl import RuleSet
 
@@ -19,9 +19,11 @@ POLICY_FILE = "jio_travel_expense_policy.md"
 POLICY_NAME = "Jio Platforms Travel & Expense Policy"
 SAMPLE_JUSTIFICATION = "Client meeting approved in advance by the department head."
 MAX_ROUNDS = 5
-HISTORY_USER = "asha.rao"
+HISTORY_USER = "kavya.mehta"
 HISTORY_DAYS = 14
 GALLERY_TITLE = "Mumbai client visit (sample)"
+# EvalRuns of earlier prompt versions, kept when the fixtures changed under their recordings
+EVAL_HISTORY = REPO_ROOT / "data" / "eval" / "history"
 
 
 def ensure_ruleset(repo: Repo, settings: Settings) -> RuleSet:
@@ -84,8 +86,13 @@ async def seed_demo(orch: Orchestrator, user_id: str = "sample-team") -> None:
                 provider,
                 created_at=now - dt.timedelta(days=3 - k, hours=1),
             )
-        except ReplayMissError:
-            continue  # this prompt version was never recorded
+        except ReplayMissError:  # not recorded for the current fixtures: show the stored snapshot instead
+            snapshot = EVAL_HISTORY / f"extract_{version}_full.json"
+            if not snapshot.exists():
+                continue
+            run = EvalRun.model_validate_json(snapshot.read_text()).model_copy(
+                update={"id": new_id("run"), "created_at": now - dt.timedelta(days=3 - k, hours=1)}
+            )
         orch.repo.save_eval_run(run)
 
 

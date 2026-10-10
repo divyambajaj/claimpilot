@@ -1,0 +1,263 @@
+{
+ "id": "run_22c89362ed64",
+ "created_at": "2026-10-10T18:56:06.885616",
+ "provider": "replay",
+ "model": "sonnet",
+ "prompt_version": "v2",
+ "n_receipts": 61,
+ "metrics": {
+  "field_accuracy": 1.0,
+  "amount_exact_rate": 1.0,
+  "date_exact_rate": 1.0,
+  "gstin_exact_rate": 1.0,
+  "dup_precision": 0.9333,
+  "dup_recall": 1.0,
+  "violation_accuracy": 1.0,
+  "ece": 0.0513,
+  "questions_per_claim": 2.0,
+  "auto_completion_rate": 0.377,
+  "p50_latency_ms": 11493.0,
+  "p95_latency_ms": 17147.0,
+  "mean_tokens": 44326.5,
+  "cost_usd_per_receipt": 0.051544
+ },
+ "per_field": {
+  "attendees_count": {
+   "accuracy": 1.0,
+   "n": 17,
+   "mean_confidence": 0.9712
+  },
+  "category": {
+   "accuracy": 1.0,
+   "n": 53,
+   "mean_confidence": 0.8611
+  },
+  "city": {
+   "accuracy": 1.0,
+   "n": 53,
+   "mean_confidence": 0.9132
+  },
+  "currency": {
+   "accuracy": 1.0,
+   "n": 61,
+   "mean_confidence": 0.961
+  },
+  "date": {
+   "accuracy": 1.0,
+   "n": 59,
+   "mean_confidence": 0.9695
+  },
+  "doc_type": {
+   "accuracy": 1.0,
+   "n": 61,
+   "mean_confidence": 0.9582
+  },
+  "invoice_number": {
+   "accuracy": 1.0,
+   "n": 53,
+   "mean_confidence": 0.9551
+  },
+  "payee_name": {
+   "accuracy": 1.0,
+   "n": 8,
+   "mean_confidence": 0.9812
+  },
+  "payment_method": {
+   "accuracy": 1.0,
+   "n": 61,
+   "mean_confidence": 0.9626
+  },
+  "subtotal": {
+   "accuracy": 1.0,
+   "n": 34,
+   "mean_confidence": 0.9785
+  },
+  "tax_amount": {
+   "accuracy": 1.0,
+   "n": 46,
+   "mean_confidence": 0.9535
+  },
+  "total_amount": {
+   "accuracy": 1.0,
+   "n": 61,
+   "mean_confidence": 0.9893
+  },
+  "upi_txn_id": {
+   "accuracy": 1.0,
+   "n": 8,
+   "mean_confidence": 0.9738
+  },
+  "vendor_gstin": {
+   "accuracy": 1.0,
+   "n": 47,
+   "mean_confidence": 0.8802
+  },
+  "vendor_name": {
+   "accuracy": 1.0,
+   "n": 53,
+   "mean_confidence": 0.9753
+  }
+ },
+ "reliability_bins": [
+  {
+   "lo": 0.0,
+   "hi": 0.1,
+   "count": 5,
+   "mean_confidence": 0.0,
+   "accuracy": 1.0
+  },
+  {
+   "lo": 0.1,
+   "hi": 0.2,
+   "count": 0,
+   "mean_confidence": 0.0,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.2,
+   "hi": 0.3,
+   "count": 0,
+   "mean_confidence": 0.0,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.3,
+   "hi": 0.4,
+   "count": 0,
+   "mean_confidence": 0.0,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.4,
+   "hi": 0.5,
+   "count": 0,
+   "mean_confidence": 0.0,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.5,
+   "hi": 0.6,
+   "count": 0,
+   "mean_confidence": 0.0,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.6,
+   "hi": 0.7,
+   "count": 0,
+   "mean_confidence": 0.0,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.7,
+   "hi": 0.8,
+   "count": 0,
+   "mean_confidence": 0.0,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.8,
+   "hi": 0.9,
+   "count": 42,
+   "mean_confidence": 0.8257,
+   "accuracy": 1.0
+  },
+  {
+   "lo": 0.9,
+   "hi": 1.0,
+   "count": 628,
+   "mean_confidence": 0.9644,
+   "accuracy": 1.0
+  }
+ ],
+ "passed_gate": true,
+ "git_sha": "96fa8a1",
+ "subset": "full",
+ "details": {
+  "field_accuracy_micro": 1.0,
+  "brier": 0.0112,
+  "scored_cells": 675,
+  "duplicates": {
+   "precision": 0.9333,
+   "recall": 1.0,
+   "true_pairs": 14,
+   "flagged_pairs": 15,
+   "caught_by_layer": {
+    "fuzzy": 6,
+    "perceptual": 8
+   },
+   "false_positives": [
+    {
+     "pair": [
+      "fx_003",
+      "fx_029"
+     ],
+     "layer": "semantic"
+    }
+   ],
+   "missed": []
+  },
+  "violations": {
+   "accuracy": 1.0,
+   "per_rule": {
+    "CASH_ABOVE_2000_JUSTIFY": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 1
+    },
+    "FUEL_CAP_PER_CLAIM": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 1
+    },
+    "GST_INVOICE_ABOVE_5000": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 1
+    },
+    "LOCAL_TRAVEL_DAILY_CAP": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 2
+    },
+    "LODGING_CAP_METRO": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 2
+    },
+    "LODGING_CAP_NON_METRO": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 2
+    },
+    "MEALS_CAP_PER_PERSON": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 5
+    },
+    "OFFICE_SUPPLIES_WEEKEND": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 2
+    },
+    "SUBMISSION_WINDOW_30D": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "support": 1
+    }
+   },
+   "mismatches": []
+  },
+  "upi_links": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "expected": 8,
+   "linked": 8
+  },
+  "llm_calls": 61,
+  "llm_retries": 0,
+  "eval_date": "2026-10-08",
+  "gate": [],
+  "note": "Snapshot: scored on the original 61-receipt set under the 12-rule policy, before the eligibility scenarios and rules were added."
+ }
+}

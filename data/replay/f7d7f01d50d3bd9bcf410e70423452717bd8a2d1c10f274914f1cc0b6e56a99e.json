@@ -1,0 +1,125 @@
+{
+  "fingerprint": "f7d7f01d50d3bd9bcf410e70423452717bd8a2d1c10f274914f1cc0b6e56a99e",
+  "recorded_at": "2026-10-10T19:42:55.718980+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "0523dab99cc6a7cf1c6c3b540e3bde73d3c8920af70f9ba402c20868c9c91831:0",
+        "bytes": 194511,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11707,
+  "usage": {
+    "input_tokens": 43486,
+    "output_tokens": 1669,
+    "cost_usd": 0.054293400000000006
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Park Lane Rooms",
+        "confidence": 0.98,
+        "source_snippet": "PARK LANE ROOMS"
+      },
+      "vendor_gstin": {
+        "value": "19PEFFP8039X1ZC",
+        "confidence": 0.85,
+        "source_snippet": "GSTIN: 19PEFFP8039X1ZC"
+      },
+      "invoice_number": {
+        "value": "PL-61060",
+        "confidence": 0.97,
+        "source_snippet": "Folio No: PL-61060"
+      },
+      "date": {
+        "value": "2026-10-05",
+        "confidence": 0.95,
+        "source_snippet": "Bill Date: 05/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 4200,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 4,200.00"
+      },
+      "tax_amount": {
+        "value": 504,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 252.00 / SGST @ 6% 252.00"
+      },
+      "total_amount": {
+        "value": 4704,
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR) 4,704.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.95,
+        "source_snippet": "Settlement: UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Kolkata",
+        "confidence": 0.8,
+        "source_snippet": "Camac Street, Kolkata 700015"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.8,
+        "source_snippet": "Room Tariff - Superior"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.85,
+        "source_snippet": "PARK LANE ROOMS"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited",
+        "confidence": 0.9,
+        "source_snippet": "Company: Jio Platforms Limited"
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Superior",
+          "quantity": 1,
+          "unit_price": 4200,
+          "amount": 4200
+        }
+      ],
+      "raw_text": "PARK LANE ROOMS\nCamac Street, Kolkata 700015\nTel: +91 XXXXX XXX30\nGSTIN: 19PEFFP8039X1ZC\nGUEST FOLIO / TAX INVOICE\nFolio No: PL-61060    Bill Date: 05/10/2026\nGuest: K. Mehta    Room: 492 (Superior)\nArrival: 04/10/2026    Departure: 05/10/2026\nCompany: Jio Platforms Limited    Nights: 1  Pax: 1\nDate | Particulars | CGST | SGST | Amount\n04/10/26 | Room Tariff - Superior | 252.00 | 252.00 | 4,200.00\nTaxable Value 4,200.00\nCGST @ 6% 252.00\nSGST @ 6% 252.00\nTOTAL (INR) 4,704.00\nLess: Settlement (4,704.00)\nBalance 0.00\nSettlement: UPI (PayNow)\nGuest Signature ____    Cashier ____\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Park Lane Rooms\", \"confidence\": 0.98, \"source_snippet\": \"PARK LANE ROOMS\"}, \"vendor_gstin\": {\"value\": \"19PEFFP8039X1ZC\", \"confidence\": 0.85, \"source_snippet\": \"GSTIN: 19PEFFP8039X1ZC\"}, \"invoice_number\": {\"value\": \"PL-61060\", \"confidence\": 0.97, \"source_snippet\": \"Folio No: PL-61060\"}, \"date\": {\"value\": \"2026-10-05\", \"confidence\": 0.95, \"source_snippet\": \"Bill Date: 05/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 4200, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 4,200.00\"}, \"tax_amount\": {\"value\": 504, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 252.00 / SGST @ 6% 252.00\"}, \"total_amount\": {\"value\": 4704, \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR) 4,704.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.95, \"source_snippet\": \"Settlement: UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"city\": {\"value\": \"Kolkata\", \"confidence\": 0.8, \"source_snippet\": \"Camac Street, Kolkata 700015\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.8, \"source_snippet\": \"Room Tariff - Superior\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.85, \"source_snippet\": \"PARK LANE ROOMS\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited\", \"confidence\": 0.9, \"source_snippet\": \"Company: Jio Platforms Limited\"}, \"items\": [{\"description\": \"Room Tariff - Superior\", \"quantity\": 1, \"unit_price\": 4200, \"amount\": 4200}], \"raw_text\": \"PARK LANE ROOMS\\nCamac Street, Kolkata 700015\\nTel: +91 XXXXX XXX30\\nGSTIN: 19PEFFP8039X1ZC\\nGUEST FOLIO / TAX INVOICE\\nFolio No: PL-61060    Bill Date: 05/10/2026\\nGuest: K. Mehta    Room: 492 (Superior)\\nArrival: 04/10/2026    Departure: 05/10/2026\\nCompany: Jio Platforms Limited    Nights: 1  Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n04/10/26 | Room Tariff - Superior | 252.00 | 252.00 | 4,200.00\\nTaxable Value 4,200.00\\nCGST @ 6% 252.00\\nSGST @ 6% 252.00\\nTOTAL (INR) 4,704.00\\nLess: Settlement (4,704.00)\\nBalance 0.00\\nSettlement: UPI (PayNow)\\nGuest Signature ____    Cashier ____\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

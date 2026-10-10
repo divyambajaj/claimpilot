@@ -46,11 +46,14 @@ def canonical_city(city: str | None) -> str | None:
     return _CITY_ALIASES.get(key, city.strip().title())
 
 
-_HONORIFIC = re.compile(r"\b(?:mr|mrs|ms|miss|dr|shri|smt|kum)\b\.?", re.IGNORECASE)
+# titles and company suffixes say nothing about who paid
+_NOISE = re.compile(
+    r"\b(?:mr|mrs|ms|miss|dr|shri|smt|kum|m/s|pvt|private|ltd|limited|llp)\b\.?", re.IGNORECASE
+)
 
 
 def _name_tokens(name: str) -> list[str]:
-    name = _HONORIFIC.sub(" ", re.sub(r"\(.*?\)", " ", name))  # drop "(xx1234)" and titles
+    name = _NOISE.sub(" ", re.sub(r"\(.*?\)", " ", name))  # drop "(xx1234)" and titles
     return re.findall(r"[a-z]+", name.casefold())
 
 

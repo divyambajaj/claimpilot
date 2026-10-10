@@ -1,0 +1,137 @@
+{
+  "fingerprint": "0013b69f0a1bcbfb6c94fce3cd87e3a341d49aecec097d65e2687f3d4ca9999f",
+  "recorded_at": "2026-10-10T19:35:52.293255+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "259b3fc1aedf1b9bdd014db27baa440559b057a6ab8d17862c93b99d4fe9733b:0",
+        "bytes": 70185,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11583,
+  "usage": {
+    "input_tokens": 43221,
+    "output_tokens": 1810,
+    "cost_usd": 0.0546358
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.98,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Fort Stationery Mart",
+        "confidence": 0.99,
+        "source_snippet": "FORT STATIONERY MART"
+      },
+      "vendor_gstin": {
+        "value": "27GSLFH8241G1Z2",
+        "confidence": 0.95,
+        "source_snippet": "GSTIN: 27GSLFH8241G1Z2"
+      },
+      "invoice_number": {
+        "value": "FOR/26-27/526",
+        "confidence": 0.97,
+        "source_snippet": "Invoice No: FOR/26-27/526"
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.97,
+        "source_snippet": "Date: 06/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "Invoice Total (Rs.)"
+      },
+      "subtotal": {
+        "value": 6280,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 6,280.00"
+      },
+      "tax_amount": {
+        "value": 1130.4,
+        "confidence": 0.97,
+        "source_snippet": "CGST @ 9% 565.20 SGST @ 9% 565.20"
+      },
+      "total_amount": {
+        "value": 7410.4,
+        "confidence": 0.99,
+        "source_snippet": "Invoice Total (Rs.) 7,410.40"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.95,
+        "source_snippet": "Payment received: Card"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.9,
+        "source_snippet": "Mumbai 400081"
+      },
+      "category": {
+        "value": "office",
+        "confidence": 0.85,
+        "source_snippet": "Extension Board 4-way / A4 Copier Paper 75 GSM (ream) / Whiteboard 4x3 ft"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.95,
+        "source_snippet": "FORT STATIONERY MART"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited (walk-in)",
+        "confidence": 0.93,
+        "source_snippet": "Bill to: Jio Platforms Limited (walk-in)"
+      },
+      "items": [
+        {
+          "description": "Extension Board 4-way",
+          "quantity": 3,
+          "unit_price": 560,
+          "amount": 1680
+        },
+        {
+          "description": "A4 Copier Paper 75 GSM (ream)",
+          "quantity": 8,
+          "unit_price": 250,
+          "amount": 2000
+        },
+        {
+          "description": "Whiteboard 4x3 ft",
+          "quantity": 1,
+          "unit_price": 2600,
+          "amount": 2600
+        }
+      ],
+      "raw_text": "FORT STATIONERY MART\nTAX INVOICE\nPerin Nariman Street, Fort\nMumbai 400081 | Ph XXXXXXXX89\nInvoice No: FOR/26-27/526\nDate: 06/10/2026\nGSTIN: 27GSLFH8241G1Z2\nBill to: Jio Platforms Limited (walk-in)\nPlace of supply: Maharashtra (27)\n# Description HSN Qty Rate Amount\n1 Extension Board 4-way 8536 3 560.00 1,680.00\n2 A4 Copier Paper 75 GSM (ream) 4802 8 250.00 2,000.00\n3 Whiteboard 4x3 ft 9610 1 2,600.00 2,600.00\nTaxable Value 6,280.00\nCGST @ 9% 565.20\nSGST @ 9% 565.20\nInvoice Total (Rs.) 7,410.40\nAmount in words: Rupees Seven Thousand Four Hundred Ten and Forty Paise Only\nPayment received: Card\nE. & O.E.\nFor Fort Stationery Mart\nAuthorised Signatory",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.98, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Fort Stationery Mart\", \"confidence\": 0.99, \"source_snippet\": \"FORT STATIONERY MART\"}, \"vendor_gstin\": {\"value\": \"27GSLFH8241G1Z2\", \"confidence\": 0.95, \"source_snippet\": \"GSTIN: 27GSLFH8241G1Z2\"}, \"invoice_number\": {\"value\": \"FOR/26-27/526\", \"confidence\": 0.97, \"source_snippet\": \"Invoice No: FOR/26-27/526\"}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.97, \"source_snippet\": \"Date: 06/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"Invoice Total (Rs.)\"}, \"subtotal\": {\"value\": 6280, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 6,280.00\"}, \"tax_amount\": {\"value\": 1130.4, \"confidence\": 0.97, \"source_snippet\": \"CGST @ 9% 565.20 SGST @ 9% 565.20\"}, \"total_amount\": {\"value\": 7410.4, \"confidence\": 0.99, \"source_snippet\": \"Invoice Total (Rs.) 7,410.40\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.95, \"source_snippet\": \"Payment received: Card\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.9, \"source_snippet\": \"Mumbai 400081\"}, \"category\": {\"value\": \"office\", \"confidence\": 0.85, \"source_snippet\": \"Extension Board 4-way / A4 Copier Paper 75 GSM (ream) / Whiteboard 4x3 ft\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.95, \"source_snippet\": \"FORT STATIONERY MART\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited (walk-in)\", \"confidence\": 0.93, \"source_snippet\": \"Bill to: Jio Platforms Limited (walk-in)\"}, \"items\": [{\"description\": \"Extension Board 4-way\", \"quantity\": 3, \"unit_price\": 560, \"amount\": 1680}, {\"description\": \"A4 Copier Paper 75 GSM (ream)\", \"quantity\": 8, \"unit_price\": 250, \"amount\": 2000}, {\"description\": \"Whiteboard 4x3 ft\", \"quantity\": 1, \"unit_price\": 2600, \"amount\": 2600}], \"raw_text\": \"FORT STATIONERY MART\\nTAX INVOICE\\nPerin Nariman Street, Fort\\nMumbai 400081 | Ph XXXXXXXX89\\nInvoice No: FOR/26-27/526\\nDate: 06/10/2026\\nGSTIN: 27GSLFH8241G1Z2\\nBill to: Jio Platforms Limited (walk-in)\\nPlace of supply: Maharashtra (27)\\n# Description HSN Qty Rate Amount\\n1 Extension Board 4-way 8536 3 560.00 1,680.00\\n2 A4 Copier Paper 75 GSM (ream) 4802 8 250.00 2,000.00\\n3 Whiteboard 4x3 ft 9610 1 2,600.00 2,600.00\\nTaxable Value 6,280.00\\nCGST @ 9% 565.20\\nSGST @ 9% 565.20\\nInvoice Total (Rs.) 7,410.40\\nAmount in words: Rupees Seven Thousand Four Hundred Ten and Forty Paise Only\\nPayment received: Card\\nE. & O.E.\\nFor Fort Stationery Mart\\nAuthorised Signatory\", \"quality\": \"good\"}"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "fingerprint": "b46df723e0b0dda103b2d7eb7be0515806c13402b9d37678b449d2d17474058d",
+  "recorded_at": "2026-10-10T19:37:25.918410+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v3",
+    "schema_sha256": "07d63df4bd206d82cb7d71c0eaaa4c88d62d3af1e63ec7a2f837866bc153b7d7",
+    "text_sha256": "407ea2af3c8b6bf4a1b269007df86ba422a129b746e3745ad4e3573fa16cc5e2",
+    "images": [
+      {
+        "id": "a4907ebf51c8a488a0db0874ce05581c3b56a4d620129063755c0dc1ef2157c9:0",
+        "bytes": 75454,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10755,
+  "usage": {
+    "input_tokens": 43472,
+    "output_tokens": 1647,
+    "cost_usd": 0.0540402
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Seabreeze Suites",
+        "confidence": 0.98,
+        "source_snippet": "SEABREEZE SUITES"
+      },
+      "vendor_gstin": {
+        "value": "33GJRFL1977M1ZX",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN: 33GJRFL1977M1ZX"
+      },
+      "invoice_number": {
+        "value": "SS-68470",
+        "confidence": 0.98,
+        "source_snippet": "Folio No: SS-68470"
+      },
+      "date": {
+        "value": "2026-09-23",
+        "confidence": 0.95,
+        "source_snippet": "Bill Date: 23/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 7000,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 7,000.00"
+      },
+      "tax_amount": {
+        "value": 840,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 420.00 SGST @ 6% 420.00"
+      },
+      "total_amount": {
+        "value": 7840,
+        "confidence": 0.99,
+        "source_snippet": "TOTAL (INR) 7,840.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.95,
+        "source_snippet": "Settlement: UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Chennai",
+        "confidence": 0.85,
+        "source_snippet": "ECR, Neelankarai, Chennai 600017"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.9,
+        "source_snippet": "Room Tariff - Superior"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_type": {
+        "value": "merchant",
+        "confidence": 0.9,
+        "source_snippet": "SEABREEZE SUITES"
+      },
+      "payer_name": {
+        "value": "Jio Platforms Limited",
+        "confidence": 0.9,
+        "source_snippet": "Company: Jio Platforms Limited"
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Superior",
+          "quantity": 1,
+          "unit_price": 7000,
+          "amount": 7000
+        }
+      ],
+      "raw_text": "SEABREEZE SUITES\nECR, Neelankarai, Chennai 600017\nTel: +91 XXXXX XXX86\nGSTIN: 33GJRFL1977M1ZX\nGUEST FOLIO / TAX INVOICE\nFolio No: SS-68470 Bill Date: 23/09/2026\nGuest: K. Mehta Room: 188 (Superior)\nArrival: 22/09/2026 Departure: 23/09/2026\nCompany: Jio Platforms Limited Nights: 1 Pax: 1\nDate Particulars CGST SGST Amount\n22/09/26 Room Tariff - Superior 420.00 420.00 7,000.00\nTaxable Value 7,000.00\nCGST @ 6% 420.00\nSGST @ 6% 420.00\nTOTAL (INR) 7,840.00\nLess: Settlement (7,840.00)\nBalance 0.00\nSettlement: UPI (PayNow)\nGuest Signature Cashier\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Seabreeze Suites\", \"confidence\": 0.98, \"source_snippet\": \"SEABREEZE SUITES\"}, \"vendor_gstin\": {\"value\": \"33GJRFL1977M1ZX\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN: 33GJRFL1977M1ZX\"}, \"invoice_number\": {\"value\": \"SS-68470\", \"confidence\": 0.98, \"source_snippet\": \"Folio No: SS-68470\"}, \"date\": {\"value\": \"2026-09-23\", \"confidence\": 0.95, \"source_snippet\": \"Bill Date: 23/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 7000, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 7,000.00\"}, \"tax_amount\": {\"value\": 840, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 420.00 SGST @ 6% 420.00\"}, \"total_amount\": {\"value\": 7840, \"confidence\": 0.99, \"source_snippet\": \"TOTAL (INR) 7,840.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.95, \"source_snippet\": \"Settlement: UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Chennai\", \"confidence\": 0.85, \"source_snippet\": \"ECR, Neelankarai, Chennai 600017\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.9, \"source_snippet\": \"Room Tariff - Superior\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_type\": {\"value\": \"merchant\", \"confidence\": 0.9, \"source_snippet\": \"SEABREEZE SUITES\"}, \"payer_name\": {\"value\": \"Jio Platforms Limited\", \"confidence\": 0.9, \"source_snippet\": \"Company: Jio Platforms Limited\"}, \"items\": [{\"description\": \"Room Tariff - Superior\", \"quantity\": 1, \"unit_price\": 7000, \"amount\": 7000}], \"raw_text\": \"SEABREEZE SUITES\\nECR, Neelankarai, Chennai 600017\\nTel: +91 XXXXX XXX86\\nGSTIN: 33GJRFL1977M1ZX\\nGUEST FOLIO / TAX INVOICE\\nFolio No: SS-68470 Bill Date: 23/09/2026\\nGuest: K. Mehta Room: 188 (Superior)\\nArrival: 22/09/2026 Departure: 23/09/2026\\nCompany: Jio Platforms Limited Nights: 1 Pax: 1\\nDate Particulars CGST SGST Amount\\n22/09/26 Room Tariff - Superior 420.00 420.00 7,000.00\\nTaxable Value 7,000.00\\nCGST @ 6% 420.00\\nSGST @ 6% 420.00\\nTOTAL (INR) 7,840.00\\nLess: Settlement (7,840.00)\\nBalance 0.00\\nSettlement: UPI (PayNow)\\nGuest Signature Cashier\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

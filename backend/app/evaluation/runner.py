@@ -96,6 +96,8 @@ async def run_eval(
     created_at: dt.datetime | None = None,
 ) -> EvalRun:
     manifest, rows = load_fixtures(fixtures_dir)
+    if manifest.get("employee_name"):  # the receipts are printed for this claimant, whatever .env says
+        settings = settings.model_copy(update={"EMPLOYEE_NAME": manifest["employee_name"]})
     claims = [c for c in manifest["claims"] if subset == "full" or c["smoke"]]
     total = sum(len(c["fixtures"]) for c in claims)
     now = dt.datetime.combine(dt.date.fromisoformat(manifest["eval_date"]), dt.time(12))
