@@ -1,0 +1,22 @@
+{
+  "restaurant_chaiwala_mumbai.png": {
+    "title": "Team dinner, Mumbai",
+    "note": "Per-person meal above cap"
+  },
+  "hotel_harbourview_bengaluru.png": {
+    "title": "Hotel folio, Bengaluru",
+    "note": "Above metro lodging cap"
+  },
+  "upi_paynow_harbourview.png": {
+    "title": "UPI payment for the hotel",
+    "note": "Links to the hotel folio"
+  },
+  "ride_rydego_pune.png": {
+    "title": "Cab ride, Pune",
+    "note": "Clean, auto-completes"
+  },
+  "stationery_inkwell_delhi.png": {
+    "title": "Office supplies, Delhi",
+    "note": "GSTIN fails checksum"
+  }
+}

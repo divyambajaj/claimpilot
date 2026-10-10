@@ -1,0 +1,115 @@
+{
+  "fingerprint": "c21c0838b63fada5787b9f526ad7c004cd0f553808727faafd0d6db68d1ec94b",
+  "recorded_at": "2026-10-10T14:00:52.493231+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "592c508d739f12b1acc83a64ce06c5a89fc6e56913f3b800bc87dc78c4e191fa:0",
+        "bytes": 58623,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10954,
+  "usage": {
+    "input_tokens": 38699,
+    "output_tokens": 1410,
+    "cost_usd": 0.042074400000000005
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Harbourview Residency",
+        "confidence": 0.98,
+        "source_snippet": "HARBOURVIEW RESIDENCY"
+      },
+      "vendor_gstin": {
+        "value": "29AADFH7310K1ZA",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN: 29AADFH7310K1ZA"
+      },
+      "invoice_number": {
+        "value": "HR-88213",
+        "confidence": 0.95,
+        "source_snippet": "Folio No: HR-88213"
+      },
+      "date": {
+        "value": "2026-10-05",
+        "confidence": 0.95,
+        "source_snippet": "Date: 05/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 7200,
+        "confidence": 0.97,
+        "source_snippet": "Taxable Value 7,200.00"
+      },
+      "tax_amount": {
+        "value": 864,
+        "confidence": 0.96,
+        "source_snippet": "CGST @ 6% 432.00 SGST @ 6% 432.00"
+      },
+      "total_amount": {
+        "value": 8064,
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR) 8,064.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.9,
+        "source_snippet": "Settlement: UPI"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Bengaluru",
+        "confidence": 0.95,
+        "source_snippet": "14 Residency Road, Bengaluru 560025"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.97,
+        "source_snippet": "Room Tariff (1 night, Deluxe)"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Room Tariff (1 night, Deluxe)",
+          "quantity": 1,
+          "unit_price": 7200,
+          "amount": 7200
+        }
+      ],
+      "raw_text": "HARBOURVIEW RESIDENCY\n14 Residency Road, Bengaluru 560025\nGSTIN: 29AADFH7310K1ZA\nGUEST FOLIO / TAX INVOICE\nFolio No: HR-88213    Date: 05/10/2026\nGuest: A. Employee    Room 704\nArrival: 04/10/2026    Departure: 05/10/2026\nRoom Tariff (1 night, Deluxe)    7,200.00\nTaxable Value    7,200.00\nCGST @ 6%    432.00\nSGST @ 6%    432.00\nTOTAL (INR)    8,064.00\nSettlement: UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Harbourview Residency\", \"confidence\": 0.98, \"source_snippet\": \"HARBOURVIEW RESIDENCY\"}, \"vendor_gstin\": {\"value\": \"29AADFH7310K1ZA\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN: 29AADFH7310K1ZA\"}, \"invoice_number\": {\"value\": \"HR-88213\", \"confidence\": 0.95, \"source_snippet\": \"Folio No: HR-88213\"}, \"date\": {\"value\": \"2026-10-05\", \"confidence\": 0.95, \"source_snippet\": \"Date: 05/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 7200, \"confidence\": 0.97, \"source_snippet\": \"Taxable Value 7,200.00\"}, \"tax_amount\": {\"value\": 864, \"confidence\": 0.96, \"source_snippet\": \"CGST @ 6% 432.00 SGST @ 6% 432.00\"}, \"total_amount\": {\"value\": 8064, \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR) 8,064.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.9, \"source_snippet\": \"Settlement: UPI\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Bengaluru\", \"confidence\": 0.95, \"source_snippet\": \"14 Residency Road, Bengaluru 560025\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.97, \"source_snippet\": \"Room Tariff (1 night, Deluxe)\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"Room Tariff (1 night, Deluxe)\", \"quantity\": 1, \"unit_price\": 7200, \"amount\": 7200}], \"raw_text\": \"HARBOURVIEW RESIDENCY\\n14 Residency Road, Bengaluru 560025\\nGSTIN: 29AADFH7310K1ZA\\nGUEST FOLIO / TAX INVOICE\\nFolio No: HR-88213    Date: 05/10/2026\\nGuest: A. Employee    Room 704\\nArrival: 04/10/2026    Departure: 05/10/2026\\nRoom Tariff (1 night, Deluxe)    7,200.00\\nTaxable Value    7,200.00\\nCGST @ 6%    432.00\\nSGST @ 6%    432.00\\nTOTAL (INR)    8,064.00\\nSettlement: UPI\", \"quality\": \"good\"}"
+  }
+}
