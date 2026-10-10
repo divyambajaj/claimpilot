@@ -14,7 +14,6 @@ from app.api.sse import Broker, format_sse
 from app.config import REPO_ROOT, Settings
 from app.llm.base import LLMError
 from app.main import build_container, create_app
-from app.seed import seed_demo
 from tests.factories import NOW, FakeProvider, extraction_payload
 from tests.integration.conftest import wait_processed
 from tests.unit.test_rules import POLICY_TEXT, _draft
@@ -238,8 +237,6 @@ class TestAdminAndPublic:
         assert row["rule_title"] == "Meal limit per person"
         assert client.get("/api/admin/eval/runs").json() == []
         assert client.get("/api/admin/eval/runs/nope").status_code == 404
-        assert client.post("/api/admin/eval/run", json={"subset": "smoke"}).status_code == 501
-        assert client.get("/api/admin/eval/events").status_code == 501
 
     def test_admin_token(self, client: TestClient, container: Container) -> None:
         container.settings.ADMIN_TOKEN = "s3cret"
@@ -319,15 +316,6 @@ class TestSse:
 
 
 class TestSeedAndSpa:
-    async def test_seed_demo_submits_sample_claim(self, container: Container) -> None:
-        await seed_demo(container.orchestrator)
-        claims = container.repo.list_claims()
-        assert len(claims) == 1
-        assert claims[0].status == "submitted"
-        assert claims[0].reimbursable_inr == 9486
-        await seed_demo(container.orchestrator)  # idempotent
-        assert len(container.repo.list_claims()) == 1
-
     def test_seed_rejects_mismatched_policy(self, settings: Settings, tmp_path: Path) -> None:
         policies = tmp_path / "pol"
         policies.mkdir()

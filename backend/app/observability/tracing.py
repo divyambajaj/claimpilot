@@ -2,7 +2,7 @@
 
 import datetime as dt
 import uuid
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass, field
@@ -43,14 +43,15 @@ class SpanHandle:
 
 
 class Tracer:
-    def __init__(self, db: Database | None) -> None:
+    def __init__(self, db: Database | None, clock: Callable[[], dt.datetime] = utcnow) -> None:
         self.db = db
+        self.clock = clock  # the startup seed backdates its sample history
 
     def start_trace(self, kind: TraceKind, claim_id: str | None = None) -> str:
         trace_id = new_id("tr")
         if self.db is not None:
             with self.db.session() as s:
-                s.add(TraceRow(id=trace_id, claim_id=claim_id, kind=kind, created_at=utcnow()))
+                s.add(TraceRow(id=trace_id, claim_id=claim_id, kind=kind, created_at=self.clock()))
         return trace_id
 
     @contextmanager
@@ -79,7 +80,7 @@ class Tracer:
             trace_id=trace_id,
             parent_id=_current_span.get(),
             name=name,
-            start=utcnow(),
+            start=self.clock(),
             attributes=dict(attrs),
         )
         trace_token = _current_trace.set(trace_id)
@@ -107,7 +108,7 @@ class Tracer:
                     parent_id=h.parent_id,
                     name=h.name,
                     start=h.start,
-                    end=utcnow(),
+                    end=self.clock(),
                     status=h.status,
                     attributes=_jsonable(h.attributes),
                 )
