@@ -102,3 +102,55 @@ Status: PASS = worked as expected first time; FIXED = failed, fixed and re-verif
 - Replay runs are fast even with `REPLAY_DELAY_S`; the waterfall shows replay timings, with the recorded latency in each llm span (already labelled on the page).
 - Overview has no latency histogram chart although the API returns one (spec item, not a regression).
 - A failed (409) upload leaves an empty claim behind; harmless.
+
+# Pass 2: eligibility rules and the 13-receipt story
+
+Date: 11 Oct 2026. Build: `main` after `5719c29` (Jio Platforms rename, prompt v3, eligibility rules, PII masking, 13-receipt gallery). Run: `LLM_PROVIDER=replay SEED_DEMO=1 REPLAY_DELAY_S=1.5` on a fresh SQLite DB (port 8020 with a scratch `DATABASE_URL`, because :8000 was in use), driven in the built-in browser at 1440x900 and 375x812 with site data cleared before each run. `uv run pytest -q` (310 tests, 98.9% coverage), `make lint`, `npm run build` and the 27 frontend tests stay green.
+
+**Totals: 37 cases. 28 PASS, 7 FIXED, 2 NOTE, 0 open failures.**
+
+| Area | Case | Expected | Actual | Status | Fix commit |
+|---|---|---|---|---|---|
+| Chat | Gallery | 13 receipts, all pre-selected | "Add 13 to claim"; intro copy did not mention the transfer | FIXED | 78aac46 |
+| Chat | Progress | Visible per document | "Reading 13 documents", about 20 s; a single file read "Read 1 documents" | FIXED | 78aac46 ("Read 1 document") |
+| Chat | Summary | Counts and UPI note | "13 documents read. 1 needs a detail, 1 looks like a duplicate, 2 are blocked by policy, 1 needs a justification. The ₹5,824 UPI payment is attached …" | PASS | |
+| Claim | Totals before answers | ₹25,460.40 / ₹16,846.00 | Same; header "12 lines · 2 left out · 3 need attention" | PASS | |
+| Claim | UPI proof row | Under Harbourview, not counted | "Proof of payment ₹5,824.00 · UPI · ref 643616165652 · 6 Oct" | PASS | |
+| Claim | Stationery GST block | Excluded, invalid GSTIN | "Not reimbursable: … GSTIN missing or fails checksum" plus the VAL_GSTIN_INVALID note | PASS | |
+| Claim | Rohan Desai transfer | One clear reason | Red "Not reimbursable" line plus three bullet findings (P2P repeated, "Attach the bill", "business purpose") | FIXED | 39a4de9 (card shows one reason with Why?; the other checks sit under "Also noted" in the drawer) |
+| Claim | Blocked line actions | Optional remove only | No "Leave out of claim" on blocked lines | FIXED | 39a4de9 |
+| Claim | Duplicate ride | Flagged, question | Flagged with "5 Oct 2026" | PASS | |
+| Why | Meal cap | Rule, Jio §4.2 quote, evidence | "Meals are reimbursed up to INR 750 per person per meal." §4.2; "Reimbursed up to the limit: ₹3,000.00, ₹854.00 over." | PASS | |
+| Why | Receipt number | Same as the card | Drawer counted the nested UPI proof: transfer showed "#12", card "11" | FIXED | 39a4de9 |
+| Questions | Round 1 | Date, duplicate, meal justification | Answered (06/10/2026, "Same expense, drop it", justification): ₹16,204.00, "3 left out · 1 needs attention" | PASS | |
+| Questions | Round 2 | Fuel trip note, then ready | "Thanks. One more question…"; answer stored as "Purpose:" on the card; "All lines are complete. ₹16,204.00 reimbursable of ₹25,460.40 claimed." | PASS | |
+| Submit | Finance | Reference, then approved | "Submitted to Finance. Reference FIN-3672 …", ~20 s later "Finance approved FIN-3672 for ₹16,204.00." | PASS | |
+| Rules | Blocked line asks nothing | No questions on a blocked line | Planner still ran low-confidence (VOI) questions on blocked lines, e.g. category or payee on a salon payment | FIXED | 1908804 (+ test in `test_eligibility.py`) |
+| Rules | Standalone UPI screenshot | "Attach the bill …", linked when the bill arrives | Hotel UPI alone: "Attach the bill for this ₹5,824 payment to Harbourview Residency …" (plus city, category); adding the folio linked it, questions closed, "Ready to submit" | PASS | |
+| Rules | Trip note re-check | Fuel line completes | Completes after the answer, no model call | PASS | |
+| Rules | Business-purpose note | Re-check clears OTHER_NEEDS_BUSINESS_PURPOSE | No unblocked "other" line in the gallery; covered by `test_eligibility.py::test_bill_and_trip_note_answers` and `test_other_needs_purpose_and_payer_check` | NOTE | |
+| Rules | Not-reimbursable copy | Clear and calm | "₹350 was sent to a person (Rohan Desai), not paid to a business; person-to-person transfers are not reimbursed." | PASS | |
+| PII | Payee / payer display | Masked | "Paid to: Person · Rohan Desai"; popover snippet `r****.*****-2@okpaynow`; payer "K. Mehta (xx••••)" | PASS | |
+| Copy | "Acme" leftovers | None | None in UI, docs, seed data, policy or gallery images | PASS | |
+| Admin | Overview | Renders with new rules | 16 claims, 16 rules in "Violations by rule" incl. BILL_REQUIRED, P2P, PERSONAL, SPLIT | PASS | |
+| Admin | Answered justifications in stats/audit | Trip note visible as resolved | FUEL_TRIP_NOTE / OTHER_NEEDS_BUSINESS_PURPOSE stop firing once `business_purpose` is set, so they vanish from Overview counts and the audit trail (the purpose stays on the line) | NOTE | |
+| Admin | Traces | Waterfall, span attributes | Upload trace 91 spans, attributes below | PASS | |
+| Admin | Audit | New rules with citations | 71 findings; §3.1, §6.3, §2.1 quotes | PASS | |
+| Admin | Eval history | v1/v2/v3 sensible | v3 (68 receipts) showed "+0.003 vs previous" against v2 on the 61-receipt snapshot | FIXED | 78aac46 (deltas only within one fixture set; "Receipts" column in the comparison table) |
+| Admin | Smoke run | Runs, gate | 13 receipts, ~20 s, "Gate passed" | PASS | |
+| Admin | Policy | Jio policy, disclaimer, new rules verified | First line is the disclaimer; 20 rules, every `citation_verified` true; "19 of 83 sentences produced a rule"; hover highlights the sentence | PASS | |
+| Regression | Refresh mid-claim | Resumes | "Picked up 'Expenses 10 Oct 2026' where you left it." | PASS | |
+| Regression | Second visitor | No cross-visitor duplicates | Fresh browser id; hotel folio and UPI not flagged | PASS | |
+| Regression | Non-recorded upload | 409 message | "This file is not in the recorded demo set …" | PASS | |
+| Regression | Wrong type / over 10 MB | Reason shown | "Added 1 file · 2 skipped (images or PDFs up to 10 MB, 10 at a time)" | PASS | |
+| Regression | Field popover | Snippet, confidence | Shown, inside the mobile sheet too | PASS | |
+| Regression | Mobile bar and sheet | Totals, sheet opens | "12 lines · Reimbursable ₹16,846.00 · Needs info · View claim"; sheet scrolls | PASS | |
+| Regression | 375 px layout | No horizontal scroll | scrollWidth 375 | PASS | |
+| Regression | Drawer close | Escape closes | Works | PASS | |
+| Regression | Keyboard in justification box | Enter | Enter adds a newline in the textarea (Send answers button submits) | PASS | |
+
+## Not changed (pass 2)
+
+- The run picker, comparison table and llm span attributes show the recorded model name; CLAUDE.md keeps docs provider-neutral, the UI was left as is.
+- Times use the UTC calendar day pinned to `DEMO_TODAY`; after 18:30 UTC (midnight IST) the claim is titled "10 Oct" while times read "11 Oct". Record in the IST daytime.
+- Answered trip notes and business purposes are not kept as resolved findings (see the NOTE above); changing that means changing the rule conditions and the eval ground truth.
