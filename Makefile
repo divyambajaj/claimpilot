@@ -1,4 +1,4 @@
-.PHONY: install dev backend frontend test lint fmt eval eval-live eval-baseline synth record-demo build serve
+.PHONY: install dev backend frontend test lint fmt eval eval-live eval-baseline synth record-demo build serve docker-build docker-run
 
 PY := PYTHONPATH=backend uv run
 UVICORN := uv run uvicorn app.main:app --app-dir backend
@@ -59,3 +59,9 @@ serve:
 	npm --prefix frontend ci
 	npm --prefix frontend run build
 	$(UVICORN) --port 8000
+
+docker-build:
+	docker build -t claimpilot .
+
+docker-run:
+	docker run --rm -p 8000:8000 claimpilot
