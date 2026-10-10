@@ -162,6 +162,7 @@ class Claim(BaseModel):
     questions_asked: int = 0
     answers_received: int = 0
     processing: int = 0
+    documents: list[Document] = Field(default_factory=list)  # filled on read, not stored in the payload
 
 
 class Span(BaseModel):

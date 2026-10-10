@@ -1,10 +1,10 @@
 """Render the curated demo receipts (fictional vendors, checksum-valid GSTINs) into data/demo_receipts/.
 
+The gallery metadata lives in data/demo_receipts/manifest.json (edited by hand).
 Run explicitly: `uv run python backend/scripts/make_demo_receipts.py`. Committed outputs are what replay
 fingerprints point at, so do not regenerate them casually.
 """
 
-import json
 import sys
 from pathlib import Path
 
@@ -141,23 +141,6 @@ def main() -> None:
     }
     for name, lines in receipts.items():
         render(lines, OUT / name)
-    meta = {
-        "restaurant_chaiwala_mumbai.png": {
-            "title": "Team dinner, Mumbai",
-            "note": "Per-person meal above cap",
-        },
-        "hotel_harbourview_bengaluru.png": {
-            "title": "Hotel folio, Bengaluru",
-            "note": "Above metro lodging cap",
-        },
-        "upi_paynow_harbourview.png": {
-            "title": "UPI payment for the hotel",
-            "note": "Links to the hotel folio",
-        },
-        "ride_rydego_pune.png": {"title": "Cab ride, Pune", "note": "Clean, auto-completes"},
-        "stationery_inkwell_delhi.png": {"title": "Office supplies, Delhi", "note": "GSTIN fails checksum"},
-    }
-    (OUT / "manifest.json").write_text(json.dumps(meta, indent=2) + "\n")
     print(f"wrote {len(receipts)} receipts to {OUT}")
 
 

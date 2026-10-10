@@ -14,6 +14,9 @@ class ReplayProvider:
         self.replay_dir = replay_dir
         self.model = "recorded"
 
+    def has(self, req: LLMRequest) -> bool:
+        return (self.replay_dir / f"{req.fingerprint()}.json").exists()
+
     async def complete_structured(self, req: LLMRequest) -> LLMResponse:
         fp = req.fingerprint()
         path = self.replay_dir / f"{fp}.json"

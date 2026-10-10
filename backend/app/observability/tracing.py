@@ -72,7 +72,7 @@ class Tracer:
             _current_trace.reset(token)
 
     @contextmanager
-    def span(self, name: str, **attrs: Any) -> Iterator[SpanHandle]:
+    def span(self, name: str, /, **attrs: Any) -> Iterator[SpanHandle]:
         trace_id = _current_trace.get() or self.start_trace("claim")
         handle = SpanHandle(
             id=new_id("sp"),

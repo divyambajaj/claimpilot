@@ -41,7 +41,7 @@ class Repo:
 
     # --- claims -----------------------------------------------------------------------------------
     def save_claim(self, claim: Claim) -> None:
-        payload = claim.model_dump(mode="json", exclude={"lines"})
+        payload = claim.model_dump(mode="json", exclude={"lines", "documents"})
         with self.db.session() as s:
             row = s.get(ClaimRow, claim.id)
             if row is None:
@@ -72,7 +72,10 @@ class Repo:
             lines = s.scalars(
                 select(LineItemRow).where(LineItemRow.claim_id == claim_id).order_by(LineItemRow.position)
             ).all()
-            return Claim.model_validate({**row.payload, "lines": [lr.payload for lr in lines]})
+            docs = s.scalars(select(DocumentRow).where(DocumentRow.claim_id == claim_id)).all()
+            return Claim.model_validate(
+                {**row.payload, "lines": [lr.payload for lr in lines], "documents": [d.payload for d in docs]}
+            )
 
     def list_claims(self, user_id: str | None = None) -> list[Claim]:
         with self.db.session() as s:

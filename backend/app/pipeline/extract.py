@@ -149,7 +149,7 @@ _ENUMS = {
 }
 
 
-def _normalize_field(name: str, raw: Any) -> dict[str, Any]:
+def normalize_field(name: str, raw: Any) -> dict[str, Any]:
     if not isinstance(raw, dict):
         raw = {"value": raw, "confidence": 0.5 if raw is not None else 0.0}
     value, conf = raw.get("value"), _clamp_conf(raw.get("confidence"))
@@ -184,7 +184,7 @@ def _normalize_field(name: str, raw: Any) -> dict[str, Any]:
 
 def normalize_extraction(raw: dict[str, Any]) -> dict[str, Any]:
     """Coerce provider output into the `ExtractedReceipt` shape; missing fields become null/0-confidence."""
-    out: dict[str, Any] = {name: _normalize_field(name, raw.get(name)) for name in EXTRACTED_FIELD_NAMES}
+    out: dict[str, Any] = {name: normalize_field(name, raw.get(name)) for name in EXTRACTED_FIELD_NAMES}
     items = raw.get("items") or []
     out["items"] = [
         {

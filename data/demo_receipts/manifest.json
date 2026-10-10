@@ -1,22 +1,7 @@
 {
-  "restaurant_chaiwala_mumbai.png": {
-    "title": "Team dinner, Mumbai",
-    "note": "Per-person meal above cap"
-  },
-  "hotel_harbourview_bengaluru.png": {
-    "title": "Hotel folio, Bengaluru",
-    "note": "Above metro lodging cap"
-  },
-  "upi_paynow_harbourview.png": {
-    "title": "UPI payment for the hotel",
-    "note": "Links to the hotel folio"
-  },
-  "ride_rydego_pune.png": {
-    "title": "Cab ride, Pune",
-    "note": "Clean, auto-completes"
-  },
-  "stationery_inkwell_delhi.png": {
-    "title": "Office supplies, Delhi",
-    "note": "GSTIN fails checksum"
-  }
+  "restaurant_chaiwala_mumbai.png": {"title": "Team dinner, Chaiwala Corner", "doc_type": "invoice", "description": "GST restaurant bill, 4 covers, Mumbai", "amount_inr": 3780},
+  "hotel_harbourview_bengaluru.png": {"title": "Hotel folio, Harbourview Residency", "doc_type": "hotel_folio", "description": "One night in Bengaluru, paid by UPI", "amount_inr": 8064},
+  "upi_paynow_harbourview.png": {"title": "UPI payment, Harbourview Residency", "doc_type": "upi_screenshot", "description": "Payment screenshot for the hotel folio", "amount_inr": 8064},
+  "ride_rydego_pune.png": {"title": "Cab ride, RydeGo", "doc_type": "ride_receipt", "description": "Ride receipt, Pune", "amount_inr": 486},
+  "stationery_inkwell_delhi.png": {"title": "Office supplies, Inkwell Stationers", "doc_type": "invoice", "description": "Tax invoice, Delhi, paid in cash", "amount_inr": 6490}
 }

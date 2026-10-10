@@ -39,6 +39,10 @@ def canonical_city(city: str | None) -> str | None:
     return _CITY_ALIASES.get(key, city.strip().title())
 
 
+def _plain(value: Any) -> Any:
+    return getattr(value, "value", value)
+
+
 def line_facts(line: LineItem, today: dt.date) -> dict[str, Any]:
     r = line.extracted
     date = r.date.value
@@ -49,11 +53,11 @@ def line_facts(line: LineItem, today: dt.date) -> dict[str, Any]:
         "date": date,
         "vendor_gstin": r.vendor_gstin.value,
         "vendor_gstin_valid": is_valid_gstin(r.vendor_gstin.value),
-        "payment_method": r.payment_method.value.value if r.payment_method.value else None,
+        "payment_method": _plain(r.payment_method.value),
         "has_proof_of_payment": line.has_proof_of_payment,
         "attendees_count": attendees,
         "city": canonical_city(r.city.value),
-        "doc_type": r.doc_type.value.value if r.doc_type.value else None,
+        "doc_type": _plain(r.doc_type.value),
         "days_since_expense": (today - date).days if date else None,
         "invoice_number": r.invoice_number.value,
         "is_weekend": date.weekday() >= 5 if date else None,

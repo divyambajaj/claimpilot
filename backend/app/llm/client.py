@@ -65,11 +65,9 @@ class LLMClient:
         self.prompts = prompts
         self.sleep = sleep
 
-    async def extract(
-        self, images: list[ImageInput], prompt_version: str | None = None
-    ) -> tuple[ExtractedReceipt, LLMResponse]:
+    def extract_request(self, images: list[ImageInput], prompt_version: str | None = None) -> LLMRequest:
         prompt = self.prompts.get("extract_receipt", prompt_version)
-        req = LLMRequest(
+        return LLMRequest(
             prompt_name=prompt.name,
             prompt_version=prompt.version,
             system=prompt.system,
@@ -77,6 +75,16 @@ class LLMClient:
             images=images,
             json_schema=extraction_schema(),
         )
+
+    def can_serve(self, images: list[ImageInput]) -> bool:
+        """False only when a replay provider has no recording for these images."""
+        has = getattr(self.provider, "has", None)
+        return has is None or has(self.extract_request(images))
+
+    async def extract(
+        self, images: list[ImageInput], prompt_version: str | None = None
+    ) -> tuple[ExtractedReceipt, LLMResponse]:
+        req = self.extract_request(images, prompt_version)
         core = req.model_copy(update={"json_schema": extraction_schema(core=True)})
         return await self._call(req, parse_extraction, fallback=core)
 
