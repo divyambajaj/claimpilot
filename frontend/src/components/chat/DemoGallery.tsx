@@ -51,7 +51,7 @@ export function DemoGallery({ open, receipts, onClose, onAdd }: Props) {
   return (
     <Drawer open={open} onClose={onClose} title="Sample receipts">
       <p className="text-sm text-ink-2">
-        Synthetic receipts, all fictional. They include a UPI screenshot that pays the hotel folio and an invoice with a mistyped GSTIN.
+        Synthetic receipts, all fictional. They include a UPI screenshot that pays the hotel folio, an invoice with a mistyped GSTIN and a UPI transfer to a colleague.
       </p>
       {!receipts ? (
         <div className="flex justify-center py-10"><Spinner /></div>

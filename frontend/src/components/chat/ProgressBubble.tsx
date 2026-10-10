@@ -1,5 +1,6 @@
 import { Check, X } from "lucide-react";
 import type { DocStage } from "../../types";
+import { pluralize } from "../../lib/format";
 
 export interface DocProgress {
   doc_id: string;
@@ -31,7 +32,7 @@ export function ProgressBubble({ docs }: { docs: DocProgress[] }) {
   return (
     <div className="card overflow-hidden">
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
-        <span className="text-sm text-ink">{done === docs.length ? `Read ${docs.length} documents` : `Reading ${docs.length} documents`}</span>
+        <span className="text-sm text-ink">{done === docs.length ? "Read" : "Reading"} {pluralize(docs.length, "document")}</span>
         <span className="mono text-xs text-ink-3">{done}/{docs.length}</span>
       </div>
       <ul className="divide-y divide-line">

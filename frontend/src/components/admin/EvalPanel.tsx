@@ -39,8 +39,8 @@ export function EvalPanel() {
   }, []);
 
   const run = runs?.find((r) => r.id === selId) ?? null;
-  // compare like with like: smoke and full runs score different fixture sets
-  const prev = runs && run ? runs.slice(runs.indexOf(run) + 1).find((r) => (r.subset ?? "full") === (run.subset ?? "full")) : undefined;
+  // compare like with like: smoke and full runs (and older fixture snapshots) score different sets
+  const prev = runs && run ? runs.slice(runs.indexOf(run) + 1).find((r) => (r.subset ?? "full") === (run.subset ?? "full") && r.n_receipts === run.n_receipts) : undefined;
   const subsetShown = run?.subset ?? "full";
   const comparison = useMemo(() => {
     const seen = new Map<string, EvalRun>();
@@ -178,10 +178,10 @@ export function EvalPanel() {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <ChartCard title="Provider comparison" note={`Latest ${subsetShown}-set run per provider, model and prompt version`}>
           <div className="-mx-4 overflow-x-auto">
-            <table className="w-full min-w-[560px] text-xs">
+            <table className="w-full min-w-[620px] text-xs">
               <thead className="text-ink-3">
                 <tr className="border-b border-line">
-                  {["Provider", "Prompt", "Field acc.", "ECE", "Dup recall", "p50", "$/receipt", "Gate"].map((h, i) => (
+                  {["Provider", "Prompt", "Receipts", "Field acc.", "ECE", "Dup recall", "p50", "$/receipt", "Gate"].map((h, i) => (
                     <th key={h} className={`px-4 py-1.5 font-medium ${i > 1 ? "text-right" : "text-left"}`}>{h}</th>
                   ))}
                 </tr>
@@ -189,13 +189,14 @@ export function EvalPanel() {
               <tbody className="divide-y divide-line">
                 {comparison.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-4 py-8 text-center text-ink-3">Each run adds a row here, so providers and prompt versions can be compared side by side.</td>
+                    <td colSpan={9} className="px-4 py-8 text-center text-ink-3">Each run adds a row here, so providers and prompt versions can be compared side by side.</td>
                   </tr>
                 )}
                 {comparison.map((r, i) => (
                   <tr key={r.id} className={r.id === selId ? "bg-accent-soft/50" : ""}>
                     <td className="px-4 py-2 text-ink">{r.provider} <span className="text-ink-3">/ {r.model}</span>{i === 0 && <span className="ml-2 text-2xs text-accent">best</span>}</td>
                     <td className="mono px-4 py-2 text-ink-2">{r.prompt_version}</td>
+                    <td className="mono px-4 py-2 text-right text-ink-2">{r.n_receipts}</td>
                     <td className="mono px-4 py-2 text-right text-ink">{formatPct(r.metrics.field_accuracy, 1)}</td>
                     <td className="mono px-4 py-2 text-right text-ink-2">{r.metrics.ece.toFixed(3)}</td>
                     <td className="mono px-4 py-2 text-right text-ink-2">{formatPct(r.metrics.dup_recall, 0)}</td>
