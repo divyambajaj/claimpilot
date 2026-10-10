@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "policy_id": "pol_9e7dbf482ead",
-  "policy_sha256": "9e7dbf482ead007f5142d0343cf91b0d92218fdfb31663a691fb9f53dbb53a8f",
+  "policy_id": "pol_ef41f87e67ba",
+  "policy_sha256": "ef41f87e67baca418f70000a44b3121173312be7dc74986e11dd7f32ab6e4648",
   "compiled_at": "2026-10-01T00:00:00",
   "compiler_prompt_version": "hand-authored",
   "provider": "hand-authored",
@@ -9,7 +9,8 @@
   "required_fields": {
     "any": [
       "date",
-      "amount_inr"
+      "amount_inr",
+      "vendor_name"
     ],
     "meals": [
       "attendees_count"
@@ -538,6 +539,347 @@
         "quote": "Office supplies bought on a weekend need a note from the manager explaining why they could not wait until a working day.",
         "char_start": 6704,
         "char_end": 6824,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "BILL_REQUIRED",
+      "title": "A payment confirmation is not a bill",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": "has_bill",
+        "op": "eq",
+        "value": false,
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_field",
+        "field": "bill",
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Attach the bill for this ₹{amount_inr} payment to {vendor_name}: a payment screenshot alone is not a bill.",
+      "confidence": 0.95,
+      "citation": {
+        "section": "3.1 Documentation",
+        "quote": "A payment confirmation on its own, such as a UPI success screen or a card slip, is not a bill.",
+        "char_start": 2865,
+        "char_end": 2959,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "P2P_TRANSFER_NOT_REIMBURSABLE",
+      "title": "Transfers to individuals are not reimbursed",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": "payee_type",
+        "op": "eq",
+        "value": "individual",
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "block",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "block",
+      "message_template": "₹{amount_inr} was sent to a person ({vendor_name}), not paid to a business; person-to-person transfers are not reimbursed.",
+      "confidence": 0.94,
+      "citation": {
+        "section": "6.3 Non-reimbursable items",
+        "quote": "Money transferred to an individual person (a person-to-person payment) is never reimbursed.",
+        "char_start": 7790,
+        "char_end": 7881,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "PERSONAL_EXPENSE_NOT_REIMBURSABLE",
+      "title": "Personal expenses are not reimbursed",
+      "category": "personal",
+      "scope": "line",
+      "when": {
+        "field": "category",
+        "op": "eq",
+        "value": "personal",
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "block",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "block",
+      "message_template": "Personal expense at {vendor_name}: grooming, personal shopping and entertainment are not reimbursed.",
+      "confidence": 0.92,
+      "citation": {
+        "section": "6.3 Non-reimbursable items",
+        "quote": "The following are never reimbursed: alcohol and tobacco, traffic and parking fines, personal entertainment, personal grooming such as salon and spa services, personal shopping",
+        "char_start": 7394,
+        "char_end": 7569,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "OTHER_NEEDS_BUSINESS_PURPOSE",
+      "title": "Business purpose for uncategorised expenses",
+      "category": "other",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "other",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "business_purpose",
+            "op": "is_null",
+            "value": null,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_justification",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "What was the business purpose of this ₹{amount_inr} expense at {vendor_name}?",
+      "confidence": 0.9,
+      "citation": {
+        "section": "2.1 Eligibility",
+        "quote": "An expense that does not fall into one of the categories in sections 4 to 6 must carry a short note explaining its business purpose.",
+        "char_start": 1230,
+        "char_end": 1362,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "FUEL_TRIP_NOTE",
+      "title": "Trip note for fuel",
+      "category": "fuel",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "fuel",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "business_purpose",
+            "op": "is_null",
+            "value": null,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_justification",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Fuel needs a trip note: which business trips was this ₹{amount_inr} of fuel for (purpose, date, places)?",
+      "confidence": 0.9,
+      "citation": {
+        "section": "4.4 Fuel",
+        "quote": "Every fuel claim must include the fuel station bill and a trip note stating the business purpose, the date and the places visited.",
+        "char_start": 5751,
+        "char_end": 5881,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "MOBILE_BILL_IN_EMPLOYEE_NAME",
+      "title": "Mobile bill in the employee's name",
+      "category": "internet_phone",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "internet_phone",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "payer_matches_employee",
+            "op": "ne",
+            "value": true,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_justification",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Mobile and internet bills must be in your name, and this one does not show that. Is the number registered to you?",
+      "confidence": 0.86,
+      "citation": {
+        "section": "6.2 Mobile and internet",
+        "quote": "The bill must be in the employee's name.",
+        "char_start": 7206,
+        "char_end": 7246,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "PAYER_NOT_EMPLOYEE",
+      "title": "Paid by someone else",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "payer_matches_employee",
+            "op": "eq",
+            "value": false,
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "category",
+            "op": "ne",
+            "value": "internet_phone",
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "flag",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Paid by or billed to {payer_name}, not you; only expenses you paid personally are reimbursed.",
+      "confidence": 0.84,
+      "citation": {
+        "section": "2.1 Eligibility",
+        "quote": "An expense is reimbursable only if it was incurred wholly and necessarily for Company business, was paid by the employee personally, and has not been reimbursed by anyone else.",
+        "char_start": 1013,
+        "char_end": 1189,
+        "citation_verified": true
+      }
+    },
+    {
+      "id": "SPLIT_BILL_SAME_VENDOR_DAY",
+      "title": "Bills split to stay under a limit",
+      "category": "any",
+      "scope": "vendor_day",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "line_count",
+            "op": "gte",
+            "value": 2,
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "amount_inr",
+            "op": "gte",
+            "value": 5000,
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "max_line_amount",
+            "op": "lt",
+            "value": 5000,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "flag",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "{line_count} bills from {vendor_name} on the same day total ₹{total_inr}, above the ₹5,000 GST invoice threshold that each one stays under.",
+      "confidence": 0.85,
+      "citation": {
+        "section": "3.3 Duplicate and split claims",
+        "quote": "Splitting a single expense across several bills or several claims to stay under a limit is not permitted.",
+        "char_start": 4022,
+        "char_end": 4127,
         "citation_verified": true
       }
     }

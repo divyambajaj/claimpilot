@@ -672,6 +672,8 @@ def plan() -> list[Fixture]:
 
     def add(claim: str, template: str, built, rules=(), scenario=(), **kw) -> Fixture:
         doc, fields, items = built
+        if fields.get("category") == "fuel":
+            rules = [*rules, "FUEL_TRIP_NOTE"]  # policy 4.4: every fuel bill needs a trip note
         f = Fixture(
             f"fx_{len(fx) + 1:03d}", claim, template, doc, fields, items, list(rules), list(scenario), **kw
         )

@@ -20,6 +20,7 @@ from app.llm.prompts.registry import PromptRegistry
 from app.llm.providers.replay import ReplayProvider
 from app.llm.recorder import Recorder, scrub
 from app.observability.tracing import Tracer
+from app.pipeline.extract import extraction_schema
 from tests.factories import FakeProvider, extraction_payload
 
 
@@ -118,8 +119,17 @@ class TestPromptRegistry:
     def test_shipped_prompts_load(self) -> None:
         reg = PromptRegistry()
         assert "verbatim" in reg.get("compile_policy").system
-        assert reg.get("extract_receipt").version == "v2"
-        assert reg.versions("extract_receipt") == ["v1", "v2"]
+        assert reg.get("extract_receipt").version == "v3"
+        assert reg.versions("extract_receipt") == ["v1", "v2", "v3"]
+
+    def test_schema_versions(self) -> None:
+        v1, v2 = extraction_schema(schema=1), extraction_schema(schema=2)
+        assert "payee_type" not in v1["properties"] and "payer_name" in v2["properties"]
+        assert "personal" not in v1["properties"]["category"]["properties"]["value"]["enum"]
+        assert (
+            "personal"
+            in extraction_schema(core=True, schema=2)["properties"]["category"]["properties"]["value"]["enum"]
+        )
 
 
 class TestClient:
@@ -136,7 +146,7 @@ class TestClient:
         spans = tracer.get_trace(trace_id).spans
         assert [s.name for s in spans] == ["llm"]
         assert spans[0].attributes["tokens_in"] == 100
-        assert spans[0].attributes["prompt_version"] == "v2"
+        assert spans[0].attributes["prompt_version"] == "v3"
 
     async def test_repair_then_core_fallback(self, make_client) -> None:
         provider = FakeProvider([{"bogus": 1}, MalformedOutputError("not json", "xx"), extraction_payload()])

@@ -31,6 +31,22 @@ describe("ClaimCard", () => {
     expect(within(proof).getByText(/428913765012/)).toBeInTheDocument();
   });
 
+  it("says why a blocked person-to-person transfer is not reimbursed", () => {
+    const base = makeLine({}, "paynow-6450");
+    const extracted = {
+      ...base.extracted,
+      vendor_name: { ...base.extracted.vendor_name, value: null },
+      payee_name: { ...base.extracted.payee_name, value: "Rohan Desai" },
+      payee_type: { value: "individual" as const, confidence: 0.95, origin: "llm" as const },
+    };
+    const msg = "₹2,800 was sent to a person (Rohan Desai), not paid to a business; person-to-person transfers are not reimbursed.";
+    const p2p = makeLine({ id: "p", status: "excluded", reimbursable_inr: 0, extracted, findings: [{ id: "p:P2P", kind: "policy", severity: "block", rule_id: "P2P_TRANSFER_NOT_REIMBURSABLE", message: msg, citation: null, evidence: {}, resolution: "open" }] });
+    render(<ClaimCard claim={makeClaim({ lines: [p2p] })} onSubmit={() => {}} onWhy={() => {}} />);
+    expect(screen.getByTestId("block-reason")).toHaveTextContent(`Not reimbursable: ${msg}`);
+    expect(screen.getByText("Rohan Desai")).toBeInTheDocument();
+    expect(screen.getByText("Person · Rohan Desai")).toBeInTheDocument();
+  });
+
   it("enables submit when ready and shows the finance reference after submission", async () => {
     const onSubmit = vi.fn();
     const ready = makeClaim({ status: "ready_to_submit", lines: [makeLine()], total_inr: 486, reimbursable_inr: 486 });

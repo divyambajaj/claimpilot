@@ -218,11 +218,141 @@ RULES = [
         "until a working day.",
         0.85,
     ),
+    rule(
+        "BILL_REQUIRED",
+        "A payment confirmation is not a bill",
+        "any",
+        {"field": "has_bill", "op": "eq", "value": False},
+        {"type": "require_field", "field": "bill"},
+        "warn",
+        "Attach the bill for this ₹{amount_inr} payment to {vendor_name}: a payment screenshot alone is not a bill.",
+        "3.1 Documentation",
+        "A payment confirmation on its own, such as a UPI success screen or a card slip, is not a bill.",
+        0.95,
+    ),
+    rule(
+        "P2P_TRANSFER_NOT_REIMBURSABLE",
+        "Transfers to individuals are not reimbursed",
+        "any",
+        {"field": "payee_type", "op": "eq", "value": "individual"},
+        {"type": "block"},
+        "block",
+        "₹{amount_inr} was sent to a person ({vendor_name}), not paid to a business; person-to-person "
+        "transfers are not reimbursed.",
+        "6.3 Non-reimbursable items",
+        "Money transferred to an individual person (a person-to-person payment) is never reimbursed.",
+        0.94,
+    ),
+    rule(
+        "PERSONAL_EXPENSE_NOT_REIMBURSABLE",
+        "Personal expenses are not reimbursed",
+        "personal",
+        {"field": "category", "op": "eq", "value": "personal"},
+        {"type": "block"},
+        "block",
+        "Personal expense at {vendor_name}: grooming, personal shopping and entertainment are not reimbursed.",
+        "6.3 Non-reimbursable items",
+        "The following are never reimbursed: alcohol and tobacco, traffic and parking fines, personal "
+        "entertainment, personal grooming such as salon and spa services, personal shopping",
+        0.92,
+    ),
+    rule(
+        "OTHER_NEEDS_BUSINESS_PURPOSE",
+        "Business purpose for uncategorised expenses",
+        "other",
+        {
+            "all": [
+                {"field": "category", "op": "eq", "value": "other"},
+                {"field": "business_purpose", "op": "is_null"},
+            ]
+        },
+        {"type": "require_justification"},
+        "warn",
+        "What was the business purpose of this ₹{amount_inr} expense at {vendor_name}?",
+        "2.1 Eligibility",
+        "An expense that does not fall into one of the categories in sections 4 to 6 must carry a short note "
+        "explaining its business purpose.",
+        0.9,
+    ),
+    rule(
+        "FUEL_TRIP_NOTE",
+        "Trip note for fuel",
+        "fuel",
+        {
+            "all": [
+                {"field": "category", "op": "eq", "value": "fuel"},
+                {"field": "business_purpose", "op": "is_null"},
+            ]
+        },
+        {"type": "require_justification"},
+        "warn",
+        "Fuel needs a trip note: which business trips was this ₹{amount_inr} of fuel for (purpose, date, places)?",
+        "4.4 Fuel",
+        "Every fuel claim must include the fuel station bill and a trip note stating the business purpose, the "
+        "date and the places visited.",
+        0.9,
+    ),
+    rule(
+        "MOBILE_BILL_IN_EMPLOYEE_NAME",
+        "Mobile bill in the employee's name",
+        "internet_phone",
+        {
+            "all": [
+                {"field": "category", "op": "eq", "value": "internet_phone"},
+                {"field": "payer_matches_employee", "op": "ne", "value": True},
+            ]
+        },
+        {"type": "require_justification"},
+        "warn",
+        "Mobile and internet bills must be in your name, and this one does not show that. Is the number "
+        "registered to you?",
+        "6.2 Mobile and internet",
+        "The bill must be in the employee's name.",
+        0.86,
+    ),
+    rule(
+        "PAYER_NOT_EMPLOYEE",
+        "Paid by someone else",
+        "any",
+        {
+            "all": [
+                {"field": "payer_matches_employee", "op": "eq", "value": False},
+                {"field": "category", "op": "ne", "value": "internet_phone"},
+            ]
+        },
+        {"type": "flag"},
+        "warn",
+        "Paid by or billed to {payer_name}, not you; only expenses you paid personally are reimbursed.",
+        "2.1 Eligibility",
+        "An expense is reimbursable only if it was incurred wholly and necessarily for Company business, was paid "
+        "by the employee personally, and has not been reimbursed by anyone else.",
+        0.84,
+    ),
+    rule(
+        "SPLIT_BILL_SAME_VENDOR_DAY",
+        "Bills split to stay under a limit",
+        "any",
+        {
+            "all": [
+                {"field": "line_count", "op": "gte", "value": 2},
+                {"field": "amount_inr", "op": "gte", "value": 5000},
+                {"field": "max_line_amount", "op": "lt", "value": 5000},
+            ]
+        },
+        {"type": "flag"},
+        "warn",
+        "{line_count} bills from {vendor_name} on the same day total ₹{total_inr}, above the ₹5,000 GST "
+        "invoice threshold that each one stays under.",
+        "3.3 Duplicate and split claims",
+        "Splitting a single expense across several bills or several claims to stay under a limit is not permitted.",
+        0.85,
+        scope="vendor_day",
+    ),
 ]
 
 DRAFT = {
     "required_fields": {
-        "any": ["date", "amount_inr"],
+        "any": ["date", "amount_inr", "vendor_name"],
         "meals": ["attendees_count"],
         "lodging": ["city"],
     },

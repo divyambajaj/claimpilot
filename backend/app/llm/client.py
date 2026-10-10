@@ -73,7 +73,7 @@ class LLMClient:
             system=prompt.system,
             user_text=prompt.render_user(),
             images=images,
-            json_schema=extraction_schema(),
+            json_schema=extraction_schema(schema=int(prompt.meta.get("schema", 1))),
         )
 
     def can_serve(self, images: list[ImageInput]) -> bool:
@@ -85,7 +85,8 @@ class LLMClient:
         self, images: list[ImageInput], prompt_version: str | None = None
     ) -> tuple[ExtractedReceipt, LLMResponse]:
         req = self.extract_request(images, prompt_version)
-        core = req.model_copy(update={"json_schema": extraction_schema(core=True)})
+        schema = int(self.prompts.get("extract_receipt", prompt_version).meta.get("schema", 1))
+        core = req.model_copy(update={"json_schema": extraction_schema(core=True, schema=schema)})
         return await self._call(req, parse_extraction, fallback=core)
 
     async def compile_policy(

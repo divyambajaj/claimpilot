@@ -1,4 +1,4 @@
-import type { Category, DocType, LineStatus, PaymentMethod } from "../types";
+import type { Category, DocType, LineStatus, PayeeType, PaymentMethod } from "../types";
 
 const inr2 = new Intl.NumberFormat("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const inr0 = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 });
@@ -53,7 +53,14 @@ export const CATEGORY_LABEL: Record<Category, string> = {
   fuel: "Fuel",
   office: "Office supplies",
   internet_phone: "Internet & phone",
+  personal: "Personal",
   other: "Other",
+};
+
+export const PAYEE_TYPE_LABEL: Record<PayeeType, string> = {
+  merchant: "Business",
+  individual: "Person",
+  unknown: "Unknown",
 };
 
 export const DOC_TYPE_LABEL: Record<DocType, string> = {

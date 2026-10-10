@@ -53,6 +53,12 @@ class Settings(BaseSettings):
     REPLAY_DELAY_S: float = 0.0  # pause per replayed LLM call, for recording the demo
     GIT_SHA: str | None = None
 
+    # Demo employee profile: the claimant every payer/billed-to name is checked against (policy 2.1, 6.2)
+    EMPLOYEE_NAME: str = "Kavya Mehta"
+    EMPLOYEE_GRADE: str = "M2"
+    EMPLOYEE_BASE_CITY: str = "Mumbai"
+    COMPANY_NAME: str = "Jio Platforms Limited"
+
     TAU: float = 0.75
     MAX_QUESTIONS_PER_ROUND: int = 3
     DEDUPE_WINDOW_DAYS: int = 90
@@ -63,6 +69,10 @@ class Settings(BaseSettings):
     MAX_FILES_PER_REQUEST: int = 10
 
     impact: ImpactParams = Field(default_factory=ImpactParams)
+
+    @property
+    def payer_names(self) -> tuple[str, ...]:
+        return tuple(n for n in (self.EMPLOYEE_NAME, self.COMPANY_NAME) if n)
 
     @property
     def uploads_dir(self) -> Path:

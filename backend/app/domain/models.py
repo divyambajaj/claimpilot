@@ -11,6 +11,7 @@ from app.domain.enums import (
     DocType,
     FindingKind,
     LineStatus,
+    PayeeType,
     PaymentMethod,
     Severity,
 )
@@ -60,6 +61,9 @@ class ExtractedReceipt(BaseModel):
     city: ExtractedField[str]
     category: ExtractedField[Category]
     attendees_count: ExtractedField[int]
+    # prompt v3+; defaults keep v1/v2 recordings and stored claims valid
+    payee_type: ExtractedField[PayeeType] = Field(default_factory=ExtractedField)
+    payer_name: ExtractedField[str] = Field(default_factory=ExtractedField)
     items: list[ReceiptItem] = Field(default_factory=list)
     raw_text: str = ""
     quality: Quality = "good"
@@ -129,6 +133,7 @@ class LineItem(BaseModel):
     assumed_fields: list[str] = Field(default_factory=list)
     error: str | None = None
     created_at: dt.datetime | None = None
+    business_purpose: str | None = None  # the user's note (trip note, purpose of an "other" expense)
 
 
 class Question(BaseModel):

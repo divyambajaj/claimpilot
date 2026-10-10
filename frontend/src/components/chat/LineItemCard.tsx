@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, CornerDownRight } from "lucide-react";
 import type { Finding, LineItem } from "../../types";
-import { CATEGORY_LABEL, DOC_TYPE_LABEL, PAYMENT_LABEL, formatDate, formatINR } from "../../lib/format";
+import { CATEGORY_LABEL, DOC_TYPE_LABEL, PAYEE_TYPE_LABEL, PAYMENT_LABEL, formatDate, formatINR } from "../../lib/format";
 import { Pill, SEVERITY_TONE, StatusPill } from "../ui";
 import { FieldChip } from "./FieldChip";
 
@@ -20,7 +20,9 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
   const x = line.extracted;
   const processing = line.status === "processing";
   const excluded = line.status === "excluded";
-  const blocked = line.findings.some((f) => f.severity === "block" && f.resolution === "open");
+  const blockFinding = line.findings.find((f) => f.severity === "block" && f.resolution === "open");
+  const blocked = Boolean(blockFinding);
+  const payment = x.doc_type.value === "upi_screenshot";
   const findings = line.findings.filter((f) => !(f.evidence.linked_to && f.severity === "info"));
   const capped = !excluded && line.reimbursable_inr < line.amount_inr;
   // a policy-blocked line keeps its fields visible so the user can correct the value that blocked it
@@ -46,7 +48,7 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
           <div className="flex items-center gap-2">
             <span className="mono w-4 shrink-0 text-2xs text-ink-3">{index}</span>
             <span className={`truncate text-sm font-medium ${excluded ? "text-ink-3 line-through decoration-ink-3/60" : "text-ink"}`}>
-              {x.vendor_name.value ?? "Unknown vendor"}
+              {x.vendor_name.value ?? x.payee_name.value ?? "Unknown vendor"}
             </span>
           </div>
           <div className="mt-0.5 pl-6 text-xs text-ink-3">
@@ -61,6 +63,12 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
         </div>
       </div>
 
+      {blockFinding && !line.user_excluded && (
+        <div className="mt-2 pl-6 text-xs text-bad" data-testid="block-reason">
+          Not reimbursable: {blockFinding.message}
+        </div>
+      )}
+
       {capped && (
         <div className="mt-2 pl-6 text-xs text-ink-2">
           Reimbursable <span className="mono text-ink">{formatINR(line.reimbursable_inr)}</span> of {formatINR(line.amount_inr)}
@@ -71,7 +79,9 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
         <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 pl-6 sm:grid-cols-3">
           <FieldChip label="Date" field={x.date} format={(v) => formatDate(v)} onEdit={edit("date")} inputType="date" />
           <FieldChip label="Total" field={x.total_amount} format={(v) => formatINR(v)} mono onEdit={edit("total_amount")} inputType="number" />
-          {line.category === "meals" ? (
+          {payment && x.payee_type ? (
+            <FieldChip label="Paid to" field={x.payee_type} format={(v) => `${PAYEE_TYPE_LABEL[v]}${x.payee_name.value ? ` · ${x.payee_name.value}` : ""}`} />
+          ) : line.category === "meals" ? (
             <FieldChip label="Attendees" field={x.attendees_count} onEdit={edit("attendees_count")} inputType="number" />
           ) : (
             <FieldChip label="Paid by" field={x.payment_method} format={(v) => PAYMENT_LABEL[v]} />
@@ -84,8 +94,16 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
               {line.category === "meals" && <FieldChip label="Paid by" field={x.payment_method} format={(v) => PAYMENT_LABEL[v]} />}
               <FieldChip label="City" field={x.city} onEdit={edit("city")} />
               <FieldChip label="Category" field={x.category} format={(v) => CATEGORY_LABEL[v]} />
+              {x.payer_name && <FieldChip label={payment ? "From" : "Billed to"} field={x.payer_name} onEdit={edit("payer_name")} />}
+              {payment && x.payee_type && <FieldChip label="Paid by" field={x.payment_method} format={(v) => PAYMENT_LABEL[v]} />}
             </>
           )}
+        </div>
+      )}
+
+      {line.business_purpose && (
+        <div className="mt-2 pl-6 text-xs text-ink-2">
+          <span className="text-ink-3">Purpose:</span> {line.business_purpose}
         </div>
       )}
 

@@ -28,6 +28,8 @@ _DEFAULTS: dict[str, Any] = {
     "city": "Mumbai",
     "category": "meals",
     "attendees_count": 2,
+    "payee_type": None,
+    "payer_name": None,
 }
 
 

@@ -63,7 +63,7 @@ class _Unit:
 def reassess(claim: Claim, ctx: PlanContext) -> Claim:
     """Validate -> rules -> plan -> statuses. Pure: no I/O, no LLM. Run after every change."""
     lines = [line.model_copy(deep=True) for line in claim.lines]
-    result = evaluate(lines, ctx.ruleset, ctx.today, ctx.prior_day_totals)
+    result = evaluate(lines, ctx.ruleset, ctx.today, ctx.prior_day_totals, ctx.payer_names)
     for line in lines:
         out = result.lines.get(line.id)
         if out is None:  # excluded/linked/error lines keep their findings (and resolutions) untouched
@@ -179,6 +179,7 @@ class Orchestrator:
             prior_day_totals=self.repo.prior_day_category_totals(claim.user_id, claim.id),
             tau=self.settings.TAU,
             max_questions=self.settings.MAX_QUESTIONS_PER_ROUND,
+            payer_names=self.settings.payer_names,
         )
 
     def _save(self, claim: Claim) -> Claim:
@@ -388,6 +389,11 @@ class Orchestrator:
                     claim = _resolve(
                         claim, line_id, lambda f, fid=q.finding_id: f.id == fid, "justified", text
                     )
+                    rule = self.ruleset().rule(q.field)
+                    if rule and "business_purpose" in rule.when.fields():  # trip note / purpose answers it
+                        claim = _replace(
+                            claim, _line(claim, line_id).model_copy(update={"business_purpose": text})
+                        )
             claim.answers_received += len(answers)
             return self._commit(claim)
 
@@ -423,6 +429,9 @@ class Orchestrator:
             return self._commit(claim)
 
     def _edit_field(self, claim: Claim, line_id: str, name: str, value: Any) -> Claim:
+        if name == "business_purpose":
+            note = str(value or "").strip() or None
+            return _replace(claim, _line(claim, line_id).model_copy(update={"business_purpose": note}))
         line, label = set_field(_line(claim, line_id), name, value, self.clock())
         if label:
             self.repo.add_label(label)
@@ -501,7 +510,8 @@ def _resolve(
 
 def _submission_line(line: LineItem) -> SubmissionLine:
     r = line.extracted
-    notes = [f.justification for f in line.findings if f.justification]
+    notes = [n for n in (line.business_purpose, *(f.justification for f in line.findings)) if n]
+    notes = list(dict.fromkeys(notes))
     return SubmissionLine(
         line_id=line.id,
         date=r.date.value,

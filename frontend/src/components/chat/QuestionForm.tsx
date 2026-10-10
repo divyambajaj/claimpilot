@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import type { AnswerIn, Question } from "../../types";
 import { Spinner } from "../ui";
-import { formatDate } from "../../lib/format";
+import { CATEGORY_LABEL, PAYEE_TYPE_LABEL, formatDate } from "../../lib/format";
 
 const NUMERIC = new Set(["attendees_count", "total_amount", "subtotal", "tax_amount", "amount_inr"]);
 
@@ -10,7 +10,12 @@ export function answerLabel(q: Question, value: unknown): string {
     return value === "confirm" ? q.choices?.[0] ?? "Same expense, drop it" : q.choices?.[1] ?? "Different, keep both";
   if (q.field === "date") return formatDate(String(value));
   if (q.field === "attendees_count") return `${value} people`;
-  return String(value);
+  return choiceLabel(q.field, String(value));
+}
+
+function choiceLabel(field: string, value: string): string {
+  const labels: Record<string, Record<string, string>> = { category: CATEGORY_LABEL, payee_type: PAYEE_TYPE_LABEL };
+  return labels[field]?.[value] ?? value;
 }
 
 interface Props {
@@ -102,7 +107,7 @@ function QuestionInput({ q, value, onChange }: { q: Question; value: string; onC
             { value: "confirm", label: q.choices?.[0] ?? "Same expense, drop it" },
             { value: "override", label: q.choices?.[1] ?? "Different, keep both" },
           ]
-        : (q.choices ?? []).map((c) => ({ value: c, label: c }));
+        : (q.choices ?? []).map((c) => ({ value: c, label: choiceLabel(q.field, c) }));
     return (
       <div role="radiogroup" aria-labelledby={id} id={id} className="flex flex-wrap gap-2">
         {options.map((o) => {

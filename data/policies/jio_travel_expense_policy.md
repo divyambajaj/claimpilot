@@ -86,7 +86,7 @@ Employees whose role requires them to be reachable outside office hours may clai
 
 ### 6.3 Non-reimbursable items
 
-The following are never reimbursed: alcohol and tobacco, traffic and parking fines, personal entertainment, personal grooming such as salon and spa services, personal shopping, personal mobile recharges for a number not in the employee's name, gifts to government officials, travel insurance bought separately when the Company already provides cover, and any expense the employee cannot explain. Money transferred to an individual person (a person-to-person payment) is never reimbursed, even when it settles a bill; the employee should ask the vendor for a bill instead. Tips are reimbursable only when included on the bill and not exceeding ten percent of it.
+The following are never reimbursed: alcohol and tobacco, traffic and parking fines, personal entertainment, personal grooming such as salon and spa services, personal shopping, personal mobile recharges for a number not in the employee's name, gifts to government officials, travel insurance bought separately when the Company already provides cover, and any expense the employee cannot explain. Money transferred to an individual person (a person-to-person payment) is never reimbursed. Where an individual supplier issued a proper bill, claim the bill and attach the payment as proof. Tips are reimbursable only when included on the bill and not exceeding ten percent of it.
 
 ## 7. Exceptions and audit
 

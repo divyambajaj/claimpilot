@@ -105,7 +105,9 @@ class TestPlan:
 class TestReassess:
     def test_statuses_totals_and_assumed(self) -> None:
         dinner = make_line("L1", total_amount=3780.0, attendees_count=4, conf={"city": 0.5})
-        ride = make_line("L2", category="travel_local", total_amount=486.0, payment_method="upi")
+        ride = make_line(
+            "L2", category="travel_local", total_amount=486.0, payment_method="upi", vendor_name="RydeGo"
+        )
         missing = make_line("L3", attendees_count=None)
         claim = reassess(make_claim([dinner, ride, missing]), CTX)
         status = {x.id: x.status for x in claim.lines}

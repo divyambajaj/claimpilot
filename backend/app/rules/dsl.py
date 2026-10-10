@@ -24,6 +24,15 @@ RuleField = Literal[
     "is_weekend",
     "per_person_amount",
     "distance_km",
+    "vendor_name",
+    "has_bill",
+    "bill",
+    "payee_type",
+    "payer_name",
+    "payer_matches_employee",
+    "business_purpose",
+    "line_count",
+    "max_line_amount",
 ]
 Op = Literal["eq", "ne", "gt", "gte", "lt", "lte", "in", "not_in", "is_null", "not_null", "regex"]
 CategoryKey = Category | Literal["any"]
@@ -51,6 +60,11 @@ class Cond(BaseModel):
         if self.op in ("in", "not_in") and not isinstance(self.value, list):
             raise ValueError(f"op {self.op} needs a list value")
         return self
+
+    def fields(self) -> set[str]:
+        """Every fact this condition reads."""
+        subs = [*(self.all or []), *(self.any or []), *([self.not_] if self.not_ else [])]
+        return {self.field} if self.field else set().union(*(c.fields() for c in subs))
 
 
 class Action(BaseModel):
@@ -80,7 +94,7 @@ class _RuleBase(BaseModel):
     id: str = Field(pattern=r"^[A-Z0-9_]{3,64}$")
     title: str
     category: CategoryKey
-    scope: Literal["line", "day_category", "claim"]
+    scope: Literal["line", "day_category", "vendor_day", "claim"]
     when: Cond
     action: Action
     severity: Severity

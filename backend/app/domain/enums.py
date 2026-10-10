@@ -22,6 +22,7 @@ class Category(StrEnum):
     FUEL = "fuel"
     OFFICE = "office"
     INTERNET_PHONE = "internet_phone"
+    PERSONAL = "personal"  # grooming, personal shopping, entertainment: never reimbursable (policy 6.3)
     OTHER = "other"
 
 
@@ -59,4 +60,10 @@ class PaymentMethod(StrEnum):
     UPI = "upi"
     CARD = "card"
     CASH = "cash"
+    UNKNOWN = "unknown"
+
+
+class PayeeType(StrEnum):
+    MERCHANT = "merchant"
+    INDIVIDUAL = "individual"
     UNKNOWN = "unknown"

@@ -135,5 +135,6 @@ def _sample_answer(q: Question, line: LineItem, when: dt.datetime) -> object:
         "date": (when - dt.timedelta(days=2)).date().isoformat(),
         "attendees_count": 2,
         "city": "Mumbai",
+        "vendor_name": "Local vendor",
     }
     return defaults.get(q.field, q.choices[0] if q.choices else "")

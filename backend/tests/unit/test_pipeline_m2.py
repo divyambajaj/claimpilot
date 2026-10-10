@@ -292,7 +292,7 @@ class TestRecordedDemoReceipts:
         images = [
             ImageInput(data=p.png, key=p.replay_key, path=str(Path("/elsewhere") / name)) for p in pages
         ]
-        receipt, resp = asyncio.run(client.extract(images))
+        receipt, resp = asyncio.run(client.extract(images, "v2"))  # legacy gallery: recorded with v1/v2
         assert resp.replayed
         date, total, category = self.EXPECTED[name]
         assert (str(receipt.date.value), receipt.total_amount.value, receipt.category.value) == (

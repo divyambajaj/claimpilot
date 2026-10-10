@@ -5,19 +5,29 @@ import datetime as dt
 from dataclasses import dataclass, field
 from typing import Any
 
-from app.domain.enums import Category, FindingKind, LineStatus, PaymentMethod, Severity
+from app.domain.enums import Category, FindingKind, LineStatus, PayeeType, PaymentMethod, Severity
 from app.domain.models import Claim, Finding, LineItem, Question
 from app.domain.state import derive_line_status
 from app.pipeline.extract import FX_TO_INR
-from app.rules.derived import FACT_TO_FIELD
+from app.rules.derived import FACT_TO_FIELD, line_facts
 from app.rules.dsl import RuleSet
 from app.rules.engine import DayKey, evaluate, merge_resolutions
 
 # Fields the planner may ask about, in a stable order.
-ASKABLE = ("total_amount", "date", "category", "attendees_count", "city", "payment_method", "vendor_gstin")
+ASKABLE = (
+    "total_amount",
+    "date",
+    "category",
+    "attendees_count",
+    "city",
+    "payment_method",
+    "vendor_gstin",
+    "payee_type",
+)
 CHOICES = {
     "category": [c.value for c in Category],
     "payment_method": [p.value for p in PaymentMethod if p != PaymentMethod.UNKNOWN],
+    "payee_type": [p.value for p in PayeeType if p != PayeeType.UNKNOWN],
 }
 DUPLICATE_CHOICES = ["Same expense, drop it", "Different, keep both"]
 # shortcut: one representative metro and non-metro city; derive from ruleset city lists if rules diversify.
@@ -31,6 +41,7 @@ class PlanContext:
     prior_day_totals: dict[DayKey, float] = field(default_factory=dict)
     tau: float = 0.75
     max_questions: int = 3
+    payer_names: tuple[str, ...] = ()  # the claimant's profile name and the company (payer check)
 
 
 @dataclass(frozen=True)
@@ -61,7 +72,9 @@ def active(line: LineItem) -> bool:
 
 
 def outcome(line: LineItem, others: list[LineItem], ctx: PlanContext) -> Outcome:
-    result = evaluate([*others, line], ctx.ruleset, ctx.today, ctx.prior_day_totals).lines.get(line.id)
+    result = evaluate(
+        [*others, line], ctx.ruleset, ctx.today, ctx.prior_day_totals, ctx.payer_names
+    ).lines.get(line.id)
     if result is None:
         return Outcome(LineStatus.EXCLUDED, 0, frozenset())
     findings = sticky(line.findings) + merge_resolutions(line.findings, result.findings)
@@ -145,6 +158,8 @@ def _value_prompt(line: LineItem, name: str) -> str:
         "category": f"What kind of expense is the {vendor} bill?",
         "payment_method": f"How was the {vendor} bill paid?",
         "vendor_gstin": f"What GSTIN is printed on the {vendor} invoice?",
+        "vendor_name": "Who was this paid to? Enter the business name on the bill.",
+        "payee_type": f"Was the {vendor} payment made to a business or to a person?",
     }
     return prompts.get(name, f"What is the {name.replace('_', ' ')} on the {vendor} bill?")
 
@@ -177,12 +192,25 @@ def _finding_question(line: LineItem, f: Finding) -> Question | None:
             reason="Duplicates are not reimbursed twice.",
             finding_id=f.id,
         )
-    if f.kind == FindingKind.POLICY and f.severity == Severity.WARN:
+    if f.kind == FindingKind.MISSING and f.severity == Severity.WARN:  # e.g. a payment with no bill
         return Question(
             id=f"q:{line.id}:{f.rule_id}",
             line_id=line.id,
             field=f.rule_id or "justification",
-            prompt=f"{f.message} Add a short justification for Finance.",
+            prompt=f"{f.message} Add it to this claim and it is linked automatically, or explain why there is"
+            " none.",
+            kind="justify_flag",
+            voi_score=0.7,
+            reason=f"Policy {f.citation.section if f.citation else ''}".strip() + " needs a bill.",
+            finding_id=f.id,
+        )
+    if f.kind == FindingKind.POLICY and f.severity == Severity.WARN:
+        ask = "" if f.message.endswith("?") else " Add a short justification for Finance."
+        return Question(
+            id=f"q:{line.id}:{f.rule_id}",
+            line_id=line.id,
+            field=f.rule_id or "justification",
+            prompt=f"{f.message}{ask}",
             kind="justify_flag",
             voi_score=0.6 if f.evidence.get("action") in ("cap", "require_justification") else 0.5,
             reason=f"Policy {f.citation.section if f.citation else ''}".strip()
@@ -199,11 +227,17 @@ def plan(claim: Claim, ctx: PlanContext) -> Plan:
     for line in lines:
         others = [o for o in lines if o.id != line.id]
         asked_fields: set[str] = set()
+        blocked = any(f.severity == Severity.BLOCK and f.resolution == "open" for f in line.findings)
+        facts = line_facts(line, ctx.today, ctx.payer_names)
 
-        # A. required by policy and missing -> always ask
-        for fact in ctx.ruleset.required_for(line.category):
+        # A. required by policy and missing -> always ask (not on a blocked line: it is not reimbursed anyway)
+        for fact in [] if blocked else ctx.ruleset.required_for(line.category):
             name = FACT_TO_FIELD.get(fact)
-            if name and line.extracted.field(name).value is None and name not in asked_fields:
+            if not name or name in asked_fields:
+                continue
+            # a payment screenshot's payee stands in for the vendor name
+            value = facts.get(fact) if fact == "vendor_name" else line.extracted.field(name).value
+            if value is None:
                 candidates.append(_question(line, name, 1.0, "Required by the expense policy."))
                 asked_fields.add(name)
 
@@ -224,7 +258,7 @@ def plan(claim: Claim, ctx: PlanContext) -> Plan:
             candidates.append(_question(line, name, voi, _reason(base, alt_outcomes)))
 
         # C. open findings the user can resolve (a blocked line is excluded; its card shows the fix path)
-        if not any(f.severity == Severity.BLOCK and f.resolution == "open" for f in line.findings):
+        if not blocked:
             candidates += [q for f in line.findings if (q := _finding_question(line, f))]
 
     amounts = {line.id: line.amount_inr for line in claim.lines}

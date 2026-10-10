@@ -24,7 +24,11 @@ export type Category =
   | "fuel"
   | "office"
   | "internet_phone"
+  | "personal"
   | "other";
+
+/** Who received a payment (prompt v3+): a business, or a private person (not reimbursable). */
+export type PayeeType = "merchant" | "individual" | "unknown";
 
 export type LineStatus = "processing" | "missing_info" | "flagged" | "complete" | "excluded" | "error";
 export type ClaimStatus = "draft" | "ready_to_submit" | "submitted" | "approved" | "rejected";
@@ -75,6 +79,9 @@ export interface ExtractedReceipt {
   city: ExtractedField<string>;
   category: ExtractedField<Category>;
   attendees_count: ExtractedField<number>;
+  /** Prompt v3+: absent on documents read by older prompt versions. */
+  payee_type?: ExtractedField<PayeeType>;
+  payer_name?: ExtractedField<string>;
   items: ReceiptItem[];
   raw_text: string;
   quality: ReceiptQuality;
@@ -135,6 +142,8 @@ export interface LineItem {
   user_excluded?: boolean;
   trip_key: string | null;
   questions_asked: number;
+  /** The user's trip note / business purpose (answers OTHER_NEEDS_BUSINESS_PURPOSE, FUEL_TRIP_NOTE). */
+  business_purpose?: string | null;
 }
 
 export type QuestionKind = "value" | "choice" | "confirm_duplicate" | "justify_flag";
@@ -186,7 +195,16 @@ export type RuleField =
   | "invoice_number"
   | "is_weekend"
   | "per_person_amount"
-  | "distance_km";
+  | "distance_km"
+  | "vendor_name"
+  | "has_bill"
+  | "bill"
+  | "payee_type"
+  | "payer_name"
+  | "payer_matches_employee"
+  | "business_purpose"
+  | "line_count"
+  | "max_line_amount";
 
 export type Op = "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "not_in" | "is_null" | "not_null" | "regex";
 
@@ -210,7 +228,7 @@ export interface Rule {
   id: string;
   title: string;
   category: Category | "any";
-  scope: "line" | "day_category" | "claim";
+  scope: "line" | "day_category" | "vendor_day" | "claim";
   when: Cond;
   action: Action;
   severity: Severity;

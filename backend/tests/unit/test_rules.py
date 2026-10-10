@@ -71,7 +71,12 @@ class TestDsl:
             RuleSet.model_validate(data)
         assert RULESET.rule("MEALS_CAP_PER_PERSON") is not None
         assert RULESET.rule("NOPE") is None
-        assert RULESET.required_for(Category.MEALS) == ["date", "amount_inr", "attendees_count"]
+        assert RULESET.required_for(Category.MEALS) == [
+            "date",
+            "amount_inr",
+            "vendor_name",
+            "attendees_count",
+        ]
 
     FACTS = {"amount_inr": 900.0, "city": "Pune", "date": dt.date(2026, 10, 3), "flag": True, "gstin": None}
 
@@ -210,7 +215,15 @@ class TestEnginePerRule:
 
     def test_fuel_claim_cap(self) -> None:
         fuel = [
-            make_line(f"F{i}", category="fuel", total_amount=2000.0, payment_method="card") for i in range(3)
+            make_line(
+                f"F{i}",
+                category="fuel",
+                total_amount=2000.0,
+                payment_method="card",
+                date=dt.date(2026, 10, 3 + i),
+                business_purpose="Client site visits",
+            )
+            for i in range(3)
         ]
         result = evaluate(fuel, RULESET, TODAY)
         assert [result.lines[f"F{i}"].reimbursable_inr for i in range(3)] == [2000.0, 2000.0, 1000.0]
@@ -219,7 +232,7 @@ class TestEnginePerRule:
 
     def test_phone_and_weekend_office(self) -> None:
         assert fired([make_line(category="internet_phone", total_amount=1299.0)]) == {
-            "L1": {"PHONE_INTERNET_MONTHLY_CAP"}
+            "L1": {"PHONE_INTERNET_MONTHLY_CAP", "MOBILE_BILL_IN_EMPLOYEE_NAME"}
         }
         assert fired([make_line(category="office", total_amount=300.0, date=dt.date(2026, 10, 4))]) == {
             "L1": {"OFFICE_SUPPLIES_WEEKEND"}

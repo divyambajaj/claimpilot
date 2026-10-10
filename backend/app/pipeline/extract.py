@@ -4,7 +4,7 @@ import datetime as dt
 import re
 from typing import Any
 
-from app.domain.enums import Category, DocType, PaymentMethod
+from app.domain.enums import Category, DocType, PayeeType, PaymentMethod
 from app.domain.models import EXTRACTED_FIELD_NAMES, ExtractedReceipt
 
 _STR = {"type": ["string", "null"]}
@@ -25,7 +25,12 @@ FIELD_TYPES: dict[str, dict[str, Any]] = {
     "city": _STR,
     "category": {"type": ["string", "null"], "enum": [*(c.value for c in Category), None]},
     "attendees_count": {"type": ["integer", "null"]},
+    "payee_type": {"type": ["string", "null"], "enum": [*(p.value for p in PayeeType), None]},
+    "payer_name": _STR,
 }
+# Schema 1 (prompts v1/v2) predates these; keeping it byte-identical keeps their recordings replayable.
+SCHEMA_2_FIELDS = ("payee_type", "payer_name")
+SCHEMA_2_CATEGORIES = (Category.PERSONAL.value,)
 CORE_FIELDS = ("doc_type", "vendor_name", "date", "currency", "total_amount", "payment_method", "category")
 QUALITIES = ["good", "blurry", "partial", "rotated", "handwritten"]
 
@@ -65,9 +70,16 @@ def _field_schema(value_schema: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def extraction_schema(core: bool = False) -> dict[str, Any]:
-    names = CORE_FIELDS if core else tuple(FIELD_TYPES)
-    props: dict[str, Any] = {n: _field_schema(FIELD_TYPES[n]) for n in names}
+def _value_schema(name: str, schema: int) -> dict[str, Any]:
+    value = FIELD_TYPES[name]
+    if schema < 2 and name == "category":
+        value = {**value, "enum": [c for c in value["enum"] if c not in SCHEMA_2_CATEGORIES]}
+    return value
+
+
+def extraction_schema(core: bool = False, schema: int = 1) -> dict[str, Any]:
+    names = CORE_FIELDS if core else tuple(n for n in FIELD_TYPES if schema >= 2 or n not in SCHEMA_2_FIELDS)
+    props: dict[str, Any] = {n: _field_schema(_value_schema(n, schema)) for n in names}
     if not core:
         props["items"] = {
             "type": "array",
@@ -146,6 +158,7 @@ _ENUMS = {
     "doc_type": ({d.value for d in DocType}, DocType.UNKNOWN.value),
     "payment_method": ({p.value for p in PaymentMethod}, PaymentMethod.UNKNOWN.value),
     "category": ({c.value for c in Category}, Category.OTHER.value),
+    "payee_type": ({p.value for p in PayeeType}, PayeeType.UNKNOWN.value),
 }
 
 

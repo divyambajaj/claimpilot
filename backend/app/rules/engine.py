@@ -136,11 +136,13 @@ def evaluate(
     ruleset: RuleSet,
     today: dt.date,
     prior_day_totals: dict[DayKey, float] | None = None,
+    payer_names: tuple[str, ...] = (),
 ) -> Evaluation:
-    """Evaluate every active line. `prior_day_totals` are reimbursed amounts from earlier submitted claims."""
+    """Evaluate every active line. `prior_day_totals` are reimbursed amounts from earlier submitted claims;
+    `payer_names` are who may pay for a claimant's expenses (profile name, company)."""
     prior_day_totals = prior_day_totals or {}
     active = [line for line in lines if _active(line)]
-    facts = {line.id: line_facts(line, today) for line in active}
+    facts = {line.id: line_facts(line, today, payer_names) for line in active}
     outcomes = {line.id: LineOutcome(line.category, line.amount_inr) for line in active}
 
     for rule in (r for r in ruleset.rules if r.scope == "line" and r.action.type == "set_category"):
@@ -157,6 +159,8 @@ def evaluate(
                 _apply_line_rule(rule, line.id, facts[line.id], outcomes[line.id])
         elif rule.scope == "day_category":
             _apply_group_rule(rule, active, facts, outcomes, prior_day_totals)
+        elif rule.scope == "vendor_day":
+            _apply_vendor_day_rule(rule, active, facts, outcomes)
 
     claim_findings = [
         f for r in ruleset.rules if r.scope == "claim" for f in _apply_claim_rule(r, active, outcomes)
@@ -234,6 +238,44 @@ def _apply_group_rule(
         else:
             for m in members:
                 outcomes[m.id].findings.append(_finding(rule, m.id, {**facts[m.id], "total_inr": total}))
+
+
+def _vendor_key(name: Any) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(name or "").casefold())
+
+
+def _apply_vendor_day_rule(
+    rule: Rule, active: list[LineItem], facts: dict[str, dict[str, Any]], outcomes: dict[str, LineOutcome]
+) -> None:
+    """Split-bill check: several bills from one vendor on one day, judged on their combined amount."""
+    groups: dict[tuple[dt.date, str], list[LineItem]] = defaultdict(list)
+    for line in active:
+        f = facts[line.id]
+        vendor = _vendor_key(f["vendor_name"])
+        if f["date"] is not None and vendor and _applies(rule, outcomes[line.id].category):
+            groups[(f["date"], vendor)].append(line)
+    for members in groups.values():
+        amounts = [m.amount_inr for m in members]
+        group = {
+            **facts[members[0].id],
+            "amount_inr": round(sum(amounts), 2),
+            "total_inr": round(sum(amounts), 2),
+            "line_count": len(members),
+            "max_line_amount": max(amounts),
+        }
+        if not eval_cond(rule.when, group):
+            continue
+        ids = [m.id for m in members]
+        for m in members:
+            outcomes[m.id].findings.append(
+                _finding(
+                    rule,
+                    m.id,
+                    {**facts[m.id], **{k: group[k] for k in ("total_inr", "line_count")}},
+                    group_line_ids=ids,
+                    group_total_inr=group["total_inr"],
+                )
+            )
 
 
 def _apply_claim_rule(rule: Rule, active: list[LineItem], outcomes: dict[str, LineOutcome]) -> list[Finding]:
