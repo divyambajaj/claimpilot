@@ -242,8 +242,9 @@ def plan(claim: Claim, ctx: PlanContext) -> Plan:
                 asked_fields.add(name)
 
         # B. low confidence -> ask only if a plausible misreading changes the decision
+        # (a blocked line needs no input: its card shows the reason and the field can be corrected there)
         base = outcome(line, others, ctx)
-        for name in ASKABLE:
+        for name in [] if blocked else ASKABLE:
             f = line.extracted.field(name)
             if name in asked_fields or f.value is None or f.origin == "user" or f.confidence >= ctx.tau:
                 continue

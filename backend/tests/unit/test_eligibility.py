@@ -136,6 +136,12 @@ class TestRules:
         result = evaluate([line], RULESET, TODAY, payer_names=NAMES).lines["U1"]
         assert "PERSONAL_EXPENSE_NOT_REIMBURSABLE" in result.fired
         assert result.reimbursable_inr == 0.0
+        unsure = upi(
+            vendor_name="Lakeview Unisex Salon",
+            category="personal",
+            conf={"category": 0.4, "payee_type": 0.4},
+        )
+        assert reassess(make_claim([unsure]), CTX).open_questions == []  # blocked: nothing to ask
 
     def test_recharge_not_in_employee_name(self) -> None:
         line = upi(
