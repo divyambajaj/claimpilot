@@ -2,7 +2,7 @@
 
 import asyncio
 from collections.abc import Awaitable, Callable
-from typing import TypeVar
+from typing import Any, TypeVar
 
 from pydantic import ValidationError
 
@@ -20,6 +20,7 @@ from app.llm.prompts.registry import PromptRegistry
 from app.llm.recorder import Recorder
 from app.observability.tracing import Tracer
 from app.pipeline.extract import extraction_schema, parse_extraction
+from app.pipeline.redact import redact
 from app.rules.dsl import RuleSetDraft
 
 M = TypeVar("M")
@@ -87,7 +88,7 @@ class LLMClient:
         req = self.extract_request(images, prompt_version)
         schema = int(self.prompts.get("extract_receipt", prompt_version).meta.get("schema", 1))
         core = req.model_copy(update={"json_schema": extraction_schema(core=True, schema=schema)})
-        return await self._call(req, parse_extraction, fallback=core)
+        return await self._call(req, parse_extraction, fallback=core, clean=redact)
 
     async def compile_policy(
         self, policy_text: str, prompt_version: str | None = None
@@ -104,20 +105,26 @@ class LLMClient:
         return await self._call(req, RuleSetDraft.model_validate)
 
     async def _call(
-        self, req: LLMRequest, parse: Callable[[dict], M], fallback: LLMRequest | None = None
+        self,
+        req: LLMRequest,
+        parse: Callable[[dict], M],
+        fallback: LLMRequest | None = None,
+        clean: Callable[[Any], Any] | None = None,
     ) -> tuple[M, LLMResponse]:
-        """Attempt 1: as asked; 2: repair with the validation errors; 3: core-fields schema (or repair)."""
+        """Attempt 1: as asked; 2: repair with the validation errors; 3: core-fields schema (or repair).
+
+        `clean` (PII redaction) runs on the output before it is parsed or recorded."""
         current, raw = req, ""
         for attempt in (1, 2, 3):
             try:
-                return await self._attempt(current, parse, attempt)
+                return await self._attempt(current, parse, attempt, clean)
             except _Invalid as bad:
                 raw = bad.raw_text
                 current = fallback if (attempt == 2 and fallback is not None) else _repair(req, bad.error)
         raise StructuredOutputError(f"{req.prompt_name}: output failed validation 3 times", raw)
 
     async def _attempt(
-        self, req: LLMRequest, parse: Callable[[dict], M], attempt: int
+        self, req: LLMRequest, parse: Callable[[dict], M], attempt: int, clean: Callable[[Any], Any] | None
     ) -> tuple[M, LLMResponse]:
         for transport_try in range(TRANSPORT_ATTEMPTS):
             with self.tracer.span(
@@ -144,7 +151,10 @@ class LLMClient:
                     span.set(error=str(exc)[:500])
                     raise _Invalid(str(exc), exc.raw_text) from exc
                 else:
-                    resp = resp.model_copy(update={"attempt": attempt})
+                    update: dict[str, Any] = {"attempt": attempt}
+                    if clean is not None:
+                        update |= {"data": clean(resp.data), "raw_text": clean(resp.raw_text)}
+                    resp = resp.model_copy(update=update)
                     span.set(
                         model=resp.model,
                         tokens_in=resp.usage.input_tokens,
