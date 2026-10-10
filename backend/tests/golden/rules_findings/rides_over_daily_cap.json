@@ -1,0 +1,38 @@
+{
+  "R0": {
+    "reimbursable_inr": 650.0,
+    "findings": []
+  },
+  "R1": {
+    "reimbursable_inr": 650.0,
+    "findings": []
+  },
+  "R2": {
+    "reimbursable_inr": 200.0,
+    "findings": [
+      {
+        "id": "R2:LOCAL_TRAVEL_DAILY_CAP",
+        "kind": "policy",
+        "severity": "warn",
+        "rule_id": "LOCAL_TRAVEL_DAILY_CAP",
+        "message": "Local travel on this day totals ₹1,950, above the ₹1,500 daily limit.",
+        "citation": {
+          "section": "4.1 Local conveyance",
+          "quote": "Local conveyance (cabs, auto-rickshaws and metro) is reimbursed up to INR 1,500 per day.",
+          "char_start": 4015,
+          "char_end": 4103,
+          "verified": true
+        },
+        "evidence": {
+          "action": "cap",
+          "cap_basis": "per_day_category",
+          "group_total_inr": 1950.0,
+          "over_by_inr": 450.0,
+          "reimbursable_before_inr": 650.0
+        },
+        "resolution": "open",
+        "justification": null
+      }
+    ]
+  }
+}

@@ -47,7 +47,7 @@ def make_receipt(conf: dict[str, float] | None = None, raw_text: str = "", **val
 def make_line(
     line_id: str = "L1", claim_id: str = "C1", conf: dict[str, float] | None = None, **values: Any
 ) -> LineItem:
-    extra = {k: values.pop(k) for k in list(values) if k in LineItem.model_fields}
+    extra = {k: values.pop(k) for k in list(values) if k in LineItem.model_fields and k != "category"}
     receipt = make_receipt(conf=conf, **values)
     amount = receipt.total_amount.value or 0.0
     line = LineItem(

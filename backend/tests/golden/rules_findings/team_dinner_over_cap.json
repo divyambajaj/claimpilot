@@ -1,0 +1,29 @@
+{
+  "L1": {
+    "reimbursable_inr": 3000.0,
+    "findings": [
+      {
+        "id": "L1:MEALS_CAP_PER_PERSON",
+        "kind": "policy",
+        "severity": "warn",
+        "rule_id": "MEALS_CAP_PER_PERSON",
+        "message": "Meal works out to ₹945/person, above the ₹750 limit; reimbursed at cap.",
+        "citation": {
+          "section": "4.2 Meals",
+          "quote": "Meals are reimbursed up to INR 750 per person per meal.",
+          "char_start": 4420,
+          "char_end": 4475,
+          "verified": true
+        },
+        "evidence": {
+          "action": "cap",
+          "cap_basis": "per_person",
+          "allowed_inr": 3000.0,
+          "over_by_inr": 780.0
+        },
+        "resolution": "open",
+        "justification": null
+      }
+    ]
+  }
+}

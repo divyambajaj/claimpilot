@@ -1,0 +1,29 @@
+{
+  "L1": {
+    "reimbursable_inr": 6000.0,
+    "findings": [
+      {
+        "id": "L1:LODGING_CAP_METRO",
+        "kind": "policy",
+        "severity": "warn",
+        "rule_id": "LODGING_CAP_METRO",
+        "message": "Hotel in Bengaluru above the metro cap of ₹6,000/night.",
+        "citation": {
+          "section": "5.1 Lodging",
+          "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
+          "char_start": 5529,
+          "char_end": 5615,
+          "verified": true
+        },
+        "evidence": {
+          "action": "cap",
+          "cap_basis": "line",
+          "allowed_inr": 6000.0,
+          "over_by_inr": 2064.0
+        },
+        "resolution": "open",
+        "justification": null
+      }
+    ]
+  }
+}

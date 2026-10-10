@@ -1,0 +1,47 @@
+{
+  "L1": {
+    "reimbursable_inr": 0.0,
+    "findings": [
+      {
+        "id": "L1:GST_INVOICE_ABOVE_5000",
+        "kind": "missing",
+        "severity": "block",
+        "rule_id": "GST_INVOICE_ABOVE_5000",
+        "message": "Expenses of ₹5,000 or more need a valid GST invoice (GSTIN missing or fails checksum).",
+        "citation": {
+          "section": "3.1 Documentation",
+          "quote": "Any single expense of INR 5,000 or more must be supported by a GST tax invoice bearing the vendor's GSTIN.",
+          "char_start": 2652,
+          "char_end": 2758,
+          "verified": true
+        },
+        "evidence": {
+          "action": "require_field",
+          "field": "vendor_gstin"
+        },
+        "resolution": "open",
+        "justification": null
+      },
+      {
+        "id": "L1:CASH_ABOVE_2000_JUSTIFY",
+        "kind": "policy",
+        "severity": "warn",
+        "rule_id": "CASH_ABOVE_2000_JUSTIFY",
+        "message": "Cash payment of ₹6,490 needs a written justification.",
+        "citation": {
+          "section": "3.2 Proof of payment",
+          "quote": "Cash payments above INR 2,000 require a written justification, since they cannot be independently verified.",
+          "char_start": 3267,
+          "char_end": 3374,
+          "verified": true
+        },
+        "evidence": {
+          "action": "require_justification",
+          "needs_justification": true
+        },
+        "resolution": "open",
+        "justification": null
+      }
+    ]
+  }
+}

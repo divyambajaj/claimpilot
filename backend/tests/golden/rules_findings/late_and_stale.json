@@ -1,0 +1,72 @@
+{
+  "A": {
+    "reimbursable_inr": 1000.0,
+    "findings": [
+      {
+        "id": "A:SUBMISSION_WINDOW_30D",
+        "kind": "policy",
+        "severity": "warn",
+        "rule_id": "SUBMISSION_WINDOW_30D",
+        "message": "Expense is 51 days old; policy window is 30 days. Add a justification.",
+        "citation": {
+          "section": "2.3 Timelines",
+          "quote": "Claims must be submitted within 30 days of the expense date.",
+          "char_start": 1648,
+          "char_end": 1708,
+          "verified": true
+        },
+        "evidence": {
+          "action": "require_justification",
+          "needs_justification": true
+        },
+        "resolution": "open",
+        "justification": null
+      }
+    ]
+  },
+  "B": {
+    "reimbursable_inr": 0.0,
+    "findings": [
+      {
+        "id": "B:SUBMISSION_WINDOW_30D",
+        "kind": "policy",
+        "severity": "warn",
+        "rule_id": "SUBMISSION_WINDOW_30D",
+        "message": "Expense is 131 days old; policy window is 30 days. Add a justification.",
+        "citation": {
+          "section": "2.3 Timelines",
+          "quote": "Claims must be submitted within 30 days of the expense date.",
+          "char_start": 1648,
+          "char_end": 1708,
+          "verified": true
+        },
+        "evidence": {
+          "action": "require_justification",
+          "needs_justification": true
+        },
+        "resolution": "open",
+        "justification": null
+      },
+      {
+        "id": "B:EXPENSE_OLDER_THAN_90D",
+        "kind": "policy",
+        "severity": "block",
+        "rule_id": "EXPENSE_OLDER_THAN_90D",
+        "message": "Expense is 131 days old; expenses older than 90 days are not reimbursed.",
+        "citation": {
+          "section": "2.3 Timelines",
+          "quote": "Expenses older than 90 days will not be reimbursed.",
+          "char_start": 1867,
+          "char_end": 1918,
+          "verified": true
+        },
+        "evidence": {
+          "action": "block",
+          "needs_justification": false
+        },
+        "resolution": "open",
+        "justification": null
+      }
+    ]
+  }
+}

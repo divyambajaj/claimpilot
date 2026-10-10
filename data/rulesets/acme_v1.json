@@ -1,0 +1,549 @@
+{
+  "version": 1,
+  "policy_id": "pol_e01277d9b056",
+  "policy_sha256": "e01277d9b05679426d5eb3ac3e489a656f5883516ddeb335d0b3c349d53192e2",
+  "compiled_at": "2026-10-01T00:00:00",
+  "compiler_prompt_version": "hand-authored",
+  "provider": "hand-authored",
+  "model": "n/a",
+  "required_fields": {
+    "any": [
+      "date",
+      "amount_inr"
+    ],
+    "meals": [
+      "attendees_count"
+    ],
+    "lodging": [
+      "city"
+    ]
+  },
+  "rules": [
+    {
+      "id": "MEALS_CAP_PER_PERSON",
+      "title": "Meal limit per person",
+      "category": "meals",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "meals",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "per_person_amount",
+            "op": "gt",
+            "value": 750,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "cap",
+        "field": null,
+        "cap_inr": 750.0,
+        "cap_basis": "per_person",
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Meal works out to ₹{per_person_amount}/person, above the ₹750 limit; reimbursed at cap.",
+      "confidence": 0.96,
+      "citation": {
+        "section": "4.2 Meals",
+        "quote": "Meals are reimbursed up to INR 750 per person per meal.",
+        "char_start": 4420,
+        "char_end": 4475,
+        "verified": true
+      }
+    },
+    {
+      "id": "GST_INVOICE_ABOVE_5000",
+      "title": "GST invoice for expenses of ₹5,000+",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "amount_inr",
+            "op": "gte",
+            "value": 5000,
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "doc_type",
+            "op": "ne",
+            "value": "upi_screenshot",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "vendor_gstin_valid",
+            "op": "ne",
+            "value": true,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_field",
+        "field": "vendor_gstin",
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "block",
+      "message_template": "Expenses of ₹5,000 or more need a valid GST invoice (GSTIN missing or fails checksum).",
+      "confidence": 0.98,
+      "citation": {
+        "section": "3.1 Documentation",
+        "quote": "Any single expense of INR 5,000 or more must be supported by a GST tax invoice bearing the vendor's GSTIN.",
+        "char_start": 2652,
+        "char_end": 2758,
+        "verified": true
+      }
+    },
+    {
+      "id": "SUBMISSION_WINDOW_30D",
+      "title": "Submit within 30 days",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": "days_since_expense",
+        "op": "gt",
+        "value": 30,
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_justification",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Expense is {days_since_expense} days old; policy window is 30 days. Add a justification.",
+      "confidence": 0.99,
+      "citation": {
+        "section": "2.3 Timelines",
+        "quote": "Claims must be submitted within 30 days of the expense date.",
+        "char_start": 1648,
+        "char_end": 1708,
+        "verified": true
+      }
+    },
+    {
+      "id": "EXPENSE_OLDER_THAN_90D",
+      "title": "No reimbursement after 90 days",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": "days_since_expense",
+        "op": "gt",
+        "value": 90,
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "block",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "block",
+      "message_template": "Expense is {days_since_expense} days old; expenses older than 90 days are not reimbursed.",
+      "confidence": 0.97,
+      "citation": {
+        "section": "2.3 Timelines",
+        "quote": "Expenses older than 90 days will not be reimbursed.",
+        "char_start": 1867,
+        "char_end": 1918,
+        "verified": true
+      }
+    },
+    {
+      "id": "UPI_PROOF_FOR_CASHLESS",
+      "title": "Payment proof for digital payments above ₹2,000",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "payment_method",
+            "op": "eq",
+            "value": "upi",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "has_proof_of_payment",
+            "op": "eq",
+            "value": false,
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "doc_type",
+            "op": "ne",
+            "value": "upi_screenshot",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "amount_inr",
+            "op": "gt",
+            "value": 2000,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "flag",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "UPI payment above ₹2,000 without a matching payment confirmation screenshot.",
+      "confidence": 0.9,
+      "citation": {
+        "section": "3.2 Proof of payment",
+        "quote": "For digital payments above INR 2,000, attach the payment confirmation.",
+        "char_start": 3069,
+        "char_end": 3139,
+        "verified": true
+      }
+    },
+    {
+      "id": "CASH_ABOVE_2000_JUSTIFY",
+      "title": "Justify cash payments above ₹2,000",
+      "category": "any",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "payment_method",
+            "op": "eq",
+            "value": "cash",
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "amount_inr",
+            "op": "gt",
+            "value": 2000,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_justification",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Cash payment of ₹{amount_inr} needs a written justification.",
+      "confidence": 0.93,
+      "citation": {
+        "section": "3.2 Proof of payment",
+        "quote": "Cash payments above INR 2,000 require a written justification, since they cannot be independently verified.",
+        "char_start": 3267,
+        "char_end": 3374,
+        "verified": true
+      }
+    },
+    {
+      "id": "LODGING_CAP_METRO",
+      "title": "Hotel cap, metro cities",
+      "category": "lodging",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "city",
+            "op": "in",
+            "value": [
+              "Mumbai",
+              "Delhi",
+              "Bengaluru",
+              "Hyderabad",
+              "Chennai",
+              "Kolkata",
+              "Pune"
+            ],
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "amount_inr",
+            "op": "gt",
+            "value": 6000,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "cap",
+        "field": null,
+        "cap_inr": 6000.0,
+        "cap_basis": "line",
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Hotel in {city} above the metro cap of ₹6,000/night.",
+      "confidence": 0.95,
+      "citation": {
+        "section": "5.1 Lodging",
+        "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
+        "char_start": 5529,
+        "char_end": 5615,
+        "verified": true
+      }
+    },
+    {
+      "id": "LODGING_CAP_NON_METRO",
+      "title": "Hotel cap, other cities",
+      "category": "lodging",
+      "scope": "line",
+      "when": {
+        "field": null,
+        "op": null,
+        "value": null,
+        "all": [
+          {
+            "field": "city",
+            "op": "not_null",
+            "value": null,
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "city",
+            "op": "not_in",
+            "value": [
+              "Mumbai",
+              "Delhi",
+              "Bengaluru",
+              "Hyderabad",
+              "Chennai",
+              "Kolkata",
+              "Pune"
+            ],
+            "all": null,
+            "any": null,
+            "not": null
+          },
+          {
+            "field": "amount_inr",
+            "op": "gt",
+            "value": 4000,
+            "all": null,
+            "any": null,
+            "not": null
+          }
+        ],
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "cap",
+        "field": null,
+        "cap_inr": 4000.0,
+        "cap_basis": "line",
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Hotel in {city} above the non-metro cap of ₹4,000/night.",
+      "confidence": 0.93,
+      "citation": {
+        "section": "5.1 Lodging",
+        "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
+        "char_start": 5529,
+        "char_end": 5615,
+        "verified": true
+      }
+    },
+    {
+      "id": "LOCAL_TRAVEL_DAILY_CAP",
+      "title": "Local conveyance per day",
+      "category": "travel_local",
+      "scope": "day_category",
+      "when": {
+        "field": "amount_inr",
+        "op": "gt",
+        "value": 1500,
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "cap",
+        "field": null,
+        "cap_inr": 1500.0,
+        "cap_basis": "per_day_category",
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Local travel on this day totals ₹{total_inr}, above the ₹1,500 daily limit.",
+      "confidence": 0.94,
+      "citation": {
+        "section": "4.1 Local conveyance",
+        "quote": "Local conveyance (cabs, auto-rickshaws and metro) is reimbursed up to INR 1,500 per day.",
+        "char_start": 4015,
+        "char_end": 4103,
+        "verified": true
+      }
+    },
+    {
+      "id": "FUEL_CAP_PER_CLAIM",
+      "title": "Fuel per claim",
+      "category": "fuel",
+      "scope": "claim",
+      "when": {
+        "field": "amount_inr",
+        "op": "gt",
+        "value": 5000,
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "cap",
+        "field": null,
+        "cap_inr": 5000.0,
+        "cap_basis": "per_claim_category",
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Fuel in this claim totals ₹{total_inr}, above the ₹5,000 per-claim limit.",
+      "confidence": 0.92,
+      "citation": {
+        "section": "4.4 Fuel",
+        "quote": "Fuel for personal vehicles used on company business is reimbursed up to INR 5,000 per claim.",
+        "char_start": 5227,
+        "char_end": 5319,
+        "verified": true
+      }
+    },
+    {
+      "id": "PHONE_INTERNET_MONTHLY_CAP",
+      "title": "Mobile and internet per month",
+      "category": "internet_phone",
+      "scope": "line",
+      "when": {
+        "field": "amount_inr",
+        "op": "gt",
+        "value": 1000,
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "cap",
+        "field": null,
+        "cap_inr": 1000.0,
+        "cap_basis": "line",
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Bill of ₹{amount_inr} is above the ₹1,000 monthly limit; reimbursed at cap.",
+      "confidence": 0.88,
+      "citation": {
+        "section": "6.2 Mobile and internet",
+        "quote": "Mobile and internet bills are reimbursed up to INR 1,000 per month.",
+        "char_start": 6655,
+        "char_end": 6722,
+        "verified": true
+      }
+    },
+    {
+      "id": "OFFICE_SUPPLIES_WEEKEND",
+      "title": "Office supplies bought on a weekend",
+      "category": "office",
+      "scope": "line",
+      "when": {
+        "field": "is_weekend",
+        "op": "eq",
+        "value": true,
+        "all": null,
+        "any": null,
+        "not": null
+      },
+      "action": {
+        "type": "require_justification",
+        "field": null,
+        "cap_inr": null,
+        "cap_basis": null,
+        "category": null
+      },
+      "severity": "warn",
+      "message_template": "Office supplies bought on a weekend need a note explaining why they could not wait.",
+      "confidence": 0.85,
+      "citation": {
+        "section": "6.1 Office supplies",
+        "quote": "Office supplies bought on a weekend need a note from the manager explaining why they could not wait until a working day.",
+        "char_start": 6221,
+        "char_end": 6341,
+        "verified": true
+      }
+    }
+  ],
+  "defaults": {
+    "currency": "INR",
+    "submission_window_days": 30
+  }
+}
