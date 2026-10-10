@@ -63,10 +63,10 @@ export function Overview() {
         </ChartCard>
 
         <ChartCard title="Violations by rule" note="Findings raised, last 30 days" empty={m.violations_by_rule.length === 0 && "No policy findings yet. They appear as claims are checked."}>
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={Math.max(220, m.violations_by_rule.length * 30)}>
             <BarChart data={m.violations_by_rule} layout="vertical" margin={{ top: 0, right: 28, bottom: 0, left: 0 }} barCategoryGap={6}>
               <XAxis type="number" hide />
-              <YAxis type="category" dataKey="title" {...axisProps} width={200} tick={{ fontSize: 12, fill: "#5C5950" }} />
+              <YAxis type="category" dataKey="title" {...axisProps} width={200} interval={0} tick={{ fontSize: 12, fill: "#5C5950" }} />
               <Tooltip content={<ChartTooltip />} cursor={{ fill: "#F4F3EF" }} />
               <Bar isAnimationActive={false} barSize={12} dataKey="count" name="Findings" fill={C.s1} radius={[0, 3, 3, 0]}>
                 <LabelList dataKey="count" position="right" className="num" style={{ fontSize: 11, fill: "#5C5950" }} />

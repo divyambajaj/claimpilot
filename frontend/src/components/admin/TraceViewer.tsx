@@ -98,7 +98,7 @@ function Waterfall({ trace, selected, onSelect }: { trace: Trace; selected: Span
               ))}
             </div>
           </div>
-          <ul className="py-1">
+          <ul className="max-h-[440px] overflow-y-auto py-1">
             {rows.map(({ s, d }) => {
               const left = ((ms(s.start) - t0) / total) * 100;
               const width = Math.max(((ms(s.end) - ms(s.start)) / total) * 100, 0.4);

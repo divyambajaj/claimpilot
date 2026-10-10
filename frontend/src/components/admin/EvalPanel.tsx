@@ -39,15 +39,17 @@ export function EvalPanel() {
   }, []);
 
   const run = runs?.find((r) => r.id === selId) ?? null;
-  const prev = runs && run ? runs[runs.indexOf(run) + 1] : undefined;
+  // compare like with like: smoke and full runs score different fixture sets
+  const prev = runs && run ? runs.slice(runs.indexOf(run) + 1).find((r) => (r.subset ?? "full") === (run.subset ?? "full")) : undefined;
+  const subsetShown = run?.subset ?? "full";
   const comparison = useMemo(() => {
     const seen = new Map<string, EvalRun>();
-    for (const r of runs ?? []) {
+    for (const r of (runs ?? []).filter((x) => (x.subset ?? "full") === subsetShown)) {
       const key = `${r.provider}|${r.model}|${r.prompt_version}`;
       if (!seen.has(key)) seen.set(key, r);
     }
     return [...seen.values()].sort((a, b) => b.metrics.field_accuracy - a.metrics.field_accuracy);
-  }, [runs]);
+  }, [runs, subsetShown]);
   const topCorrected = useMemo(() => {
     const c = new Map<string, number>();
     labels.forEach((l) => c.set(l.field, (c.get(l.field) ?? 0) + 1));
@@ -103,11 +105,11 @@ export function EvalPanel() {
         ) : runs.length === 0 ? (
           <span className="text-xs text-ink-3">No runs yet. A smoke run scores a handful of synthetic receipts against ground truth.</span>
         ) : (
-          <label className="flex items-center gap-2 text-xs text-ink-3">
+          <label className="flex min-w-0 max-w-full items-center gap-2 text-xs text-ink-3">
             Run
-            <select className="input h-7 w-auto py-0 pr-7 text-xs" value={selId ?? ""} onChange={(e) => setSelId(e.target.value)}>
+            <select className="input h-7 w-auto min-w-0 max-w-full py-0 pr-7 text-xs" value={selId ?? ""} onChange={(e) => setSelId(e.target.value)}>
               {runs.map((r) => (
-                <option key={r.id} value={r.id}>{r.id} · {r.provider}/{r.model} · {r.prompt_version} · {formatDateTime(r.created_at)}</option>
+                <option key={r.id} value={r.id}>{r.id} · {r.subset ?? "full"} · {r.provider}/{r.model} · {r.prompt_version} · {formatDateTime(r.created_at)}</option>
               ))}
             </select>
           </label>
@@ -174,7 +176,7 @@ export function EvalPanel() {
       )}
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <ChartCard title="Provider comparison" note="Latest run per provider, model and prompt version">
+        <ChartCard title="Provider comparison" note={`Latest ${subsetShown}-set run per provider, model and prompt version`}>
           <div className="-mx-4 overflow-x-auto">
             <table className="w-full min-w-[560px] text-xs">
               <thead className="text-ink-3">

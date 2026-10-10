@@ -59,7 +59,7 @@ export function AuditTrail() {
         <span className="ml-auto text-xs text-ink-3">{view.length} of {rows.length} findings</span>
       </div>
       <div className="card overflow-x-auto">
-        <table className="w-full min-w-[1180px] text-xs">
+        <table className="w-full min-w-[1100px] text-xs">
           <thead className="border-b border-line bg-page text-ink-3">
             <tr>
               {th("created_at", "When")}
@@ -81,7 +81,7 @@ export function AuditTrail() {
                 <td className="max-w-[130px] truncate px-3 py-2 text-ink-2">{r.vendor ?? "—"}</td>
                 <td className="mono whitespace-nowrap px-3 py-2 text-right text-ink">{formatINR(r.amount_inr)}</td>
                 <td className="max-w-[180px] px-3 py-2">
-                  <div className="text-ink">{r.rule_title ?? "—"}</div>
+                  <div className={r.rule_title ? "text-ink" : "line-clamp-2 text-ink-2"}>{r.rule_title ?? r.message}</div>
                   {r.rule_id && <div className="mono text-2xs text-ink-3">{r.rule_id}</div>}
                 </td>
                 <td className="px-3 py-2"><Pill tone={SEVERITY_TONE[r.severity]}>{SEVERITY_LABEL[r.severity]}</Pill></td>
@@ -91,7 +91,7 @@ export function AuditTrail() {
                 </td>
                 <td className="mono max-w-[160px] truncate px-3 py-2 text-ink-2" title={r.source_snippet ?? ""}>{r.source_snippet ?? "—"}</td>
                 <td className="max-w-[200px] px-3 py-2">
-                  <span className={`capitalize ${r.resolution === "open" ? "text-warn" : "text-ink"}`}>{r.resolution}</span>
+                  <span className={`capitalize ${r.resolution !== "open" ? "text-ink" : r.severity === "info" ? "text-ink-3" : "text-warn"}`}>{r.severity === "info" && r.resolution === "open" ? "Noted" : r.resolution}</span>
                   {r.justification && <div className="line-clamp-2 text-2xs text-ink-3" title={r.justification}>{r.justification}</div>}
                 </td>
               </tr>

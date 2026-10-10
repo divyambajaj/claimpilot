@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
-import { api } from "../../api/client";
+import { api, ApiError } from "../../api/client";
 import type { Policy, Rule, RuleSet } from "../../types";
 import { formatDateTime } from "../../lib/format";
 import { Pill, Spinner } from "../ui";
@@ -76,7 +76,8 @@ export function PolicyEditor() {
       setMode("coverage");
       setMsg({ tone: "ok", text: `Compiled v${rs.version}: ${rs.rules.length} rules in ${((performance.now() - started) / 1000).toFixed(1)} s. Every citation checked against the text.` });
     } catch (e) {
-      setMsg({ tone: "bad", text: e instanceof Error ? e.message : "Compile failed" });
+      const replayOnly = e instanceof ApiError && e.status === 409; // replay mode has no recording for this policy text
+      setMsg({ tone: "bad", text: replayOnly ? "Compiling calls the model, and this demo runs on recorded responses only. The active ruleset is unchanged." : e instanceof Error ? e.message : "Compile failed" });
     } finally {
       setBusy(false);
     }
