@@ -767,11 +767,11 @@ Sequencing notes: M1 before anything (replay fixtures accumulate from the first 
 10. **Confidence threshold TAU = 0.75 and max 3 questions per round.** Recommendation: confirm as defaults; both are config values surfaced on the dashboard.
 
 ### Critical Files for Implementation
-- /Users/divyambajaj/Documents/Projects/office_ai_innovation/backend/app/pipeline/orchestrator.py
-- /Users/divyambajaj/Documents/Projects/office_ai_innovation/backend/app/rules/engine.py (with rules/dsl.py)
-- /Users/divyambajaj/Documents/Projects/office_ai_innovation/backend/app/llm/client.py (with llm/providers/claude_code.py and llm/providers/replay.py)
-- /Users/divyambajaj/Documents/Projects/office_ai_innovation/backend/app/pipeline/planner.py
-- /Users/divyambajaj/Documents/Projects/office_ai_innovation/backend/app/domain/models.py
+- backend/app/pipeline/orchestrator.py
+- backend/app/rules/engine.py (with rules/dsl.py)
+- backend/app/llm/client.py (with llm/providers/claude_code.py and llm/providers/replay.py)
+- backend/app/pipeline/planner.py
+- backend/app/domain/models.py
 
 ---
 

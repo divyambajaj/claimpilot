@@ -100,7 +100,7 @@ class TestPayeeHeuristic:
     def test_payee_kind(self) -> None:
         text = "Paid to\nRohan Desai\nrohan.desai-2@okpaynow\nFrom\nK. Mehta"
         assert payee_kind("Rohan Desai", text) == (PayeeType.INDIVIDUAL, True)
-        assert payee_kind("Danish Luxury Unisex Salon", "Paid to Danish Luxury Unisex Salon") == (
+        assert payee_kind("Lakeview Unisex Salon", "Paid to Lakeview Unisex Salon") == (
             PayeeType.MERCHANT,
             False,
         )
@@ -128,11 +128,11 @@ class TestPayeeHeuristic:
 
 class TestRules:
     def test_cng_screenshot_needs_bill_and_trip_note(self) -> None:
-        line = upi(vendor_name="Shree Om Sai Auto Care Centre", category="fuel", total_amount=687.08)
+        line = upi(vendor_name="Shree Ganesh Auto Care Centre", category="fuel", total_amount=687.08)
         assert fired(line) == {"U1": {"BILL_REQUIRED", "FUEL_TRIP_NOTE"}}
 
     def test_salon_is_blocked(self) -> None:
-        line = upi(vendor_name="Danish Luxury Unisex Salon", category="personal", total_amount=300.0)
+        line = upi(vendor_name="Lakeview Unisex Salon", category="personal", total_amount=300.0)
         result = evaluate([line], RULESET, TODAY, payer_names=NAMES).lines["U1"]
         assert "PERSONAL_EXPENSE_NOT_REIMBURSABLE" in result.fired
         assert result.reimbursable_inr == 0.0
@@ -199,7 +199,7 @@ async def test_bill_and_trip_note_answers(tmp_path: Path, repo, tracer, make_cli
     settings = Settings(_env_file=None, DATA_DIR=tmp_path, EMPLOYEE_NAME="Kavya Mehta")
     payload = extraction_payload(
         doc_type="upi_screenshot",
-        vendor_name="Shree Om Sai Auto Care Centre",
+        vendor_name="Shree Ganesh Auto Care Centre",
         vendor_gstin=None,
         invoice_number=None,
         date=D,
@@ -227,7 +227,7 @@ async def test_bill_and_trip_note_answers(tmp_path: Path, repo, tracer, make_cli
     questions = {q.field: q for q in claim.open_questions}
     assert set(questions) == {"BILL_REQUIRED", "FUEL_TRIP_NOTE"}
     assert questions["BILL_REQUIRED"].prompt.startswith(
-        "Attach the bill for this ₹687.08 payment to Shree Om Sai Auto Care Centre"
+        "Attach the bill for this ₹687.08 payment to Shree Ganesh Auto Care Centre"
     )
     claim = await orch.answer(
         claim.id,
