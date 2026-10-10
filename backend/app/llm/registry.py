@@ -35,7 +35,7 @@ def build_provider(settings: Settings) -> LLMProvider:
                 settings.LLM_TIMEOUT_S,
             )
         case _:
-            return ReplayProvider(settings.replay_dir)
+            return ReplayProvider(settings.replay_dir, settings.REPLAY_DELAY_S)
 
 
 def build_prompts(settings: Settings) -> PromptRegistry:

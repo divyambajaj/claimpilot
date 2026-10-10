@@ -344,3 +344,17 @@ class TestSeedAndSpa:
         monkeypatch.setattr(main, "get_settings", lambda: settings.model_copy(update={"SEED_DEMO": True}))
         with TestClient(main.create_app(dist=REPO_ROOT / "nonexistent")) as client:
             assert client.get("/api/health").status_code == 200
+
+
+class TestDemoToday:
+    def test_replay_pins_the_calendar_and_keeps_time_running(self, settings: Settings) -> None:
+        pinned = dt.date(2026, 10, 10)
+        c = build_container(settings.model_copy(update={"DEMO_TODAY": pinned}))
+        first = c.orchestrator.clock()
+        assert first.date() == pinned
+        assert c.tracer.clock is c.orchestrator.clock  # spans and claims share one calendar
+        assert c.orchestrator.clock() >= first
+
+    def test_unset_demo_today_uses_the_real_date(self, settings: Settings) -> None:
+        c = build_container(settings.model_copy(update={"DEMO_TODAY": None}))
+        assert c.orchestrator.clock().date() == dt.datetime.now(dt.UTC).date()

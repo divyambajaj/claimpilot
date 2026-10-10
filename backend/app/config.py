@@ -1,5 +1,6 @@
 """Application settings (environment-driven via pydantic-settings)."""
 
+import datetime as dt
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
@@ -46,6 +47,10 @@ class Settings(BaseSettings):
     DATABASE_URL: str = f"sqlite:///{REPO_ROOT / 'data' / 'app.db'}"
     ADMIN_TOKEN: str | None = None
     SEED_DEMO: bool = False
+    # Replay mode pins the calendar here so the recorded Oct 2026 receipts never age into late-submission
+    # findings; live providers always use the real date. Empty to use the real date in replay too.
+    DEMO_TODAY: dt.date | None = dt.date(2026, 10, 10)
+    REPLAY_DELAY_S: float = 0.0  # pause per replayed LLM call, for recording the demo
     GIT_SHA: str | None = None
 
     TAU: float = 0.75

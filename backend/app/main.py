@@ -42,12 +42,20 @@ def build_container(
 ) -> Container:
     db = Database(settings.DATABASE_URL)
     db.create_all()
-    repo, tracer, broker = Repo(db), Tracer(db), Broker()
+    if clock is utcnow and settings.LLM_PROVIDER == "replay" and settings.DEMO_TODAY:
+        clock = demo_clock(settings.DEMO_TODAY)
+    repo, tracer, broker = Repo(db), Tracer(db, clock), Broker()
     llm = build_client(settings, tracer, provider)
     finance = MockFinance(repo, settings.FINANCE_DECISION_DELAY_S, settings.FINANCE_SEED)
     orch = Orchestrator(settings, repo, llm, tracer, broker, finance, clock)
     ensure_ruleset(repo, settings)
     return Container(settings, db, repo, tracer, broker, llm, finance, orch)
+
+
+def demo_clock(today: dt.date) -> Callable[[], dt.datetime]:
+    """Real time of day on a pinned calendar day: durations and the finance delay stay real."""
+    shift = dt.datetime.combine(today, dt.time()) - dt.datetime.combine(utcnow().date(), dt.time())
+    return lambda: utcnow() + shift
 
 
 def create_app(container: Container | None = None, dist: Path = FRONTEND_DIST) -> FastAPI:

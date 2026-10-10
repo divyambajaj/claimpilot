@@ -144,7 +144,7 @@ async def _run_eval(c: Container, subset: str) -> None:
         c.broker.publish(EVAL_TOPIC, "progress", data)
 
     try:
-        run = await run_eval(c.settings, subset, c.llm.provider, progress)
+        run = await run_eval(c.settings, subset, c.llm.provider, progress, created_at=c.orchestrator.clock())
     except Exception as exc:  # surfaced to the dashboard; the API process keeps serving
         c.broker.publish(EVAL_TOPIC, "error", {"message": f"Evaluation failed: {exc}"})
         return

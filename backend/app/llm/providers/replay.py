@@ -1,5 +1,6 @@
 """Keyless provider: serves responses recorded by `Recorder`, keyed by request fingerprint."""
 
+import asyncio
 import json
 from pathlib import Path
 
@@ -10,8 +11,9 @@ class ReplayProvider:
     name = "replay"
     supports_vision = True
 
-    def __init__(self, replay_dir: Path) -> None:
+    def __init__(self, replay_dir: Path, delay_s: float = 0.0) -> None:
         self.replay_dir = replay_dir
+        self.delay_s = delay_s  # paces a recorded demo so per-document progress is visible
         self.model = "recorded"
 
     def has(self, req: LLMRequest) -> bool:
@@ -23,6 +25,7 @@ class ReplayProvider:
         if not path.exists():
             raise ReplayMissError(fp)
         rec = json.loads(path.read_text())
+        await asyncio.sleep(self.delay_s)
         return LLMResponse(
             data=rec["response"]["data"],
             raw_text=rec["response"].get("raw_text", ""),
