@@ -64,7 +64,7 @@
         "quote": "Meals are reimbursed up to INR 750 per person per meal.",
         "char_start": 4420,
         "char_end": 4475,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -120,7 +120,7 @@
         "quote": "Any single expense of INR 5,000 or more must be supported by a GST tax invoice bearing the vendor's GSTIN.",
         "char_start": 2652,
         "char_end": 2758,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -151,7 +151,7 @@
         "quote": "Claims must be submitted within 30 days of the expense date.",
         "char_start": 1648,
         "char_end": 1708,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -182,7 +182,7 @@
         "quote": "Expenses older than 90 days will not be reimbursed.",
         "char_start": 1867,
         "char_end": 1918,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -246,7 +246,7 @@
         "quote": "For digital payments above INR 2,000, attach the payment confirmation.",
         "char_start": 3069,
         "char_end": 3139,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -294,7 +294,7 @@
         "quote": "Cash payments above INR 2,000 require a written justification, since they cannot be independently verified.",
         "char_start": 3267,
         "char_end": 3374,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -350,7 +350,7 @@
         "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
         "char_start": 5529,
         "char_end": 5615,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -414,7 +414,7 @@
         "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
         "char_start": 5529,
         "char_end": 5615,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -445,7 +445,7 @@
         "quote": "Local conveyance (cabs, auto-rickshaws and metro) is reimbursed up to INR 1,500 per day.",
         "char_start": 4015,
         "char_end": 4103,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -476,7 +476,7 @@
         "quote": "Fuel for personal vehicles used on company business is reimbursed up to INR 5,000 per claim.",
         "char_start": 5227,
         "char_end": 5319,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -507,7 +507,7 @@
         "quote": "Mobile and internet bills are reimbursed up to INR 1,000 per month.",
         "char_start": 6655,
         "char_end": 6722,
-        "verified": true
+        "citation_verified": true
       }
     },
     {
@@ -538,7 +538,7 @@
         "quote": "Office supplies bought on a weekend need a note from the manager explaining why they could not wait until a working day.",
         "char_start": 6221,
         "char_end": 6341,
-        "verified": true
+        "citation_verified": true
       }
     }
   ],

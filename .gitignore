@@ -23,3 +23,4 @@ frontend/coverage/
 .DS_Store
 .idea/
 .vscode/
+.claimpilot/

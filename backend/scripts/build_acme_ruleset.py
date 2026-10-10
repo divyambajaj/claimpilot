@@ -249,7 +249,7 @@ def main() -> None:
         "n/a",
         policy.created_at,
     )
-    if dropped or not all(r.citation.verified for r in ruleset.rules):
+    if dropped or not all(r.citation.citation_verified for r in ruleset.rules):
         raise SystemExit(f"citations not verbatim: {dropped}")
     smoke_test(ruleset)
     OUT.parent.mkdir(parents=True, exist_ok=True)

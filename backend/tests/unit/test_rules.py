@@ -376,12 +376,12 @@ class TestCitations:
     def test_exact(self) -> None:
         c = locate("4.2 Meals", self.QUOTE, POLICY_TEXT)
         assert POLICY_TEXT[c.char_start : c.char_end] == self.QUOTE
-        assert c.verified
+        assert c.citation_verified
 
     def test_whitespace_normalised(self) -> None:
         text = POLICY_TEXT.replace(self.QUOTE, "Meals are reimbursed\n  up to INR 750 per person per meal.")
         c = locate("4.2", self.QUOTE, text)
-        assert c.verified
+        assert c.citation_verified
         assert " ".join(text[c.char_start : c.char_end].split()) == self.QUOTE
 
     def test_fuzzy_unverified_and_miss(self) -> None:
@@ -389,7 +389,7 @@ class TestCitations:
             "4.2", "Meals are reimbursed up to INR 750 per person per meal", POLICY_TEXT.replace("750", "75O")
         )
         assert c is not None
-        assert c.verified is False
+        assert c.citation_verified is False
         assert locate("x", "Employees receive a free unicorn every Friday.", POLICY_TEXT) is None
 
 

@@ -24,9 +24,9 @@ Quality = Literal["good", "blurry", "partial", "rotated", "handwritten"]
 
 class FieldEdit(BaseModel):
     at: dt.datetime
-    old: Any = None
-    new: Any = None
-    by: Literal["user", "validator"] = "user"
+    old_value: Any = None
+    new_value: Any = None
+    by: str = "user"
 
 
 class ExtractedField(BaseModel, Generic[T]):
@@ -94,7 +94,7 @@ class Citation(BaseModel):
     quote: str
     char_start: int
     char_end: int
-    verified: bool = True
+    citation_verified: bool = True
 
 
 class Finding(BaseModel):
@@ -185,11 +185,12 @@ class Trace(BaseModel):
 class FieldMetric(BaseModel):
     accuracy: float
     n: int
+    mean_confidence: float = 0.0
 
 
 class ReliabilityBin(BaseModel):
-    lower: float
-    upper: float
+    lo: float
+    hi: float
     count: int
     mean_confidence: float
     accuracy: float
@@ -224,6 +225,7 @@ class EvalRun(BaseModel):
     reliability_bins: list[ReliabilityBin]
     passed_gate: bool
     git_sha: str | None = None
+    subset: str | None = None
 
 
 class CorrectionLabel(BaseModel):

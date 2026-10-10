@@ -13,7 +13,7 @@
           "quote": "Hotel stays are capped at INR 6,000 per night in metro cities and INR 4,000 elsewhere.",
           "char_start": 5529,
           "char_end": 5615,
-          "verified": true
+          "citation_verified": true
         },
         "evidence": {
           "action": "cap",

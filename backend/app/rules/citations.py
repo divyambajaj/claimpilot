@@ -41,4 +41,4 @@ def locate(section: str, quote: str, policy_text: str) -> Citation | None:
     if match is None or match.score < FUZZY_THRESHOLD:
         return None
     s, e = index[match.dest_start], index[max(match.dest_end - 1, match.dest_start)] + 1
-    return Citation(section=section, quote=quote, char_start=s, char_end=e, verified=False)
+    return Citation(section=section, quote=quote, char_start=s, char_end=e, citation_verified=False)

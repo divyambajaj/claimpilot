@@ -13,7 +13,7 @@
           "quote": "Any single expense of INR 5,000 or more must be supported by a GST tax invoice bearing the vendor's GSTIN.",
           "char_start": 2652,
           "char_end": 2758,
-          "verified": true
+          "citation_verified": true
         },
         "evidence": {
           "action": "require_field",
@@ -33,7 +33,7 @@
           "quote": "Cash payments above INR 2,000 require a written justification, since they cannot be independently verified.",
           "char_start": 3267,
           "char_end": 3374,
-          "verified": true
+          "citation_verified": true
         },
         "evidence": {
           "action": "require_justification",

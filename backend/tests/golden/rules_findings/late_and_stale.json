@@ -13,7 +13,7 @@
           "quote": "Claims must be submitted within 30 days of the expense date.",
           "char_start": 1648,
           "char_end": 1708,
-          "verified": true
+          "citation_verified": true
         },
         "evidence": {
           "action": "require_justification",
@@ -38,7 +38,7 @@
           "quote": "Claims must be submitted within 30 days of the expense date.",
           "char_start": 1648,
           "char_end": 1708,
-          "verified": true
+          "citation_verified": true
         },
         "evidence": {
           "action": "require_justification",
@@ -58,7 +58,7 @@
           "quote": "Expenses older than 90 days will not be reimbursed.",
           "char_start": 1867,
           "char_end": 1918,
-          "verified": true
+          "citation_verified": true
         },
         "evidence": {
           "action": "block",
