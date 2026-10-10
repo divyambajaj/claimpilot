@@ -1,0 +1,127 @@
+{
+  "fingerprint": "1b07284e3ce397cac5d60c869e5c4bea4d0e85f0fa05828da8564dfa58435e30",
+  "recorded_at": "2026-10-10T14:53:40.984403+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "64da23f541905efc3a0e5629f871c346476d2d04bd130e1809714024d7e68b38:0",
+        "bytes": 62124,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 12162,
+  "usage": {
+    "input_tokens": 41100,
+    "output_tokens": 1548,
+    "cost_usd": 0.048300800000000005
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "ride_receipt",
+        "confidence": 0.95,
+        "source_snippet": "Thanks for riding, Sharma"
+      },
+      "vendor_name": {
+        "value": "RydeGo Mobility Pvt Ltd",
+        "confidence": 0.95,
+        "source_snippet": "RydeGo Mobility Pvt Ltd"
+      },
+      "vendor_gstin": {
+        "value": "27AAJCR5521Q1ZR",
+        "confidence": 0.9,
+        "source_snippet": "GSTIN 27AAJCR5521Q1ZR"
+      },
+      "invoice_number": {
+        "value": "RG-MA-457023",
+        "confidence": 0.93,
+        "source_snippet": "Invoice No: RG-MA-457023"
+      },
+      "date": {
+        "value": "2026-10-02",
+        "confidence": 0.97,
+        "source_snippet": "02 Oct 2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "Rs. 720.00"
+      },
+      "subtotal": {
+        "value": 686.9,
+        "confidence": 0.7,
+        "source_snippet": "Trip fare 661.90 / Platform fee 25.00"
+      },
+      "tax_amount": {
+        "value": 33.1,
+        "confidence": 0.95,
+        "source_snippet": "GST @ 5% on trip fare 33.10"
+      },
+      "total_amount": {
+        "value": 720,
+        "confidence": 0.98,
+        "source_snippet": "Amount paid Rs. 720.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.9,
+        "source_snippet": "UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.9,
+        "source_snippet": "CSMT Airport T2, Mumbai"
+      },
+      "category": {
+        "value": "travel_local",
+        "confidence": 0.95,
+        "source_snippet": "Go Sedan ride"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 661.9
+        },
+        {
+          "description": "Platform fee",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 25
+        },
+        {
+          "description": "GST @ 5% on trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 33.1
+        }
+      ],
+      "raw_text": "RydeGo\nThanks for riding, Sharma\nWe hope you enjoyed your Go Sedan ride this evening.\nTotal Rs. 720.00\n02 Oct 2026\nTrip details\n17:01 CSMT Airport T2, Mumbai\n17:31 Andheri East Metro, Mumbai\n31.1 km | 30 min | Go Sedan\nFare breakdown\nTrip fare 661.90\nPlatform fee 25.00\nGST @ 5% on trip fare 33.10\nAmount paid Rs. 720.00\nPayment UPI (PayNow)\nInvoice No: RG-MA-457023\nRydeGo Mobility Pvt Ltd | GSTIN 27AAJCR5521Q1ZR\nThis is a computer generated invoice.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"ride_receipt\", \"confidence\": 0.95, \"source_snippet\": \"Thanks for riding, Sharma\"}, \"vendor_name\": {\"value\": \"RydeGo Mobility Pvt Ltd\", \"confidence\": 0.95, \"source_snippet\": \"RydeGo Mobility Pvt Ltd\"}, \"vendor_gstin\": {\"value\": \"27AAJCR5521Q1ZR\", \"confidence\": 0.9, \"source_snippet\": \"GSTIN 27AAJCR5521Q1ZR\"}, \"invoice_number\": {\"value\": \"RG-MA-457023\", \"confidence\": 0.93, \"source_snippet\": \"Invoice No: RG-MA-457023\"}, \"date\": {\"value\": \"2026-10-02\", \"confidence\": 0.97, \"source_snippet\": \"02 Oct 2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"Rs. 720.00\"}, \"subtotal\": {\"value\": 686.9, \"confidence\": 0.7, \"source_snippet\": \"Trip fare 661.90 / Platform fee 25.00\"}, \"tax_amount\": {\"value\": 33.1, \"confidence\": 0.95, \"source_snippet\": \"GST @ 5% on trip fare 33.10\"}, \"total_amount\": {\"value\": 720, \"confidence\": 0.98, \"source_snippet\": \"Amount paid Rs. 720.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.9, \"source_snippet\": \"UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.9, \"source_snippet\": \"CSMT Airport T2, Mumbai\"}, \"category\": {\"value\": \"travel_local\", \"confidence\": 0.95, \"source_snippet\": \"Go Sedan ride\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"Trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 661.9}, {\"description\": \"Platform fee\", \"quantity\": null, \"unit_price\": null, \"amount\": 25}, {\"description\": \"GST @ 5% on trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 33.1}], \"raw_text\": \"RydeGo\\nThanks for riding, Sharma\\nWe hope you enjoyed your Go Sedan ride this evening.\\nTotal Rs. 720.00\\n02 Oct 2026\\nTrip details\\n17:01 CSMT Airport T2, Mumbai\\n17:31 Andheri East Metro, Mumbai\\n31.1 km | 30 min | Go Sedan\\nFare breakdown\\nTrip fare 661.90\\nPlatform fee 25.00\\nGST @ 5% on trip fare 33.10\\nAmount paid Rs. 720.00\\nPayment UPI (PayNow)\\nInvoice No: RG-MA-457023\\nRydeGo Mobility Pvt Ltd | GSTIN 27AAJCR5521Q1ZR\\nThis is a computer generated invoice.\", \"quality\": \"good\"}"
+  }
+}

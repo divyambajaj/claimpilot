@@ -1,0 +1,115 @@
+{
+  "fingerprint": "7431290992cb8cc57ba6724e6f9cdfd17488e69ba0ce6574e749689959e20eb1",
+  "recorded_at": "2026-10-10T15:04:13.775572+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "ff5bc8952378351dd75b89de31eced8a46896cc0140910ead139dcf2ed4eb342:0",
+        "bytes": 621961,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10392,
+  "usage": {
+    "input_tokens": 41852,
+    "output_tokens": 1559,
+    "cost_usd": 0.0509248
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Harbourview Residency",
+        "confidence": 0.98,
+        "source_snippet": "HARBOURVIEW RESIDENCY"
+      },
+      "vendor_gstin": {
+        "value": "29KNZCJ3930M1ZL",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN: 29KNZCJ3930M1ZL"
+      },
+      "invoice_number": {
+        "value": "HR-82344",
+        "confidence": 0.97,
+        "source_snippet": "Folio No: HR-82344"
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.97,
+        "source_snippet": "Bill Date: 06/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 5200,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 5,200.00"
+      },
+      "tax_amount": {
+        "value": 624,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 312.00 SGST @ 6% 312.00"
+      },
+      "total_amount": {
+        "value": 5824,
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR) 5,824.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.9,
+        "source_snippet": "Settlement: UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Bengaluru",
+        "confidence": 0.9,
+        "source_snippet": "14 Residency Road, Bengaluru 560062"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.8,
+        "source_snippet": "Room Tariff - Executive"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Executive",
+          "quantity": 1,
+          "unit_price": 5200,
+          "amount": 5200
+        }
+      ],
+      "raw_text": "HARBOURVIEW RESIDENCY\n14 Residency Road, Bengaluru 560062\nTel: +91 86619 58776\nGSTIN: 29KNZCJ3930M1ZL\nGUEST FOLIO / TAX INVOICE\nFolio No: HR-82344    Bill Date: 06/10/2026\nGuest: V. Nair    Room: 465 (Executive)\nArrival: 05/10/2026    Departure: 06/10/2026\nCompany: Acme India Pvt Ltd    Nights: 1  Pax: 1\nDate | Particulars | CGST | SGST | Amount\n05/10/26 | Room Tariff - Executive | 312.00 | 312.00 | 5,200.00\nTaxable Value 5,200.00\nCGST @ 6% 312.00\nSGST @ 6% 312.00\nTOTAL (INR) 5,824.00\nLess: Settlement (5,824.00)\nBalance 0.00\nSettlement: UPI (PayNow)\nGuest Signature ____________    Cashier ____________\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Harbourview Residency\", \"confidence\": 0.98, \"source_snippet\": \"HARBOURVIEW RESIDENCY\"}, \"vendor_gstin\": {\"value\": \"29KNZCJ3930M1ZL\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN: 29KNZCJ3930M1ZL\"}, \"invoice_number\": {\"value\": \"HR-82344\", \"confidence\": 0.97, \"source_snippet\": \"Folio No: HR-82344\"}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.97, \"source_snippet\": \"Bill Date: 06/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 5200, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 5,200.00\"}, \"tax_amount\": {\"value\": 624, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 312.00 SGST @ 6% 312.00\"}, \"total_amount\": {\"value\": 5824, \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR) 5,824.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.9, \"source_snippet\": \"Settlement: UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Bengaluru\", \"confidence\": 0.9, \"source_snippet\": \"14 Residency Road, Bengaluru 560062\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.8, \"source_snippet\": \"Room Tariff - Executive\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"Room Tariff - Executive\", \"quantity\": 1, \"unit_price\": 5200, \"amount\": 5200}], \"raw_text\": \"HARBOURVIEW RESIDENCY\\n14 Residency Road, Bengaluru 560062\\nTel: +91 86619 58776\\nGSTIN: 29KNZCJ3930M1ZL\\nGUEST FOLIO / TAX INVOICE\\nFolio No: HR-82344    Bill Date: 06/10/2026\\nGuest: V. Nair    Room: 465 (Executive)\\nArrival: 05/10/2026    Departure: 06/10/2026\\nCompany: Acme India Pvt Ltd    Nights: 1  Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n05/10/26 | Room Tariff - Executive | 312.00 | 312.00 | 5,200.00\\nTaxable Value 5,200.00\\nCGST @ 6% 312.00\\nSGST @ 6% 312.00\\nTOTAL (INR) 5,824.00\\nLess: Settlement (5,824.00)\\nBalance 0.00\\nSettlement: UPI (PayNow)\\nGuest Signature ____________    Cashier ____________\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

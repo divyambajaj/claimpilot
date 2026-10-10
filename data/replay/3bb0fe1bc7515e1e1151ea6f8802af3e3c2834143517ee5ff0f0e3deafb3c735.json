@@ -1,0 +1,115 @@
+{
+  "fingerprint": "3bb0fe1bc7515e1e1151ea6f8802af3e3c2834143517ee5ff0f0e3deafb3c735",
+  "recorded_at": "2026-10-10T14:53:11.267920+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "f89569526b15f521c18df46b048e8ff3ef21747394dd2e94a60d898d8678e28e:0",
+        "bytes": 190881,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10540,
+  "usage": {
+    "input_tokens": 40913,
+    "output_tokens": 1437,
+    "cost_usd": 0.046412400000000006
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "fuel",
+        "confidence": 0.97,
+        "source_snippet": "GREEN MILE FUELS"
+      },
+      "vendor_name": {
+        "value": "GREEN MILE FUELS",
+        "confidence": 0.95,
+        "source_snippet": "GREEN MILE FUELS"
+      },
+      "vendor_gstin": {
+        "value": "08FGYFX1147E1ZA",
+        "confidence": 0.8,
+        "source_snippet": "GSTIN:08FGYFX1147E1ZA"
+      },
+      "invoice_number": {
+        "value": "59312",
+        "confidence": 0.9,
+        "source_snippet": "RCPT NO: 59312"
+      },
+      "date": {
+        "value": "2026-09-30",
+        "confidence": 0.95,
+        "source_snippet": "30/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "AMOUNT (Rs):"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 5400,
+        "confidence": 0.96,
+        "source_snippet": "5,400.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.92,
+        "source_snippet": "MODE: CARD"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Jaipur",
+        "confidence": 0.9,
+        "source_snippet": "Jaipur - 302022"
+      },
+      "category": {
+        "value": "fuel",
+        "confidence": 0.97,
+        "source_snippet": "PRODUCT: DIESEL"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "DIESEL",
+          "quantity": 59.98,
+          "unit_price": 90.03,
+          "amount": 5400
+        }
+      ],
+      "raw_text": "*** WELCOME ***\nGREEN MILE FUELS\nTonk Road, Durgapura\nJaipur - 302022\nGSTIN:08FGYFX1147E1ZA\n----------------------------------------\nRCPT NO: 59312\nDATE: 30/09/2026\nTIME: 10:47:26\nFP ID / NOZZLE: 01 / 4\nPRODUCT: DIESEL\nRATE (Rs/L): 90.03\nVOLUME (L): 59.98\n----------------------------------------\nAMOUNT (Rs): 5,400.00\n----------------------------------------\nVEHICLE NO: RA48DC9414\nMODE: CARD\nSAVE FUEL  SAVE MONEY\nTHANK YOU - VISIT AGAIN",
+      "quality": "rotated"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"fuel\", \"confidence\": 0.97, \"source_snippet\": \"GREEN MILE FUELS\"}, \"vendor_name\": {\"value\": \"GREEN MILE FUELS\", \"confidence\": 0.95, \"source_snippet\": \"GREEN MILE FUELS\"}, \"vendor_gstin\": {\"value\": \"08FGYFX1147E1ZA\", \"confidence\": 0.8, \"source_snippet\": \"GSTIN:08FGYFX1147E1ZA\"}, \"invoice_number\": {\"value\": \"59312\", \"confidence\": 0.9, \"source_snippet\": \"RCPT NO: 59312\"}, \"date\": {\"value\": \"2026-09-30\", \"confidence\": 0.95, \"source_snippet\": \"30/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"AMOUNT (Rs):\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"total_amount\": {\"value\": 5400, \"confidence\": 0.96, \"source_snippet\": \"5,400.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.92, \"source_snippet\": \"MODE: CARD\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"city\": {\"value\": \"Jaipur\", \"confidence\": 0.9, \"source_snippet\": \"Jaipur - 302022\"}, \"category\": {\"value\": \"fuel\", \"confidence\": 0.97, \"source_snippet\": \"PRODUCT: DIESEL\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"items\": [{\"description\": \"DIESEL\", \"quantity\": 59.98, \"unit_price\": 90.03, \"amount\": 5400}], \"raw_text\": \"*** WELCOME ***\\nGREEN MILE FUELS\\nTonk Road, Durgapura\\nJaipur - 302022\\nGSTIN:08FGYFX1147E1ZA\\n----------------------------------------\\nRCPT NO: 59312\\nDATE: 30/09/2026\\nTIME: 10:47:26\\nFP ID / NOZZLE: 01 / 4\\nPRODUCT: DIESEL\\nRATE (Rs/L): 90.03\\nVOLUME (L): 59.98\\n----------------------------------------\\nAMOUNT (Rs): 5,400.00\\n----------------------------------------\\nVEHICLE NO: RA48DC9414\\nMODE: CARD\\nSAVE FUEL  SAVE MONEY\\nTHANK YOU - VISIT AGAIN\", \"quality\": \"rotated\"}"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "fingerprint": "320c1e133e3edae662c972b29d85f535fcc661a046e1c3904c1842cb5b69914a",
+  "recorded_at": "2026-10-10T15:06:02.415731+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "7067a7feaf1a55134b2716a443637eb58bbc6d97c263800c0e173a5cafab0c6b:0",
+        "bytes": 55899,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 9981,
+  "usage": {
+    "input_tokens": 41489,
+    "output_tokens": 1476,
+    "cost_usd": 0.048604800000000004
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.97,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "INKWELL STATIONERS",
+        "confidence": 0.99,
+        "source_snippet": "INKWELL STATIONERS"
+      },
+      "vendor_gstin": {
+        "value": "07AAGFI3092B1ZX",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN: 07AAGFI3092B1ZX"
+      },
+      "invoice_number": {
+        "value": "INK/1093",
+        "confidence": 0.98,
+        "source_snippet": "Invoice No: INK/1093"
+      },
+      "date": {
+        "value": "2026-10-02",
+        "confidence": 0.95,
+        "source_snippet": "Date: 02/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 5500,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 5,500.00"
+      },
+      "tax_amount": {
+        "value": 990,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 9% 495.00 SGST @ 9% 495.00"
+      },
+      "total_amount": {
+        "value": 6490,
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR) 6,490.00"
+      },
+      "payment_method": {
+        "value": "cash",
+        "confidence": 0.98,
+        "source_snippet": "Payment: CASH"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.98,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "New Delhi",
+        "confidence": 0.85,
+        "source_snippet": "22 Nehru Place, New Delhi 110019"
+      },
+      "category": {
+        "value": "office",
+        "confidence": 0.8,
+        "source_snippet": "A4 Copier Paper (5 reams)"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "A4 Copier Paper (5 reams)",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 1250
+        },
+        {
+          "description": "Whiteboard 4x3 ft",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 2600
+        },
+        {
+          "description": "Marker Set & Dusters",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 1650
+        }
+      ],
+      "raw_text": "INKWELL STATIONERS\n22 Nehru Place, New Delhi 110019\nGSTIN: 07AAGFI3092B1ZX\nTAX INVOICE\nInvoice No: INK/1093    Date: 02/10/2026\nA4 Copier Paper (5 reams)    1,250.00\nWhiteboard 4x3 ft    2,600.00\nMarker Set & Dusters    1,650.00\nTaxable Value    5,500.00\nCGST @ 9%    495.00\nSGST @ 9%    495.00\nTOTAL (INR)    6,490.00\nPayment: CASH",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.97, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"INKWELL STATIONERS\", \"confidence\": 0.99, \"source_snippet\": \"INKWELL STATIONERS\"}, \"vendor_gstin\": {\"value\": \"07AAGFI3092B1ZX\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN: 07AAGFI3092B1ZX\"}, \"invoice_number\": {\"value\": \"INK/1093\", \"confidence\": 0.98, \"source_snippet\": \"Invoice No: INK/1093\"}, \"date\": {\"value\": \"2026-10-02\", \"confidence\": 0.95, \"source_snippet\": \"Date: 02/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 5500, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 5,500.00\"}, \"tax_amount\": {\"value\": 990, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 9% 495.00 SGST @ 9% 495.00\"}, \"total_amount\": {\"value\": 6490, \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR) 6,490.00\"}, \"payment_method\": {\"value\": \"cash\", \"confidence\": 0.98, \"source_snippet\": \"Payment: CASH\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.98, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"city\": {\"value\": \"New Delhi\", \"confidence\": 0.85, \"source_snippet\": \"22 Nehru Place, New Delhi 110019\"}, \"category\": {\"value\": \"office\", \"confidence\": 0.8, \"source_snippet\": \"A4 Copier Paper (5 reams)\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"A4 Copier Paper (5 reams)\", \"quantity\": null, \"unit_price\": null, \"amount\": 1250}, {\"description\": \"Whiteboard 4x3 ft\", \"quantity\": null, \"unit_price\": null, \"amount\": 2600}, {\"description\": \"Marker Set & Dusters\", \"quantity\": null, \"unit_price\": null, \"amount\": 1650}], \"raw_text\": \"INKWELL STATIONERS\\n22 Nehru Place, New Delhi 110019\\nGSTIN: 07AAGFI3092B1ZX\\nTAX INVOICE\\nInvoice No: INK/1093    Date: 02/10/2026\\nA4 Copier Paper (5 reams)    1,250.00\\nWhiteboard 4x3 ft    2,600.00\\nMarker Set & Dusters    1,650.00\\nTaxable Value    5,500.00\\nCGST @ 9%    495.00\\nSGST @ 9%    495.00\\nTOTAL (INR)    6,490.00\\nPayment: CASH\", \"quality\": \"good\"}"
+  }
+}

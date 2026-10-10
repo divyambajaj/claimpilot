@@ -1,0 +1,133 @@
+{
+  "fingerprint": "a19a3fbd59983a5c50c3f50f83230fecc99df92e45dea1e04640bf2bcce0a1dd",
+  "recorded_at": "2026-10-10T15:04:58.315179+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "36571074c3bec74507d29638f2d86ef4a37120bbda82859b8b18b19ecd479f9c:0",
+        "bytes": 185276,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 13101,
+  "usage": {
+    "input_tokens": 41503,
+    "output_tokens": 1817,
+    "cost_usd": 0.0520898
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "receipt",
+        "confidence": 0.6,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Bandra Bean Co.",
+        "confidence": 0.98,
+        "source_snippet": "BANDRA BEAN CO."
+      },
+      "vendor_gstin": {
+        "value": "27HEKCM7459Y1ZJ",
+        "confidence": 0.85,
+        "source_snippet": "GSTIN: 27HEKCM7459Y1ZJ"
+      },
+      "invoice_number": {
+        "value": "BB/2610/5690",
+        "confidence": 0.93,
+        "source_snippet": "Bill No: BB/2610/5690"
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.95,
+        "source_snippet": "Date: 06/10/26"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 830,
+        "confidence": 0.97,
+        "source_snippet": "Sub Total 830.00"
+      },
+      "tax_amount": {
+        "value": 41.5,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 2.5% 20.75 / SGST @ 2.5% 20.75"
+      },
+      "total_amount": {
+        "value": 872,
+        "confidence": 0.98,
+        "source_snippet": "GRAND TOTAL Rs. 872.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.98,
+        "source_snippet": "Paid by: CARD (VISA xx4961)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.97,
+        "source_snippet": "Mumbai 400063"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.8,
+        "source_snippet": "Dal Makhani Filter Coffee Gulab Jamun Butter Naan"
+      },
+      "attendees_count": {
+        "value": 3,
+        "confidence": 0.97,
+        "source_snippet": "Table: 25  Covers: 3"
+      },
+      "items": [
+        {
+          "description": "Dal Makhani",
+          "quantity": 2,
+          "unit_price": 280,
+          "amount": 560
+        },
+        {
+          "description": "Filter Coffee",
+          "quantity": 1,
+          "unit_price": 90,
+          "amount": 90
+        },
+        {
+          "description": "Gulab Jamun",
+          "quantity": 1,
+          "unit_price": 120,
+          "amount": 120
+        },
+        {
+          "description": "Butter Naan",
+          "quantity": 1,
+          "unit_price": 60,
+          "amount": 60
+        }
+      ],
+      "raw_text": "BANDRA BEAN CO.\nChapel Road, Bandra West\nMumbai 400063\nPh: 025-68693586\nGSTIN: 27HEKCM7459Y1ZJ\nFSSAI Lic No: 11427333199725\nTAX INVOICE\nBill No: BB/2610/5690        Date: 06/10/26\nTable: 25  Covers: 3         Time: 20:54\nSteward: Lakshmi\nItem            Qty   Rate    Amount\nDal Makhani      2    280.00  560.00\nFilter Coffee    1     90.00   90.00\nGulab Jamun      1    120.00  120.00\nButter Naan      1     60.00   60.00\n                              830.00\nSub Total                      20.75\nCGST @ 2.5%                    20.75\nSGST @ 2.5%                    +0.50\nRound Off\nGRAND TOTAL Rs.               872.00\nPaid by: CARD (VISA xx4961)\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "rotated"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"receipt\", \"confidence\": 0.6, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Bandra Bean Co.\", \"confidence\": 0.98, \"source_snippet\": \"BANDRA BEAN CO.\"}, \"vendor_gstin\": {\"value\": \"27HEKCM7459Y1ZJ\", \"confidence\": 0.85, \"source_snippet\": \"GSTIN: 27HEKCM7459Y1ZJ\"}, \"invoice_number\": {\"value\": \"BB/2610/5690\", \"confidence\": 0.93, \"source_snippet\": \"Bill No: BB/2610/5690\"}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.95, \"source_snippet\": \"Date: 06/10/26\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 830, \"confidence\": 0.97, \"source_snippet\": \"Sub Total 830.00\"}, \"tax_amount\": {\"value\": 41.5, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 2.5% 20.75 / SGST @ 2.5% 20.75\"}, \"total_amount\": {\"value\": 872, \"confidence\": 0.98, \"source_snippet\": \"GRAND TOTAL Rs. 872.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.98, \"source_snippet\": \"Paid by: CARD (VISA xx4961)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.97, \"source_snippet\": \"Mumbai 400063\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.8, \"source_snippet\": \"Dal Makhani Filter Coffee Gulab Jamun Butter Naan\"}, \"attendees_count\": {\"value\": 3, \"confidence\": 0.97, \"source_snippet\": \"Table: 25  Covers: 3\"}, \"items\": [{\"description\": \"Dal Makhani\", \"quantity\": 2, \"unit_price\": 280, \"amount\": 560}, {\"description\": \"Filter Coffee\", \"quantity\": 1, \"unit_price\": 90, \"amount\": 90}, {\"description\": \"Gulab Jamun\", \"quantity\": 1, \"unit_price\": 120, \"amount\": 120}, {\"description\": \"Butter Naan\", \"quantity\": 1, \"unit_price\": 60, \"amount\": 60}], \"raw_text\": \"BANDRA BEAN CO.\\nChapel Road, Bandra West\\nMumbai 400063\\nPh: 025-68693586\\nGSTIN: 27HEKCM7459Y1ZJ\\nFSSAI Lic No: 11427333199725\\nTAX INVOICE\\nBill No: BB/2610/5690        Date: 06/10/26\\nTable: 25  Covers: 3         Time: 20:54\\nSteward: Lakshmi\\nItem            Qty   Rate    Amount\\nDal Makhani      2    280.00  560.00\\nFilter Coffee    1     90.00   90.00\\nGulab Jamun      1    120.00  120.00\\nButter Naan      1     60.00   60.00\\n                              830.00\\nSub Total                      20.75\\nCGST @ 2.5%                    20.75\\nSGST @ 2.5%                    +0.50\\nRound Off\\nGRAND TOTAL Rs.               872.00\\nPaid by: CARD (VISA xx4961)\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"rotated\"}"
+  }
+}

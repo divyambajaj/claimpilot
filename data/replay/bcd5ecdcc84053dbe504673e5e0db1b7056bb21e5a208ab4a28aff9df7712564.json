@@ -1,0 +1,108 @@
+{
+  "fingerprint": "bcd5ecdcc84053dbe504673e5e0db1b7056bb21e5a208ab4a28aff9df7712564",
+  "recorded_at": "2026-10-10T14:50:46.707138+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "82d069fb66abd268491e694574d26c59b0955fffc30021ec4c849892a66c2681:0",
+        "bytes": 53065,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10007,
+  "usage": {
+    "input_tokens": 41246,
+    "output_tokens": 1153,
+    "cost_usd": 0.0453566
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "Harbourview Residency",
+        "confidence": 0.85,
+        "source_snippet": "Harbourview Residency"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.97,
+        "source_snippet": "06 Oct 2026, 2:02 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹5,824"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 5824,
+        "confidence": 0.97,
+        "source_snippet": "₹5,824"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "643616165652",
+        "confidence": 0.95,
+        "source_snippet": "UPI Transaction ID 643616165652"
+      },
+      "payee_name": {
+        "value": "Harbourview Residency",
+        "confidence": 0.97,
+        "source_snippet": "Harbourview Residency"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.4,
+        "source_snippet": "Harbourview Residency"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "items": [],
+      "raw_text": "2:02 76%\nPayNow\nPayment Successful\n₹5,824\n06 Oct 2026, 2:02 PM\nPaid to\nHarbourview Residency\nharbourviewres@paynow\nFrom\nK. Mehta (xx4132)\nUPI Transaction ID 643616165652\nPayNow Txn ID PN2610061402BT99\nNote Bill payment\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"Harbourview Residency\", \"confidence\": 0.85, \"source_snippet\": \"Harbourview Residency\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.97, \"source_snippet\": \"06 Oct 2026, 2:02 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b95,824\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"total_amount\": {\"value\": 5824, \"confidence\": 0.97, \"source_snippet\": \"\\u20b95,824\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"643616165652\", \"confidence\": 0.95, \"source_snippet\": \"UPI Transaction ID 643616165652\"}, \"payee_name\": {\"value\": \"Harbourview Residency\", \"confidence\": 0.97, \"source_snippet\": \"Harbourview Residency\"}, \"city\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.4, \"source_snippet\": \"Harbourview Residency\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"items\": [], \"raw_text\": \"2:02 76%\\nPayNow\\nPayment Successful\\n\\u20b95,824\\n06 Oct 2026, 2:02 PM\\nPaid to\\nHarbourview Residency\\nharbourviewres@paynow\\nFrom\\nK. Mehta (xx4132)\\nUPI Transaction ID 643616165652\\nPayNow Txn ID PN2610061402BT99\\nNote Bill payment\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

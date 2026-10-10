@@ -1,0 +1,181 @@
+{
+  "fingerprint": "454a8cbbb5d1522caf5365116263b5efbdabcca724114cc877a3f7b02bcfab8c",
+  "recorded_at": "2026-10-10T15:04:29.120419+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "45d3a720e5296c0fa3cbd28044001700274ae14b30699774de6dcbdfdf7299a5:0",
+        "bytes": 509963,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 13045,
+  "usage": {
+    "input_tokens": 41710,
+    "output_tokens": 2117,
+    "cost_usd": 0.055933
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.97,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "HOOGHLY FISH KITCHEN",
+        "confidence": 0.99,
+        "source_snippet": "HOOGHLY FISH KITCHEN"
+      },
+      "vendor_gstin": {
+        "value": "19FHBCP5273R1Z4",
+        "confidence": 0.93,
+        "source_snippet": "GSTIN: 19FHBCP5273R1Z4"
+      },
+      "invoice_number": {
+        "value": "HF/2610/9238",
+        "confidence": 0.98,
+        "source_snippet": "Bill No: HF/2610/9238"
+      },
+      "date": {
+        "value": "2026-10-05",
+        "confidence": 0.98,
+        "source_snippet": "Date: 05/10/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 3670,
+        "confidence": 0.98,
+        "source_snippet": "Sub Total 3,670.00"
+      },
+      "tax_amount": {
+        "value": 183.5,
+        "confidence": 0.97,
+        "source_snippet": "CGST @ 2.5% 91.75 / SGST @ 2.5% 91.75"
+      },
+      "total_amount": {
+        "value": 3854,
+        "confidence": 0.99,
+        "source_snippet": "GRAND TOTAL Rs. 3,854.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.98,
+        "source_snippet": "Paid by: CARD (VISA xx9310)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.98,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Kolkata",
+        "confidence": 0.97,
+        "source_snippet": "Kolkata 700003"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.9,
+        "source_snippet": "Table: 8 Covers: 4"
+      },
+      "attendees_count": {
+        "value": 4,
+        "confidence": 0.98,
+        "source_snippet": "Covers: 4"
+      },
+      "items": [
+        {
+          "description": "Butter Naan",
+          "quantity": 2,
+          "unit_price": 60,
+          "amount": 120
+        },
+        {
+          "description": "Veg Biryani",
+          "quantity": 1,
+          "unit_price": 290,
+          "amount": 290
+        },
+        {
+          "description": "Jeera Rice",
+          "quantity": 2,
+          "unit_price": 190,
+          "amount": 380
+        },
+        {
+          "description": "Kadai Paneer",
+          "quantity": 2,
+          "unit_price": 310,
+          "amount": 620
+        },
+        {
+          "description": "Gulab Jamun",
+          "quantity": 1,
+          "unit_price": 120,
+          "amount": 120
+        },
+        {
+          "description": "Hyderabadi Biryani",
+          "quantity": 1,
+          "unit_price": 360,
+          "amount": 360
+        },
+        {
+          "description": "Mango Lassi",
+          "quantity": 2,
+          "unit_price": 140,
+          "amount": 280
+        },
+        {
+          "description": "Veg Thali",
+          "quantity": 1,
+          "unit_price": 320,
+          "amount": 320
+        },
+        {
+          "description": "Paneer Tikka",
+          "quantity": 2,
+          "unit_price": 340,
+          "amount": 680
+        },
+        {
+          "description": "Masala Dosa",
+          "quantity": 1,
+          "unit_price": 180,
+          "amount": 180
+        },
+        {
+          "description": "Tandoori Roti",
+          "quantity": 1,
+          "unit_price": 40,
+          "amount": 40
+        },
+        {
+          "description": "Dal Makhani",
+          "quantity": 1,
+          "unit_price": 280,
+          "amount": 280
+        }
+      ],
+      "raw_text": "HOOGHLY FISH KITCHEN\n22 Park Street\nKolkata 700003\nPh: 034-55996367\nGSTIN: 19FHBCP5273R1Z4\nFSSAI Lic No: 18205849572988\nTAX INVOICE\nBill No: HF/2610/9238    Date: 05/10/2026\nTable: 8  Covers: 4    Time: 22:03\nSteward: Suresh\nItem  Qty  Rate  Amount\nButter Naan 2 60.00 120.00\nVeg Biryani 1 290.00 290.00\nJeera Rice 2 190.00 380.00\nKadai Paneer 2 310.00 620.00\nGulab Jamun 1 120.00 120.00\nHyderabadi Biryani 1 360.00 360.00\nMango Lassi 2 140.00 280.00\nVeg Thali 1 320.00 320.00\nPaneer Tikka 2 340.00 680.00\nMasala Dosa 1 180.00 180.00\nTandoori Roti 1 40.00 40.00\nDal Makhani 1 280.00 280.00\nSub Total 3,670.00\nCGST @ 2.5% 91.75\nSGST @ 2.5% 91.75\nRound Off +0.50\nGRAND TOTAL Rs. 3,854.00\nPaid by: CARD (VISA xx9310)\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.97, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"HOOGHLY FISH KITCHEN\", \"confidence\": 0.99, \"source_snippet\": \"HOOGHLY FISH KITCHEN\"}, \"vendor_gstin\": {\"value\": \"19FHBCP5273R1Z4\", \"confidence\": 0.93, \"source_snippet\": \"GSTIN: 19FHBCP5273R1Z4\"}, \"invoice_number\": {\"value\": \"HF/2610/9238\", \"confidence\": 0.98, \"source_snippet\": \"Bill No: HF/2610/9238\"}, \"date\": {\"value\": \"2026-10-05\", \"confidence\": 0.98, \"source_snippet\": \"Date: 05/10/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 3670, \"confidence\": 0.98, \"source_snippet\": \"Sub Total 3,670.00\"}, \"tax_amount\": {\"value\": 183.5, \"confidence\": 0.97, \"source_snippet\": \"CGST @ 2.5% 91.75 / SGST @ 2.5% 91.75\"}, \"total_amount\": {\"value\": 3854, \"confidence\": 0.99, \"source_snippet\": \"GRAND TOTAL Rs. 3,854.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.98, \"source_snippet\": \"Paid by: CARD (VISA xx9310)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.98, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"city\": {\"value\": \"Kolkata\", \"confidence\": 0.97, \"source_snippet\": \"Kolkata 700003\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.9, \"source_snippet\": \"Table: 8 Covers: 4\"}, \"attendees_count\": {\"value\": 4, \"confidence\": 0.98, \"source_snippet\": \"Covers: 4\"}, \"items\": [{\"description\": \"Butter Naan\", \"quantity\": 2, \"unit_price\": 60, \"amount\": 120}, {\"description\": \"Veg Biryani\", \"quantity\": 1, \"unit_price\": 290, \"amount\": 290}, {\"description\": \"Jeera Rice\", \"quantity\": 2, \"unit_price\": 190, \"amount\": 380}, {\"description\": \"Kadai Paneer\", \"quantity\": 2, \"unit_price\": 310, \"amount\": 620}, {\"description\": \"Gulab Jamun\", \"quantity\": 1, \"unit_price\": 120, \"amount\": 120}, {\"description\": \"Hyderabadi Biryani\", \"quantity\": 1, \"unit_price\": 360, \"amount\": 360}, {\"description\": \"Mango Lassi\", \"quantity\": 2, \"unit_price\": 140, \"amount\": 280}, {\"description\": \"Veg Thali\", \"quantity\": 1, \"unit_price\": 320, \"amount\": 320}, {\"description\": \"Paneer Tikka\", \"quantity\": 2, \"unit_price\": 340, \"amount\": 680}, {\"description\": \"Masala Dosa\", \"quantity\": 1, \"unit_price\": 180, \"amount\": 180}, {\"description\": \"Tandoori Roti\", \"quantity\": 1, \"unit_price\": 40, \"amount\": 40}, {\"description\": \"Dal Makhani\", \"quantity\": 1, \"unit_price\": 280, \"amount\": 280}], \"raw_text\": \"HOOGHLY FISH KITCHEN\\n22 Park Street\\nKolkata 700003\\nPh: 034-55996367\\nGSTIN: 19FHBCP5273R1Z4\\nFSSAI Lic No: 18205849572988\\nTAX INVOICE\\nBill No: HF/2610/9238    Date: 05/10/2026\\nTable: 8  Covers: 4    Time: 22:03\\nSteward: Suresh\\nItem  Qty  Rate  Amount\\nButter Naan 2 60.00 120.00\\nVeg Biryani 1 290.00 290.00\\nJeera Rice 2 190.00 380.00\\nKadai Paneer 2 310.00 620.00\\nGulab Jamun 1 120.00 120.00\\nHyderabadi Biryani 1 360.00 360.00\\nMango Lassi 2 140.00 280.00\\nVeg Thali 1 320.00 320.00\\nPaneer Tikka 2 340.00 680.00\\nMasala Dosa 1 180.00 180.00\\nTandoori Roti 1 40.00 40.00\\nDal Makhani 1 280.00 280.00\\nSub Total 3,670.00\\nCGST @ 2.5% 91.75\\nSGST @ 2.5% 91.75\\nRound Off +0.50\\nGRAND TOTAL Rs. 3,854.00\\nPaid by: CARD (VISA xx9310)\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"good\"}"
+  }
+}

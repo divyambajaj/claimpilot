@@ -1,0 +1,127 @@
+{
+  "fingerprint": "71abf58487725271c6f5306e49428140ef8628d31ab7006bb1e973f46a356ef2",
+  "recorded_at": "2026-10-10T14:50:53.567570+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "5a449e4bb4cf7f684f767c0e794e1ac8fc87c7b70c5d78bb730721220c70f261:0",
+        "bytes": 256567,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 21579,
+  "usage": {
+    "input_tokens": 63093,
+    "output_tokens": 2958,
+    "cost_usd": 0.0725144
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "ride_receipt",
+        "confidence": 0.95,
+        "source_snippet": "Thanks for riding, Banerjee"
+      },
+      "vendor_name": {
+        "value": "RydeGo Mobility Pvt Ltd",
+        "confidence": 0.9,
+        "source_snippet": "RydeGo Mobility Pvt Ltd"
+      },
+      "vendor_gstin": {
+        "value": "27AAJCR5521Q1ZR",
+        "confidence": 0.8,
+        "source_snippet": "GSTIN 27AAJCR5521Q1ZR"
+      },
+      "invoice_number": {
+        "value": "RG-MA-309309",
+        "confidence": 0.8,
+        "source_snippet": "Invoice No: RG-MA-309309"
+      },
+      "date": {
+        "value": "2026-09-15",
+        "confidence": 0.95,
+        "source_snippet": "15 Sep 2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "Rs. 486.00"
+      },
+      "subtotal": {
+        "value": 464.05,
+        "confidence": 0.6,
+        "source_snippet": "Trip fare 439.05 Platform fee 25.00"
+      },
+      "tax_amount": {
+        "value": 21.95,
+        "confidence": 0.95,
+        "source_snippet": "GST @ 5% on trip fare 21.95"
+      },
+      "total_amount": {
+        "value": 486,
+        "confidence": 0.97,
+        "source_snippet": "Amount paid Rs. 486.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.95,
+        "source_snippet": "UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.9,
+        "source_snippet": "Powai Lake Road, Mumbai"
+      },
+      "category": {
+        "value": "travel_local",
+        "confidence": 0.95,
+        "source_snippet": "Go Prime ride"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.05,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 439.05
+        },
+        {
+          "description": "Platform fee",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 25
+        },
+        {
+          "description": "GST @ 5% on trip fare",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 21.95
+        }
+      ],
+      "raw_text": "RydeGo\nThanks for riding, Banerjee\nWe hope you enjoyed your Go Prime ride this evening.\nTotal Rs. 486.00\n15 Sep 2026\nTrip details\n18:55 Powai Lake Road, Mumbai\n19:57 Bandra Kurla Complex, Mumbai\n18.6 km | 62 min | Go Prime\nFare breakdown\nTrip fare 439.05\nPlatform fee 25.00\nGST @ 5% on trip fare 21.95\nAmount paid Rs. 486.00\nPayment UPI (PayNow)\nInvoice No: RG-MA-309309\nRydeGo Mobility Pvt Ltd | GSTIN 27AAJCR5521Q1ZR\nThis is a computer generated invoice.",
+      "quality": "blurry"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"ride_receipt\", \"confidence\": 0.95, \"source_snippet\": \"Thanks for riding, Banerjee\"}, \"vendor_name\": {\"value\": \"RydeGo Mobility Pvt Ltd\", \"confidence\": 0.9, \"source_snippet\": \"RydeGo Mobility Pvt Ltd\"}, \"vendor_gstin\": {\"value\": \"27AAJCR5521Q1ZR\", \"confidence\": 0.8, \"source_snippet\": \"GSTIN 27AAJCR5521Q1ZR\"}, \"invoice_number\": {\"value\": \"RG-MA-309309\", \"confidence\": 0.8, \"source_snippet\": \"Invoice No: RG-MA-309309\"}, \"date\": {\"value\": \"2026-09-15\", \"confidence\": 0.95, \"source_snippet\": \"15 Sep 2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"Rs. 486.00\"}, \"subtotal\": {\"value\": 464.05, \"confidence\": 0.6, \"source_snippet\": \"Trip fare 439.05 Platform fee 25.00\"}, \"tax_amount\": {\"value\": 21.95, \"confidence\": 0.95, \"source_snippet\": \"GST @ 5% on trip fare 21.95\"}, \"total_amount\": {\"value\": 486, \"confidence\": 0.97, \"source_snippet\": \"Amount paid Rs. 486.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.95, \"source_snippet\": \"UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.9, \"source_snippet\": \"Powai Lake Road, Mumbai\"}, \"category\": {\"value\": \"travel_local\", \"confidence\": 0.95, \"source_snippet\": \"Go Prime ride\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.05, \"source_snippet\": null}, \"items\": [{\"description\": \"Trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 439.05}, {\"description\": \"Platform fee\", \"quantity\": null, \"unit_price\": null, \"amount\": 25}, {\"description\": \"GST @ 5% on trip fare\", \"quantity\": null, \"unit_price\": null, \"amount\": 21.95}], \"raw_text\": \"RydeGo\\nThanks for riding, Banerjee\\nWe hope you enjoyed your Go Prime ride this evening.\\nTotal Rs. 486.00\\n15 Sep 2026\\nTrip details\\n18:55 Powai Lake Road, Mumbai\\n19:57 Bandra Kurla Complex, Mumbai\\n18.6 km | 62 min | Go Prime\\nFare breakdown\\nTrip fare 439.05\\nPlatform fee 25.00\\nGST @ 5% on trip fare 21.95\\nAmount paid Rs. 486.00\\nPayment UPI (PayNow)\\nInvoice No: RG-MA-309309\\nRydeGo Mobility Pvt Ltd | GSTIN 27AAJCR5521Q1ZR\\nThis is a computer generated invoice.\", \"quality\": \"blurry\"}"
+  }
+}

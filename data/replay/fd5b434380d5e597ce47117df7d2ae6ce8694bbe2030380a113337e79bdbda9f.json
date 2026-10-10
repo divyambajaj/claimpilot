@@ -1,0 +1,115 @@
+{
+  "fingerprint": "fd5b434380d5e597ce47117df7d2ae6ce8694bbe2030380a113337e79bdbda9f",
+  "recorded_at": "2026-10-10T14:51:43.109246+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "f06c9d1ed7953d5fa08898ea40406f7145fb248ad234116640d6174c6fec9e6b:0",
+        "bytes": 74980,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11496,
+  "usage": {
+    "input_tokens": 41457,
+    "output_tokens": 1572,
+    "cost_usd": 0.0498016
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Seabreeze Suites",
+        "confidence": 0.97,
+        "source_snippet": "SEABREEZE SUITES"
+      },
+      "vendor_gstin": {
+        "value": "33GJRFL1977M1ZX",
+        "confidence": 0.85,
+        "source_snippet": "GSTIN: 33GJRFL1977M1ZX"
+      },
+      "invoice_number": {
+        "value": "SS-68470",
+        "confidence": 0.95,
+        "source_snippet": "Folio No: SS-68470"
+      },
+      "date": {
+        "value": "2026-09-23",
+        "confidence": 0.95,
+        "source_snippet": "Bill Date: 23/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 7000,
+        "confidence": 0.97,
+        "source_snippet": "Taxable Value 7,000.00"
+      },
+      "tax_amount": {
+        "value": 840,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 420.00 SGST @ 6% 420.00"
+      },
+      "total_amount": {
+        "value": 7840,
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR) 7,840.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.93,
+        "source_snippet": "Settlement: UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Chennai",
+        "confidence": 0.95,
+        "source_snippet": "ECR, Neelankarai, Chennai 600017"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.97,
+        "source_snippet": "Room Tariff - Deluxe"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.8,
+        "source_snippet": "Nights: 1  Pax: 1"
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Deluxe",
+          "quantity": 1,
+          "unit_price": 7000,
+          "amount": 7000
+        }
+      ],
+      "raw_text": "SEABREEZE SUITES\nECR, Neelankarai, Chennai 600017\nTel: +91 94235 41386\nGSTIN: 33GJRFL1977M1ZX\nGUEST FOLIO / TAX INVOICE\nFolio No: SS-68470    Bill Date: 23/09/2026\nGuest: R. Iyer    Room: 818 (Deluxe)\nArrival: 22/09/2026    Departure: 23/09/2026\nCompany: Acme India Pvt Ltd    Nights: 1  Pax: 1\nDate | Particulars | CGST | SGST | Amount\n22/09/26 | Room Tariff - Deluxe | 420.00 | 420.00 | 7,000.00\nTaxable Value 7,000.00\nCGST @ 6% 420.00\nSGST @ 6% 420.00\nTOTAL (INR) 7,840.00\nLess: Settlement (7,840.00)\nBalance 0.00\nSettlement: UPI (PayNow)\nGuest Signature ____________    Cashier ____________\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Seabreeze Suites\", \"confidence\": 0.97, \"source_snippet\": \"SEABREEZE SUITES\"}, \"vendor_gstin\": {\"value\": \"33GJRFL1977M1ZX\", \"confidence\": 0.85, \"source_snippet\": \"GSTIN: 33GJRFL1977M1ZX\"}, \"invoice_number\": {\"value\": \"SS-68470\", \"confidence\": 0.95, \"source_snippet\": \"Folio No: SS-68470\"}, \"date\": {\"value\": \"2026-09-23\", \"confidence\": 0.95, \"source_snippet\": \"Bill Date: 23/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 7000, \"confidence\": 0.97, \"source_snippet\": \"Taxable Value 7,000.00\"}, \"tax_amount\": {\"value\": 840, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 420.00 SGST @ 6% 420.00\"}, \"total_amount\": {\"value\": 7840, \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR) 7,840.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.93, \"source_snippet\": \"Settlement: UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Chennai\", \"confidence\": 0.95, \"source_snippet\": \"ECR, Neelankarai, Chennai 600017\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.97, \"source_snippet\": \"Room Tariff - Deluxe\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.8, \"source_snippet\": \"Nights: 1  Pax: 1\"}, \"items\": [{\"description\": \"Room Tariff - Deluxe\", \"quantity\": 1, \"unit_price\": 7000, \"amount\": 7000}], \"raw_text\": \"SEABREEZE SUITES\\nECR, Neelankarai, Chennai 600017\\nTel: +91 94235 41386\\nGSTIN: 33GJRFL1977M1ZX\\nGUEST FOLIO / TAX INVOICE\\nFolio No: SS-68470    Bill Date: 23/09/2026\\nGuest: R. Iyer    Room: 818 (Deluxe)\\nArrival: 22/09/2026    Departure: 23/09/2026\\nCompany: Acme India Pvt Ltd    Nights: 1  Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n22/09/26 | Room Tariff - Deluxe | 420.00 | 420.00 | 7,000.00\\nTaxable Value 7,000.00\\nCGST @ 6% 420.00\\nSGST @ 6% 420.00\\nTOTAL (INR) 7,840.00\\nLess: Settlement (7,840.00)\\nBalance 0.00\\nSettlement: UPI (PayNow)\\nGuest Signature ____________    Cashier ____________\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

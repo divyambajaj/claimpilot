@@ -1,0 +1,145 @@
+{
+  "fingerprint": "93e502c7799660c05e341705b81bd674b460a88e01e54d080a1acedec7d4876e",
+  "recorded_at": "2026-10-10T14:53:26.122275+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "5ca58c5941f1f20be1e5555bb79c195f2e3a436ea1cd802872607ddd8dfffadc:0",
+        "bytes": 63825,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 13133,
+  "usage": {
+    "input_tokens": 41213,
+    "output_tokens": 1830,
+    "cost_usd": 0.051531
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.95,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Rajwada Rasoi",
+        "confidence": 0.97,
+        "source_snippet": "RAJWADA RASOI"
+      },
+      "vendor_gstin": {
+        "value": "08KEZCV2278A1ZE",
+        "confidence": 0.85,
+        "source_snippet": "GSTIN: 08KEZCV2278A1ZE"
+      },
+      "invoice_number": {
+        "value": "RR/2609/1255",
+        "confidence": 0.95,
+        "source_snippet": "Bill No: RR/2609/1255"
+      },
+      "date": {
+        "value": "2026-09-30",
+        "confidence": 0.97,
+        "source_snippet": "Date: 30-09-2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 1070,
+        "confidence": 0.97,
+        "source_snippet": "Sub Total 1,070.00"
+      },
+      "tax_amount": {
+        "value": 53.5,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 2.5% 26.75 SGST @ 2.5% 26.75"
+      },
+      "total_amount": {
+        "value": 1124,
+        "confidence": 0.97,
+        "source_snippet": "GRAND TOTAL Rs. 1,124.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.93,
+        "source_snippet": "Paid by: UPI Ref 924608004944"
+      },
+      "upi_txn_id": {
+        "value": "924608004944",
+        "confidence": 0.88,
+        "source_snippet": "UPI Ref 924608004944"
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Jaipur",
+        "confidence": 0.95,
+        "source_snippet": "Jaipur 302057"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.97,
+        "source_snippet": "Table: 27 Covers: 2"
+      },
+      "attendees_count": {
+        "value": 2,
+        "confidence": 0.95,
+        "source_snippet": "Covers: 2"
+      },
+      "items": [
+        {
+          "description": "Masala Dosa",
+          "quantity": 1,
+          "unit_price": 180,
+          "amount": 180
+        },
+        {
+          "description": "Hyderabadi Biryani",
+          "quantity": 1,
+          "unit_price": 360,
+          "amount": 360
+        },
+        {
+          "description": "Kadai Paneer",
+          "quantity": 1,
+          "unit_price": 310,
+          "amount": 310
+        },
+        {
+          "description": "Fresh Lime Soda",
+          "quantity": 1,
+          "unit_price": 110,
+          "amount": 110
+        },
+        {
+          "description": "Masala Chaas",
+          "quantity": 1,
+          "unit_price": 70,
+          "amount": 70
+        },
+        {
+          "description": "Tandoori Roti",
+          "quantity": 1,
+          "unit_price": 40,
+          "amount": 40
+        }
+      ],
+      "raw_text": "RR\nRAJWADA RASOI\nMI Road, near Panch Batti\nJaipur 302057\nPh: 020-27335151\nGSTIN: 08KEZCV2278A1ZE\nFSSAI Lic No: 15459757255965\nTAX INVOICE\nBill No: RR/2609/1255    Date: 30-09-2026\nTable: 27  Covers: 2    Time: 17:57\nSteward: Anil\nItem  Qty  Rate  Amount\nMasala Dosa 1 180.00 180.00\nHyderabadi Biryani 1 360.00 360.00\nKadai Paneer 1 310.00 310.00\nFresh Lime Soda 1 110.00 110.00\nMasala Chaas 1 70.00 70.00\nTandoori Roti 1 40.00 40.00\nSub Total 1,070.00\nCGST @ 2.5% 26.75\nSGST @ 2.5% 26.75\nRound Off +0.50\nGRAND TOTAL Rs. 1,124.00\nPaid by: UPI Ref 924608004944\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.95, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Rajwada Rasoi\", \"confidence\": 0.97, \"source_snippet\": \"RAJWADA RASOI\"}, \"vendor_gstin\": {\"value\": \"08KEZCV2278A1ZE\", \"confidence\": 0.85, \"source_snippet\": \"GSTIN: 08KEZCV2278A1ZE\"}, \"invoice_number\": {\"value\": \"RR/2609/1255\", \"confidence\": 0.95, \"source_snippet\": \"Bill No: RR/2609/1255\"}, \"date\": {\"value\": \"2026-09-30\", \"confidence\": 0.97, \"source_snippet\": \"Date: 30-09-2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 1070, \"confidence\": 0.97, \"source_snippet\": \"Sub Total 1,070.00\"}, \"tax_amount\": {\"value\": 53.5, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 2.5% 26.75 SGST @ 2.5% 26.75\"}, \"total_amount\": {\"value\": 1124, \"confidence\": 0.97, \"source_snippet\": \"GRAND TOTAL Rs. 1,124.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.93, \"source_snippet\": \"Paid by: UPI Ref 924608004944\"}, \"upi_txn_id\": {\"value\": \"924608004944\", \"confidence\": 0.88, \"source_snippet\": \"UPI Ref 924608004944\"}, \"payee_name\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"city\": {\"value\": \"Jaipur\", \"confidence\": 0.95, \"source_snippet\": \"Jaipur 302057\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.97, \"source_snippet\": \"Table: 27 Covers: 2\"}, \"attendees_count\": {\"value\": 2, \"confidence\": 0.95, \"source_snippet\": \"Covers: 2\"}, \"items\": [{\"description\": \"Masala Dosa\", \"quantity\": 1, \"unit_price\": 180, \"amount\": 180}, {\"description\": \"Hyderabadi Biryani\", \"quantity\": 1, \"unit_price\": 360, \"amount\": 360}, {\"description\": \"Kadai Paneer\", \"quantity\": 1, \"unit_price\": 310, \"amount\": 310}, {\"description\": \"Fresh Lime Soda\", \"quantity\": 1, \"unit_price\": 110, \"amount\": 110}, {\"description\": \"Masala Chaas\", \"quantity\": 1, \"unit_price\": 70, \"amount\": 70}, {\"description\": \"Tandoori Roti\", \"quantity\": 1, \"unit_price\": 40, \"amount\": 40}], \"raw_text\": \"RR\\nRAJWADA RASOI\\nMI Road, near Panch Batti\\nJaipur 302057\\nPh: 020-27335151\\nGSTIN: 08KEZCV2278A1ZE\\nFSSAI Lic No: 15459757255965\\nTAX INVOICE\\nBill No: RR/2609/1255    Date: 30-09-2026\\nTable: 27  Covers: 2    Time: 17:57\\nSteward: Anil\\nItem  Qty  Rate  Amount\\nMasala Dosa 1 180.00 180.00\\nHyderabadi Biryani 1 360.00 360.00\\nKadai Paneer 1 310.00 310.00\\nFresh Lime Soda 1 110.00 110.00\\nMasala Chaas 1 70.00 70.00\\nTandoori Roti 1 40.00 40.00\\nSub Total 1,070.00\\nCGST @ 2.5% 26.75\\nSGST @ 2.5% 26.75\\nRound Off +0.50\\nGRAND TOTAL Rs. 1,124.00\\nPaid by: UPI Ref 924608004944\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"good\"}"
+  }
+}

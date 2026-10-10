@@ -116,7 +116,8 @@ class TestPromptRegistry:
     def test_shipped_prompts_load(self) -> None:
         reg = PromptRegistry()
         assert "verbatim" in reg.get("compile_policy").system
-        assert reg.get("extract_receipt").version == "v1"
+        assert reg.get("extract_receipt").version == "v2"
+        assert reg.versions("extract_receipt") == ["v1", "v2"]
 
 
 class TestClient:
@@ -133,7 +134,7 @@ class TestClient:
         spans = tracer.get_trace(trace_id).spans
         assert [s.name for s in spans] == ["llm"]
         assert spans[0].attributes["tokens_in"] == 100
-        assert spans[0].attributes["prompt_version"] == "v1"
+        assert spans[0].attributes["prompt_version"] == "v2"
 
     async def test_repair_then_core_fallback(self, make_client) -> None:
         provider = FakeProvider([{"bogus": 1}, MalformedOutputError("not json", "xx"), extraction_payload()])

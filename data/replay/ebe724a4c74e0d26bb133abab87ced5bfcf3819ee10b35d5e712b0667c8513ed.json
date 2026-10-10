@@ -1,0 +1,108 @@
+{
+  "fingerprint": "ebe724a4c74e0d26bb133abab87ced5bfcf3819ee10b35d5e712b0667c8513ed",
+  "recorded_at": "2026-10-10T14:52:32.211737+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "eb3fa1b20e274299f7269abae690d125323671a1d65796d2624f9f4ec6195f42:0",
+        "bytes": 49488,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11429,
+  "usage": {
+    "input_tokens": 41488,
+    "output_tokens": 1157,
+    "cost_usd": 0.0458478
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "Raisina Court Hotel",
+        "confidence": 0.7,
+        "source_snippet": "Raisina Court Hotel"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-09-26",
+        "confidence": 0.97,
+        "source_snippet": "26 Sep 2026, 1:36 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹12,320"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 12320,
+        "confidence": 0.97,
+        "source_snippet": "₹12,320"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "UPI Transaction ID"
+      },
+      "upi_txn_id": {
+        "value": "708073182348",
+        "confidence": 0.93,
+        "source_snippet": "UPI Transaction ID 708073182348"
+      },
+      "payee_name": {
+        "value": "Raisina Court Hotel",
+        "confidence": 0.97,
+        "source_snippet": "Raisina Court Hotel"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.55,
+        "source_snippet": "Raisina Court Hotel"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "items": [],
+      "raw_text": "1:36 71%\nPayNow\nPayment Successful\n₹12,320\n26 Sep 2026, 1:36 PM\nPaid to\nRaisina Court Hotel\nraisinacourtho@paynow\nFrom\nR. Iyer (xx8542)\nUPI Transaction ID 708073182348\nPayNow Txn ID PN2609261336GQ33\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"Raisina Court Hotel\", \"confidence\": 0.7, \"source_snippet\": \"Raisina Court Hotel\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"date\": {\"value\": \"2026-09-26\", \"confidence\": 0.97, \"source_snippet\": \"26 Sep 2026, 1:36 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b912,320\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"total_amount\": {\"value\": 12320, \"confidence\": 0.97, \"source_snippet\": \"\\u20b912,320\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"UPI Transaction ID\"}, \"upi_txn_id\": {\"value\": \"708073182348\", \"confidence\": 0.93, \"source_snippet\": \"UPI Transaction ID 708073182348\"}, \"payee_name\": {\"value\": \"Raisina Court Hotel\", \"confidence\": 0.97, \"source_snippet\": \"Raisina Court Hotel\"}, \"city\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.55, \"source_snippet\": \"Raisina Court Hotel\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"items\": [], \"raw_text\": \"1:36 71%\\nPayNow\\nPayment Successful\\n\\u20b912,320\\n26 Sep 2026, 1:36 PM\\nPaid to\\nRaisina Court Hotel\\nraisinacourtho@paynow\\nFrom\\nR. Iyer (xx8542)\\nUPI Transaction ID 708073182348\\nPayNow Txn ID PN2609261336GQ33\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

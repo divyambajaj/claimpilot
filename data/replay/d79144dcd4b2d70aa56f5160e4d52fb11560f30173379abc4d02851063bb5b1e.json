@@ -1,0 +1,163 @@
+{
+  "fingerprint": "d79144dcd4b2d70aa56f5160e4d52fb11560f30173379abc4d02851063bb5b1e",
+  "recorded_at": "2026-10-10T14:51:59.510220+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "6779b7e7a8d0c09e087613b0adb5be79f1e2ca4d8807f1dc5f7e4ebd36024e79:0",
+        "bytes": 416088,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 13909,
+  "usage": {
+    "input_tokens": 41565,
+    "output_tokens": 2138,
+    "cost_usd": 0.0559088
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.9,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Masala Junction",
+        "confidence": 0.97,
+        "source_snippet": "MASALA JUNCTION"
+      },
+      "vendor_gstin": {
+        "value": "27AMZCH2669C1ZJ",
+        "confidence": 0.8,
+        "source_snippet": "GSTIN: 27AMZCH2669C1ZJ"
+      },
+      "invoice_number": {
+        "value": "MJ/2609/6024",
+        "confidence": 0.93,
+        "source_snippet": "Bill No: MJ/2609/6024"
+      },
+      "date": {
+        "value": "2026-09-22",
+        "confidence": 0.95,
+        "source_snippet": "Date: 22/09/26"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 2180,
+        "confidence": 0.96,
+        "source_snippet": "Sub Total 2,180.00"
+      },
+      "tax_amount": {
+        "value": 109,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 2.5% 54.50 / SGST @ 2.5% 54.50"
+      },
+      "total_amount": {
+        "value": 2289,
+        "confidence": 0.97,
+        "source_snippet": "GRAND TOTAL Rs. 2,289.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.95,
+        "source_snippet": "Paid by: CARD (VISA xx6682)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Pune",
+        "confidence": 0.95,
+        "source_snippet": "Pune 411022"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.97,
+        "source_snippet": "Table: 21 Covers: 4"
+      },
+      "attendees_count": {
+        "value": 4,
+        "confidence": 0.95,
+        "source_snippet": "Covers: 4"
+      },
+      "items": [
+        {
+          "description": "Mango Lassi",
+          "quantity": 1,
+          "unit_price": 140,
+          "amount": 140
+        },
+        {
+          "description": "Masala Dosa",
+          "quantity": 1,
+          "unit_price": 180,
+          "amount": 180
+        },
+        {
+          "description": "Hyderabadi Biryani",
+          "quantity": 2,
+          "unit_price": 360,
+          "amount": 720
+        },
+        {
+          "description": "Kadai Paneer",
+          "quantity": 2,
+          "unit_price": 310,
+          "amount": 620
+        },
+        {
+          "description": "Filter Coffee",
+          "quantity": 2,
+          "unit_price": 90,
+          "amount": 180
+        },
+        {
+          "description": "Butter Naan",
+          "quantity": 2,
+          "unit_price": 60,
+          "amount": 120
+        },
+        {
+          "description": "Masala Chaas",
+          "quantity": 1,
+          "unit_price": 70,
+          "amount": 70
+        },
+        {
+          "description": "Fresh Lime Soda",
+          "quantity": 1,
+          "unit_price": 110,
+          "amount": 110
+        },
+        {
+          "description": "Tandoori Roti",
+          "quantity": 1,
+          "unit_price": 40,
+          "amount": 40
+        }
+      ],
+      "raw_text": "MJ\nMASALA JUNCTION\nFergusson College Road, Shivajinagar\nPune 411022\nPh: 033-57028005\nGSTIN: 27AMZCH2669C1ZJ\nFSSAI Lic No: 16285386357299\nTAX INVOICE\nDate: 22/09/26\nTime: 12:23\nBill No: MJ/2609/6024\nTable: 21 Covers: 4\nSteward: Anil\nItem Qty Rate Amount\nMango Lassi 1 140.00 140.00\nMasala Dosa 1 180.00 180.00\nHyderabadi Biryani 2 360.00 720.00\nKadai Paneer 2 310.00 620.00\nFilter Coffee 2 90.00 180.00\nButter Naan 2 60.00 120.00\nMasala Chaas 1 70.00 70.00\nFresh Lime Soda 1 110.00 110.00\nTandoori Roti 1 40.00 40.00\nSub Total 2,180.00\nCGST @ 2.5% 54.50\nSGST @ 2.5% 54.50\nGRAND TOTAL Rs. 2,289.00\nPaid by: CARD (VISA xx6682)\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "rotated"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.9, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Masala Junction\", \"confidence\": 0.97, \"source_snippet\": \"MASALA JUNCTION\"}, \"vendor_gstin\": {\"value\": \"27AMZCH2669C1ZJ\", \"confidence\": 0.8, \"source_snippet\": \"GSTIN: 27AMZCH2669C1ZJ\"}, \"invoice_number\": {\"value\": \"MJ/2609/6024\", \"confidence\": 0.93, \"source_snippet\": \"Bill No: MJ/2609/6024\"}, \"date\": {\"value\": \"2026-09-22\", \"confidence\": 0.95, \"source_snippet\": \"Date: 22/09/26\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 2180, \"confidence\": 0.96, \"source_snippet\": \"Sub Total 2,180.00\"}, \"tax_amount\": {\"value\": 109, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 2.5% 54.50 / SGST @ 2.5% 54.50\"}, \"total_amount\": {\"value\": 2289, \"confidence\": 0.97, \"source_snippet\": \"GRAND TOTAL Rs. 2,289.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.95, \"source_snippet\": \"Paid by: CARD (VISA xx6682)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Pune\", \"confidence\": 0.95, \"source_snippet\": \"Pune 411022\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.97, \"source_snippet\": \"Table: 21 Covers: 4\"}, \"attendees_count\": {\"value\": 4, \"confidence\": 0.95, \"source_snippet\": \"Covers: 4\"}, \"items\": [{\"description\": \"Mango Lassi\", \"quantity\": 1, \"unit_price\": 140, \"amount\": 140}, {\"description\": \"Masala Dosa\", \"quantity\": 1, \"unit_price\": 180, \"amount\": 180}, {\"description\": \"Hyderabadi Biryani\", \"quantity\": 2, \"unit_price\": 360, \"amount\": 720}, {\"description\": \"Kadai Paneer\", \"quantity\": 2, \"unit_price\": 310, \"amount\": 620}, {\"description\": \"Filter Coffee\", \"quantity\": 2, \"unit_price\": 90, \"amount\": 180}, {\"description\": \"Butter Naan\", \"quantity\": 2, \"unit_price\": 60, \"amount\": 120}, {\"description\": \"Masala Chaas\", \"quantity\": 1, \"unit_price\": 70, \"amount\": 70}, {\"description\": \"Fresh Lime Soda\", \"quantity\": 1, \"unit_price\": 110, \"amount\": 110}, {\"description\": \"Tandoori Roti\", \"quantity\": 1, \"unit_price\": 40, \"amount\": 40}], \"raw_text\": \"MJ\\nMASALA JUNCTION\\nFergusson College Road, Shivajinagar\\nPune 411022\\nPh: 033-57028005\\nGSTIN: 27AMZCH2669C1ZJ\\nFSSAI Lic No: 16285386357299\\nTAX INVOICE\\nDate: 22/09/26\\nTime: 12:23\\nBill No: MJ/2609/6024\\nTable: 21 Covers: 4\\nSteward: Anil\\nItem Qty Rate Amount\\nMango Lassi 1 140.00 140.00\\nMasala Dosa 1 180.00 180.00\\nHyderabadi Biryani 2 360.00 720.00\\nKadai Paneer 2 310.00 620.00\\nFilter Coffee 2 90.00 180.00\\nButter Naan 2 60.00 120.00\\nMasala Chaas 1 70.00 70.00\\nFresh Lime Soda 1 110.00 110.00\\nTandoori Roti 1 40.00 40.00\\nSub Total 2,180.00\\nCGST @ 2.5% 54.50\\nSGST @ 2.5% 54.50\\nGRAND TOTAL Rs. 2,289.00\\nPaid by: CARD (VISA xx6682)\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"rotated\"}"
+  }
+}

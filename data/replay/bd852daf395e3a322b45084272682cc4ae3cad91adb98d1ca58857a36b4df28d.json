@@ -1,0 +1,163 @@
+{
+  "fingerprint": "bd852daf395e3a322b45084272682cc4ae3cad91adb98d1ca58857a36b4df28d",
+  "recorded_at": "2026-10-10T14:55:46.546376+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "71d1511d7a99325e2144ad3cf1a3b79bbe10c0e037e6f1ed7b67e66b361d85ec:0",
+        "bytes": 394007,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 23118,
+  "usage": {
+    "input_tokens": 64981,
+    "output_tokens": 3990,
+    "cost_usd": 0.0872932
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.9,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Saffron Leaf Kitchen",
+        "confidence": 0.95,
+        "source_snippet": "SAFFRON LEAF KITCHEN"
+      },
+      "vendor_gstin": {
+        "value": "29NUUCL1759W1ZG",
+        "confidence": 0.75,
+        "source_snippet": "GSTIN: 29NUUCL1759W1ZG"
+      },
+      "invoice_number": {
+        "value": "SL/2610/6358",
+        "confidence": 0.85,
+        "source_snippet": "Bill No: SL/2610/6358"
+      },
+      "date": {
+        "value": "2026-10-06",
+        "confidence": 0.93,
+        "source_snippet": "Date: 06-10-2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 3900,
+        "confidence": 0.95,
+        "source_snippet": "3,900.00"
+      },
+      "tax_amount": {
+        "value": 195,
+        "confidence": 0.9,
+        "source_snippet": "CGST @ 2.5% 97.50 / SGST @ 2.5% 97.50"
+      },
+      "total_amount": {
+        "value": 4095,
+        "confidence": 0.96,
+        "source_snippet": "4,095.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.95,
+        "source_snippet": "Paid by: CARD (VISA xx2284)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Bengaluru",
+        "confidence": 0.95,
+        "source_snippet": "Bengaluru 560005"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.97,
+        "source_snippet": "Table: 24  Covers: 6"
+      },
+      "attendees_count": {
+        "value": 6,
+        "confidence": 0.9,
+        "source_snippet": "Covers: 6"
+      },
+      "items": [
+        {
+          "description": "Veg Thali",
+          "quantity": 1,
+          "unit_price": 320,
+          "amount": 320
+        },
+        {
+          "description": "Mango Lassi",
+          "quantity": 2,
+          "unit_price": 140,
+          "amount": 280
+        },
+        {
+          "description": "Tandoori Roti",
+          "quantity": 3,
+          "unit_price": 40,
+          "amount": 120
+        },
+        {
+          "description": "Fish Curry Meals",
+          "quantity": 3,
+          "unit_price": 420,
+          "amount": 1260
+        },
+        {
+          "description": "Hyderabadi Biryani",
+          "quantity": 1,
+          "unit_price": 360,
+          "amount": 360
+        },
+        {
+          "description": "Prawn Fry",
+          "quantity": 1,
+          "unit_price": 460,
+          "amount": 460
+        },
+        {
+          "description": "Butter Naan",
+          "quantity": 1,
+          "unit_price": 60,
+          "amount": 60
+        },
+        {
+          "description": "Dal Makhani",
+          "quantity": 1,
+          "unit_price": 280,
+          "amount": 280
+        },
+        {
+          "description": "Chicken Chettinad",
+          "quantity": 2,
+          "unit_price": 380,
+          "amount": 760
+        }
+      ],
+      "raw_text": "SAFFRON LEAF KITCHEN\n80 Feet Road, Indiranagar\nBengaluru 560005\nPh: 046-43831142\nGSTIN: 29NUUCL1759W1ZG\nFSSAI Lic No: 17244225798505\nTAX INVOICE\nBill No: SL/2610/6358    Date: 06-10-2026\nTable: 24  Covers: 6    Time: 17:32\nSteward: Suresh\nItem                Qty  Rate     Amount\nVeg Thali            1   320.00   320.00\nMango Lassi          2   140.00   280.00\nTandoori Roti        3    40.00   120.00\nFish Curry Meals     3   420.00 1,260.00\nHyderabadi Biryani   1   360.00   360.00\nPrawn Fry            1   460.00   460.00\nButter Naan          1    60.00    60.00\nDal Makhani          1   280.00   280.00\nChicken Chettinad    2   380.00   760.00\nSub Total                        3,900.00\nCGST @ 2.5%                         97.50\nSGST @ 2.5%                         97.50\nGRAND TOTAL Rs.                  4,095.00\nPaid by: CARD (VISA xx2284)\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "rotated"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.9, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Saffron Leaf Kitchen\", \"confidence\": 0.95, \"source_snippet\": \"SAFFRON LEAF KITCHEN\"}, \"vendor_gstin\": {\"value\": \"29NUUCL1759W1ZG\", \"confidence\": 0.75, \"source_snippet\": \"GSTIN: 29NUUCL1759W1ZG\"}, \"invoice_number\": {\"value\": \"SL/2610/6358\", \"confidence\": 0.85, \"source_snippet\": \"Bill No: SL/2610/6358\"}, \"date\": {\"value\": \"2026-10-06\", \"confidence\": 0.93, \"source_snippet\": \"Date: 06-10-2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 3900, \"confidence\": 0.95, \"source_snippet\": \"3,900.00\"}, \"tax_amount\": {\"value\": 195, \"confidence\": 0.9, \"source_snippet\": \"CGST @ 2.5% 97.50 / SGST @ 2.5% 97.50\"}, \"total_amount\": {\"value\": 4095, \"confidence\": 0.96, \"source_snippet\": \"4,095.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.95, \"source_snippet\": \"Paid by: CARD (VISA xx2284)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Bengaluru\", \"confidence\": 0.95, \"source_snippet\": \"Bengaluru 560005\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.97, \"source_snippet\": \"Table: 24  Covers: 6\"}, \"attendees_count\": {\"value\": 6, \"confidence\": 0.9, \"source_snippet\": \"Covers: 6\"}, \"items\": [{\"description\": \"Veg Thali\", \"quantity\": 1, \"unit_price\": 320, \"amount\": 320}, {\"description\": \"Mango Lassi\", \"quantity\": 2, \"unit_price\": 140, \"amount\": 280}, {\"description\": \"Tandoori Roti\", \"quantity\": 3, \"unit_price\": 40, \"amount\": 120}, {\"description\": \"Fish Curry Meals\", \"quantity\": 3, \"unit_price\": 420, \"amount\": 1260}, {\"description\": \"Hyderabadi Biryani\", \"quantity\": 1, \"unit_price\": 360, \"amount\": 360}, {\"description\": \"Prawn Fry\", \"quantity\": 1, \"unit_price\": 460, \"amount\": 460}, {\"description\": \"Butter Naan\", \"quantity\": 1, \"unit_price\": 60, \"amount\": 60}, {\"description\": \"Dal Makhani\", \"quantity\": 1, \"unit_price\": 280, \"amount\": 280}, {\"description\": \"Chicken Chettinad\", \"quantity\": 2, \"unit_price\": 380, \"amount\": 760}], \"raw_text\": \"SAFFRON LEAF KITCHEN\\n80 Feet Road, Indiranagar\\nBengaluru 560005\\nPh: 046-43831142\\nGSTIN: 29NUUCL1759W1ZG\\nFSSAI Lic No: 17244225798505\\nTAX INVOICE\\nBill No: SL/2610/6358    Date: 06-10-2026\\nTable: 24  Covers: 6    Time: 17:32\\nSteward: Suresh\\nItem                Qty  Rate     Amount\\nVeg Thali            1   320.00   320.00\\nMango Lassi          2   140.00   280.00\\nTandoori Roti        3    40.00   120.00\\nFish Curry Meals     3   420.00 1,260.00\\nHyderabadi Biryani   1   360.00   360.00\\nPrawn Fry            1   460.00   460.00\\nButter Naan          1    60.00    60.00\\nDal Makhani          1   280.00   280.00\\nChicken Chettinad    2   380.00   760.00\\nSub Total                        3,900.00\\nCGST @ 2.5%                         97.50\\nSGST @ 2.5%                         97.50\\nGRAND TOTAL Rs.                  4,095.00\\nPaid by: CARD (VISA xx2284)\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"rotated\"}"
+  }
+}

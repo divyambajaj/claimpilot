@@ -10,7 +10,9 @@ from app.config import REPO_ROOT, Settings
 from app.main import build_container, create_app
 from tests.factories import NOW
 
-SHARED = ("replay", "demo_receipts", "rulesets", "policies")
+SHARED = ("replay", "rulesets", "policies")
+# The API tests pin the original five-receipt gallery; the shipped gallery (data/demo_receipts) can evolve.
+LEGACY_GALLERY = REPO_ROOT / "backend" / "tests" / "fixtures" / "demo_v1"
 
 
 @pytest.fixture
@@ -19,12 +21,14 @@ def settings(tmp_path: Path) -> Settings:
     data.mkdir()
     for name in SHARED:
         (data / name).symlink_to(REPO_ROOT / "data" / name)
+    (data / "demo_receipts").symlink_to(LEGACY_GALLERY)
     return Settings(
         _env_file=None,
         LLM_PROVIDER="replay",
         DATA_DIR=data,
         DATABASE_URL=f"sqlite:///{tmp_path / 'app.db'}",
         FINANCE_DECISION_DELAY_S=60,
+        PROMPT_VERSION_EXTRACT="v1",  # the pinned API tests assert v1's recorded readings
     )
 
 

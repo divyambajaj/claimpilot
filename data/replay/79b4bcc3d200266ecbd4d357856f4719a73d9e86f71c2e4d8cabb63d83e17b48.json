@@ -1,0 +1,151 @@
+{
+  "fingerprint": "79b4bcc3d200266ecbd4d357856f4719a73d9e86f71c2e4d8cabb63d83e17b48",
+  "recorded_at": "2026-10-10T15:01:28.866494+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "08f6edae9559371b97d6b8106b8499295c62213d70b947c276f70f603bed462c:0",
+        "bytes": 62048,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11636,
+  "usage": {
+    "input_tokens": 41451,
+    "output_tokens": 1755,
+    "cost_usd": 0.051273200000000005
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.95,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Tandoor Tales",
+        "confidence": 0.98,
+        "source_snippet": "TANDOOR TALES"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": "TT/2609/9205",
+        "confidence": 0.97,
+        "source_snippet": "Bill No: TT/2609/9205"
+      },
+      "date": {
+        "value": "2026-09-24",
+        "confidence": 0.98,
+        "source_snippet": "Date: 24-09-2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 1170,
+        "confidence": 0.98,
+        "source_snippet": "Sub Total 1,170.00"
+      },
+      "tax_amount": {
+        "value": 58.5,
+        "confidence": 0.93,
+        "source_snippet": "CGST @ 2.5% 29.25 SGST @ 2.5% 29.25"
+      },
+      "total_amount": {
+        "value": 1228,
+        "confidence": 0.98,
+        "source_snippet": "GRAND TOTAL Rs. 1,228.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.98,
+        "source_snippet": "Paid by: CARD (VISA xx3376)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Delhi",
+        "confidence": 0.97,
+        "source_snippet": "Delhi 110088"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.8,
+        "source_snippet": "Table: 30  Covers: 2"
+      },
+      "attendees_count": {
+        "value": 2,
+        "confidence": 0.98,
+        "source_snippet": "Covers: 2"
+      },
+      "items": [
+        {
+          "description": "Prawn Fry",
+          "quantity": 1,
+          "unit_price": 460,
+          "amount": 460
+        },
+        {
+          "description": "Jeera Rice",
+          "quantity": 1,
+          "unit_price": 190,
+          "amount": 190
+        },
+        {
+          "description": "Mango Lassi",
+          "quantity": 1,
+          "unit_price": 140,
+          "amount": 140
+        },
+        {
+          "description": "Filter Coffee",
+          "quantity": 1,
+          "unit_price": 90,
+          "amount": 90
+        },
+        {
+          "description": "Fresh Lime Soda",
+          "quantity": 1,
+          "unit_price": 110,
+          "amount": 110
+        },
+        {
+          "description": "Butter Naan",
+          "quantity": 1,
+          "unit_price": 60,
+          "amount": 60
+        },
+        {
+          "description": "Gulab Jamun",
+          "quantity": 1,
+          "unit_price": 120,
+          "amount": 120
+        }
+      ],
+      "raw_text": "TANDOOR TALES\nM-14 Connaught Circus\nDelhi 110088\nPh: 040-55569324\nFSSAI Lic No: 13394513712449\nTAX INVOICE\nBill No: TT/2609/9205    Date: 24-09-2026\nTable: 30  Covers: 2    Time: 12:46\nSteward: Farhan\nItem  Qty  Rate  Amount\nPrawn Fry 1 460.00 460.00\nJeera Rice 1 190.00 190.00\nMango Lassi 1 140.00 140.00\nFilter Coffee 1 90.00 90.00\nFresh Lime Soda 1 110.00 110.00\nButter Naan 1 60.00 60.00\nGulab Jamun 1 120.00 120.00\nSub Total 1,170.00\nCGST @ 2.5% 29.25\nSGST @ 2.5% 29.25\nRound Off -0.50\nGRAND TOTAL Rs. 1,228.00\nPaid by: CARD (VISA xx3376)\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.95, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Tandoor Tales\", \"confidence\": 0.98, \"source_snippet\": \"TANDOOR TALES\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"invoice_number\": {\"value\": \"TT/2609/9205\", \"confidence\": 0.97, \"source_snippet\": \"Bill No: TT/2609/9205\"}, \"date\": {\"value\": \"2026-09-24\", \"confidence\": 0.98, \"source_snippet\": \"Date: 24-09-2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 1170, \"confidence\": 0.98, \"source_snippet\": \"Sub Total 1,170.00\"}, \"tax_amount\": {\"value\": 58.5, \"confidence\": 0.93, \"source_snippet\": \"CGST @ 2.5% 29.25 SGST @ 2.5% 29.25\"}, \"total_amount\": {\"value\": 1228, \"confidence\": 0.98, \"source_snippet\": \"GRAND TOTAL Rs. 1,228.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.98, \"source_snippet\": \"Paid by: CARD (VISA xx3376)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"city\": {\"value\": \"Delhi\", \"confidence\": 0.97, \"source_snippet\": \"Delhi 110088\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.8, \"source_snippet\": \"Table: 30  Covers: 2\"}, \"attendees_count\": {\"value\": 2, \"confidence\": 0.98, \"source_snippet\": \"Covers: 2\"}, \"items\": [{\"description\": \"Prawn Fry\", \"quantity\": 1, \"unit_price\": 460, \"amount\": 460}, {\"description\": \"Jeera Rice\", \"quantity\": 1, \"unit_price\": 190, \"amount\": 190}, {\"description\": \"Mango Lassi\", \"quantity\": 1, \"unit_price\": 140, \"amount\": 140}, {\"description\": \"Filter Coffee\", \"quantity\": 1, \"unit_price\": 90, \"amount\": 90}, {\"description\": \"Fresh Lime Soda\", \"quantity\": 1, \"unit_price\": 110, \"amount\": 110}, {\"description\": \"Butter Naan\", \"quantity\": 1, \"unit_price\": 60, \"amount\": 60}, {\"description\": \"Gulab Jamun\", \"quantity\": 1, \"unit_price\": 120, \"amount\": 120}], \"raw_text\": \"TANDOOR TALES\\nM-14 Connaught Circus\\nDelhi 110088\\nPh: 040-55569324\\nFSSAI Lic No: 13394513712449\\nTAX INVOICE\\nBill No: TT/2609/9205    Date: 24-09-2026\\nTable: 30  Covers: 2    Time: 12:46\\nSteward: Farhan\\nItem  Qty  Rate  Amount\\nPrawn Fry 1 460.00 460.00\\nJeera Rice 1 190.00 190.00\\nMango Lassi 1 140.00 140.00\\nFilter Coffee 1 90.00 90.00\\nFresh Lime Soda 1 110.00 110.00\\nButter Naan 1 60.00 60.00\\nGulab Jamun 1 120.00 120.00\\nSub Total 1,170.00\\nCGST @ 2.5% 29.25\\nSGST @ 2.5% 29.25\\nRound Off -0.50\\nGRAND TOTAL Rs. 1,228.00\\nPaid by: CARD (VISA xx3376)\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"good\"}"
+  }
+}

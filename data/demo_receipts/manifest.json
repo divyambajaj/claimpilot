@@ -1,0 +1,74 @@
+{
+  "ride_rydego_airport.png": {
+    "title": "Airport ride, RydeGo",
+    "doc_type": "ride_receipt",
+    "description": "Airport to client office, paid by UPI",
+    "amount_inr": 642.0
+  },
+  "ride_rydego_airport_photo.jpg": {
+    "title": "Airport ride (photo of the same receipt)",
+    "doc_type": "ride_receipt",
+    "description": "Re-photographed copy of the airport ride",
+    "amount_inr": 642.0
+  },
+  "lunch_konkan_thali.png": {
+    "title": "Working lunch, Konkan Thali House",
+    "doc_type": "invoice",
+    "description": "GST bill, 2 covers",
+    "amount_inr": 1166.0
+  },
+  "dinner_chaiwala_corner.png": {
+    "title": "Client dinner, Chaiwala Corner",
+    "doc_type": "invoice",
+    "description": "GST bill, 4 covers, above the per-person cap",
+    "amount_inr": 3854.0
+  },
+  "hotel_harbourview_mumbai.png": {
+    "title": "Hotel folio, Harbourview Residency",
+    "doc_type": "hotel_folio",
+    "description": "One night at Marine Drive, settled by UPI",
+    "amount_inr": 5824.0
+  },
+  "upi_paynow_harbourview.png": {
+    "title": "UPI payment, Harbourview Residency",
+    "doc_type": "upi_screenshot",
+    "description": "Payment screenshot for the hotel folio",
+    "amount_inr": 5824.0
+  },
+  "ride_rydego_hotel_client.png": {
+    "title": "Hotel to client, RydeGo",
+    "doc_type": "ride_receipt",
+    "description": "Short ride, card",
+    "amount_inr": 318.0
+  },
+  "coffee_bandra_bean.png": {
+    "title": "Coffee meeting, Bandra Bean Co.",
+    "doc_type": "receipt",
+    "description": "3 covers, photographed at an angle",
+    "amount_inr": 872.0
+  },
+  "lunch_malabar_coast.png": {
+    "title": "Client lunch, Malabar Coast Kitchen",
+    "doc_type": "invoice",
+    "description": "GST bill, 3 covers, just under the cap",
+    "amount_inr": 2132.0
+  },
+  "fuel_om_sai_handwritten.jpg": {
+    "title": "Fuel, Om Sai Fuel Centre",
+    "doc_type": "handwritten",
+    "description": "Handwritten cash bill, date smudged",
+    "amount_inr": 1545.0
+  },
+  "stationery_fort_mart.png": {
+    "title": "Presentation supplies, Fort Stationery Mart",
+    "doc_type": "invoice",
+    "description": "Tax invoice above Rs 5,000; GSTIN fails checksum",
+    "amount_inr": 7410.4
+  },
+  "ride_rydego_return_airport.png": {
+    "title": "Return ride, RydeGo",
+    "doc_type": "ride_receipt",
+    "description": "Client office to airport, paid by UPI",
+    "amount_inr": 705.0
+  }
+}

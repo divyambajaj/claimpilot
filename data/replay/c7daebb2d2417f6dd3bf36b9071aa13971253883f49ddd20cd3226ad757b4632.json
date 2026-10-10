@@ -1,0 +1,121 @@
+{
+  "fingerprint": "c7daebb2d2417f6dd3bf36b9071aa13971253883f49ddd20cd3226ad757b4632",
+  "recorded_at": "2026-10-10T15:03:05.467739+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "da4c1b79f69cfe33cbf462cab5b53d26798dd3f55f17a1b8a2d05e63b0cf131e:0",
+        "bytes": 331087,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10740,
+  "usage": {
+    "input_tokens": 41621,
+    "output_tokens": 1631,
+    "cost_usd": 0.050732200000000005
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.97,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Raisina Court Hotel",
+        "confidence": 0.97,
+        "source_snippet": "RAISINA COURT HOTEL"
+      },
+      "vendor_gstin": {
+        "value": "07EXRFZ5754M1ZP",
+        "confidence": 0.85,
+        "source_snippet": "GSTIN: 07EXRFZ5754M1ZP"
+      },
+      "invoice_number": {
+        "value": "RC-94417",
+        "confidence": 0.95,
+        "source_snippet": "Folio No: RC-94417"
+      },
+      "date": {
+        "value": "2026-09-26",
+        "confidence": 0.97,
+        "source_snippet": "Bill Date: 26/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 11000,
+        "confidence": 0.97,
+        "source_snippet": "Taxable Value 11,000.00"
+      },
+      "tax_amount": {
+        "value": 1320,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 660.00 SGST @ 6% 660.00"
+      },
+      "total_amount": {
+        "value": 12320,
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR) 12,320.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.93,
+        "source_snippet": "Settlement: UPI (PayNow)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Delhi",
+        "confidence": 0.8,
+        "source_snippet": "Janpath Lane, Delhi 110096"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.85,
+        "source_snippet": "Room Tariff - Superior"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Superior (24/09/26)",
+          "quantity": 1,
+          "unit_price": 5500,
+          "amount": 5500
+        },
+        {
+          "description": "Room Tariff - Superior (25/09/26)",
+          "quantity": 1,
+          "unit_price": 5500,
+          "amount": 5500
+        }
+      ],
+      "raw_text": "RAISINA COURT HOTEL\nJanpath Lane, Delhi 110096\nTel: +91 88052 91672\nGSTIN: 07EXRFZ5754M1ZP\nGUEST FOLIO / TAX INVOICE\n\nFolio No: RC-94417    Bill Date: 26/09/2026\nGuest: S. Banerjee    Room: 785 (Superior)\nArrival: 24/09/2026    Departure: 26/09/2026\nCompany: Acme India Pvt Ltd    Nights: 2 Pax: 1\n\nDate | Particulars | CGST | SGST | Amount\n24/09/26 | Room Tariff - Superior | 330.00 | 330.00 | 5,500.00\n25/09/26 | Room Tariff - Superior | 330.00 | 330.00 | 5,500.00\n\nTaxable Value 11,000.00\nCGST @ 6% 660.00\nSGST @ 6% 660.00\nTOTAL (INR) 12,320.00\nLess: Settlement (12,320.00)\nBalance 0.00\n\nSettlement: UPI (PayNow)\n\nGuest Signature ____________    Cashier ____________\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.97, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Raisina Court Hotel\", \"confidence\": 0.97, \"source_snippet\": \"RAISINA COURT HOTEL\"}, \"vendor_gstin\": {\"value\": \"07EXRFZ5754M1ZP\", \"confidence\": 0.85, \"source_snippet\": \"GSTIN: 07EXRFZ5754M1ZP\"}, \"invoice_number\": {\"value\": \"RC-94417\", \"confidence\": 0.95, \"source_snippet\": \"Folio No: RC-94417\"}, \"date\": {\"value\": \"2026-09-26\", \"confidence\": 0.97, \"source_snippet\": \"Bill Date: 26/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 11000, \"confidence\": 0.97, \"source_snippet\": \"Taxable Value 11,000.00\"}, \"tax_amount\": {\"value\": 1320, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 660.00 SGST @ 6% 660.00\"}, \"total_amount\": {\"value\": 12320, \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR) 12,320.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.93, \"source_snippet\": \"Settlement: UPI (PayNow)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Delhi\", \"confidence\": 0.8, \"source_snippet\": \"Janpath Lane, Delhi 110096\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.85, \"source_snippet\": \"Room Tariff - Superior\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"Room Tariff - Superior (24/09/26)\", \"quantity\": 1, \"unit_price\": 5500, \"amount\": 5500}, {\"description\": \"Room Tariff - Superior (25/09/26)\", \"quantity\": 1, \"unit_price\": 5500, \"amount\": 5500}], \"raw_text\": \"RAISINA COURT HOTEL\\nJanpath Lane, Delhi 110096\\nTel: +91 88052 91672\\nGSTIN: 07EXRFZ5754M1ZP\\nGUEST FOLIO / TAX INVOICE\\n\\nFolio No: RC-94417    Bill Date: 26/09/2026\\nGuest: S. Banerjee    Room: 785 (Superior)\\nArrival: 24/09/2026    Departure: 26/09/2026\\nCompany: Acme India Pvt Ltd    Nights: 2 Pax: 1\\n\\nDate | Particulars | CGST | SGST | Amount\\n24/09/26 | Room Tariff - Superior | 330.00 | 330.00 | 5,500.00\\n25/09/26 | Room Tariff - Superior | 330.00 | 330.00 | 5,500.00\\n\\nTaxable Value 11,000.00\\nCGST @ 6% 660.00\\nSGST @ 6% 660.00\\nTOTAL (INR) 12,320.00\\nLess: Settlement (12,320.00)\\nBalance 0.00\\n\\nSettlement: UPI (PayNow)\\n\\nGuest Signature ____________    Cashier ____________\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

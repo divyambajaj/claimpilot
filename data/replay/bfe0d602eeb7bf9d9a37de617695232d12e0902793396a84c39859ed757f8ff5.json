@@ -1,0 +1,108 @@
+{
+  "fingerprint": "bfe0d602eeb7bf9d9a37de617695232d12e0902793396a84c39859ed757f8ff5",
+  "recorded_at": "2026-10-10T15:02:04.495436+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "e330d3841fdabf6ab2e085501c30cefe862247714660634c325d5aa0613e6310:0",
+        "bytes": 143061,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 9185,
+  "usage": {
+    "input_tokens": 41688,
+    "output_tokens": 1123,
+    "cost_usd": 0.045924
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.99,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "RydeGo",
+        "confidence": 0.9,
+        "source_snippet": "RydeGo"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-10-02",
+        "confidence": 0.98,
+        "source_snippet": "02 Oct 2026, 6:54 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "₹720"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 720,
+        "confidence": 0.99,
+        "source_snippet": "₹720"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "356234752078",
+        "confidence": 0.97,
+        "source_snippet": "UPI Transaction ID 356234752078"
+      },
+      "payee_name": {
+        "value": "RydeGo",
+        "confidence": 0.98,
+        "source_snippet": "Paid to RydeGo"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "travel_local",
+        "confidence": 0.6,
+        "source_snippet": "RydeGo rydego@paynow"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [],
+      "raw_text": "6:54 57%\nPayNow\nPayment Successful\n₹720\n02 Oct 2026, 6:54 PM\nPaid to\nRydeGo\nrydego@paynow\nFrom\nR. Iyer (xx7424)\nUPI Transaction ID 356234752078\nPayNow Txn ID PN2610021854JP89\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.99, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"RydeGo\", \"confidence\": 0.9, \"source_snippet\": \"RydeGo\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"date\": {\"value\": \"2026-10-02\", \"confidence\": 0.98, \"source_snippet\": \"02 Oct 2026, 6:54 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"\\u20b9720\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"total_amount\": {\"value\": 720, \"confidence\": 0.99, \"source_snippet\": \"\\u20b9720\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"356234752078\", \"confidence\": 0.97, \"source_snippet\": \"UPI Transaction ID 356234752078\"}, \"payee_name\": {\"value\": \"RydeGo\", \"confidence\": 0.98, \"source_snippet\": \"Paid to RydeGo\"}, \"city\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"category\": {\"value\": \"travel_local\", \"confidence\": 0.6, \"source_snippet\": \"RydeGo rydego@paynow\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [], \"raw_text\": \"6:54 57%\\nPayNow\\nPayment Successful\\n\\u20b9720\\n02 Oct 2026, 6:54 PM\\nPaid to\\nRydeGo\\nrydego@paynow\\nFrom\\nR. Iyer (xx7424)\\nUPI Transaction ID 356234752078\\nPayNow Txn ID PN2610021854JP89\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

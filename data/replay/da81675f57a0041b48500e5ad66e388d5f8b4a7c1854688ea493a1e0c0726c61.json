@@ -1,0 +1,127 @@
+{
+  "fingerprint": "da81675f57a0041b48500e5ad66e388d5f8b4a7c1854688ea493a1e0c0726c61",
+  "recorded_at": "2026-10-10T14:54:24.952678+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "dee70c65f46d732c6e319a5246dd3c3d523e7dc54f2fd1175238b9fbb427588a:0",
+        "bytes": 409515,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11918,
+  "usage": {
+    "input_tokens": 41095,
+    "output_tokens": 1652,
+    "cost_usd": 0.049324599999999996
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.97,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Inkwell Stationers",
+        "confidence": 0.97,
+        "source_snippet": "INKWELL STATIONERS"
+      },
+      "vendor_gstin": {
+        "value": "07TMBFY5082G1ZT",
+        "confidence": 0.85,
+        "source_snippet": "GSTIN: 07TMBFY5082G1ZT"
+      },
+      "invoice_number": {
+        "value": "INK/26-27/2604",
+        "confidence": 0.95,
+        "source_snippet": "Invoice No: INK/26-27/2604"
+      },
+      "date": {
+        "value": "2026-09-26",
+        "confidence": 0.97,
+        "source_snippet": "Date: 26/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "Invoice Total (Rs.)"
+      },
+      "subtotal": {
+        "value": 3090,
+        "confidence": 0.97,
+        "source_snippet": "Taxable Value 3,090.00"
+      },
+      "tax_amount": {
+        "value": 556.2,
+        "confidence": 0.96,
+        "source_snippet": "CGST @ 9% 278.10 SGST @ 9% 278.10"
+      },
+      "total_amount": {
+        "value": 3646.2,
+        "confidence": 0.98,
+        "source_snippet": "Invoice Total (Rs.) 3,646.20"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.95,
+        "source_snippet": "Payment received: Card"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.99,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Delhi",
+        "confidence": 0.95,
+        "source_snippet": "Delhi 110040  |  Ph 9124855018"
+      },
+      "category": {
+        "value": "office",
+        "confidence": 0.95,
+        "source_snippet": "Sticky Notes 3x3 (pack)"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.99,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Sticky Notes 3x3 (pack)",
+          "quantity": 11,
+          "unit_price": 90,
+          "amount": 990
+        },
+        {
+          "description": "Stapler HD-45",
+          "quantity": 3,
+          "unit_price": 340,
+          "amount": 1020
+        },
+        {
+          "description": "Whiteboard Marker Set",
+          "quantity": 6,
+          "unit_price": 180,
+          "amount": 1080
+        }
+      ],
+      "raw_text": "INKWELL STATIONERS\n22 Nehru Place\nDelhi 110040 | Ph 9124855018\nGSTIN: 07TMBFY5082G1ZT\nTAX INVOICE\nInvoice No: INK/26-27/2604\nDate: 26/09/2026\nBill to: Acme India Pvt Ltd (walk-in)\nPlace of supply: Delhi (07)\n# | Description | HSN | Qty | Rate | Amount\n1 | Sticky Notes 3x3 (pack) | 4820 | 11 | 90.00 | 990.00\n2 | Stapler HD-45 | 8472 | 3 | 340.00 | 1,020.00\n3 | Whiteboard Marker Set | 9608 | 6 | 180.00 | 1,080.00\nTaxable Value 3,090.00\nCGST @ 9% 278.10\nSGST @ 9% 278.10\nInvoice Total (Rs.) 3,646.20\nAmount in words: Rupees Three Thousand Six Hundred Forty-Six and Twenty Paise Only\nPayment received: Card\nE. & O.E.\nFor Inkwell Stationers\nAuthorised Signatory",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.97, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Inkwell Stationers\", \"confidence\": 0.97, \"source_snippet\": \"INKWELL STATIONERS\"}, \"vendor_gstin\": {\"value\": \"07TMBFY5082G1ZT\", \"confidence\": 0.85, \"source_snippet\": \"GSTIN: 07TMBFY5082G1ZT\"}, \"invoice_number\": {\"value\": \"INK/26-27/2604\", \"confidence\": 0.95, \"source_snippet\": \"Invoice No: INK/26-27/2604\"}, \"date\": {\"value\": \"2026-09-26\", \"confidence\": 0.97, \"source_snippet\": \"Date: 26/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"Invoice Total (Rs.)\"}, \"subtotal\": {\"value\": 3090, \"confidence\": 0.97, \"source_snippet\": \"Taxable Value 3,090.00\"}, \"tax_amount\": {\"value\": 556.2, \"confidence\": 0.96, \"source_snippet\": \"CGST @ 9% 278.10 SGST @ 9% 278.10\"}, \"total_amount\": {\"value\": 3646.2, \"confidence\": 0.98, \"source_snippet\": \"Invoice Total (Rs.) 3,646.20\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.95, \"source_snippet\": \"Payment received: Card\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.99, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"city\": {\"value\": \"Delhi\", \"confidence\": 0.95, \"source_snippet\": \"Delhi 110040  |  Ph 9124855018\"}, \"category\": {\"value\": \"office\", \"confidence\": 0.95, \"source_snippet\": \"Sticky Notes 3x3 (pack)\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.99, \"source_snippet\": null}, \"items\": [{\"description\": \"Sticky Notes 3x3 (pack)\", \"quantity\": 11, \"unit_price\": 90, \"amount\": 990}, {\"description\": \"Stapler HD-45\", \"quantity\": 3, \"unit_price\": 340, \"amount\": 1020}, {\"description\": \"Whiteboard Marker Set\", \"quantity\": 6, \"unit_price\": 180, \"amount\": 1080}], \"raw_text\": \"INKWELL STATIONERS\\n22 Nehru Place\\nDelhi 110040 | Ph 9124855018\\nGSTIN: 07TMBFY5082G1ZT\\nTAX INVOICE\\nInvoice No: INK/26-27/2604\\nDate: 26/09/2026\\nBill to: Acme India Pvt Ltd (walk-in)\\nPlace of supply: Delhi (07)\\n# | Description | HSN | Qty | Rate | Amount\\n1 | Sticky Notes 3x3 (pack) | 4820 | 11 | 90.00 | 990.00\\n2 | Stapler HD-45 | 8472 | 3 | 340.00 | 1,020.00\\n3 | Whiteboard Marker Set | 9608 | 6 | 180.00 | 1,080.00\\nTaxable Value 3,090.00\\nCGST @ 9% 278.10\\nSGST @ 9% 278.10\\nInvoice Total (Rs.) 3,646.20\\nAmount in words: Rupees Three Thousand Six Hundred Forty-Six and Twenty Paise Only\\nPayment received: Card\\nE. & O.E.\\nFor Inkwell Stationers\\nAuthorised Signatory\", \"quality\": \"good\"}"
+  }
+}

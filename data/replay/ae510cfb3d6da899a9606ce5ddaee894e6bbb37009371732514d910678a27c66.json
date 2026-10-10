@@ -1,0 +1,115 @@
+{
+  "fingerprint": "ae510cfb3d6da899a9606ce5ddaee894e6bbb37009371732514d910678a27c66",
+  "recorded_at": "2026-10-10T15:01:12.047026+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "b170f177541613a9f53ec71fdfb43518b0e218fa2e6676eeadd389c977e2c7ce:0",
+        "bytes": 34465,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 10451,
+  "usage": {
+    "input_tokens": 41062,
+    "output_tokens": 1347,
+    "cost_usd": 0.0456714
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "fuel",
+        "confidence": 0.97,
+        "source_snippet": "SHIVAM FUEL POINT"
+      },
+      "vendor_name": {
+        "value": "Shivam Fuel Point",
+        "confidence": 0.98,
+        "source_snippet": "SHIVAM FUEL POINT"
+      },
+      "vendor_gstin": {
+        "value": "27MEGFK3898B1ZM",
+        "confidence": 0.9,
+        "source_snippet": "GSTIN:27MEGFK3898B1ZM"
+      },
+      "invoice_number": {
+        "value": "85935",
+        "confidence": 0.98,
+        "source_snippet": "RCPT NO: 85935"
+      },
+      "date": {
+        "value": "2026-09-22",
+        "confidence": 0.98,
+        "source_snippet": "DATE: 22-SEP-2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "AMOUNT (Rs): 2,000.00"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 2000,
+        "confidence": 0.99,
+        "source_snippet": "AMOUNT (Rs): 2,000.00"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.98,
+        "source_snippet": "MODE: UPI"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.3,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Pune",
+        "confidence": 0.95,
+        "source_snippet": "Pune - 411015"
+      },
+      "category": {
+        "value": "fuel",
+        "confidence": 0.97,
+        "source_snippet": "PRODUCT: PETROL"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "PETROL",
+          "quantity": 19.33,
+          "unit_price": 103.44,
+          "amount": 2000
+        }
+      ],
+      "raw_text": "*** WELCOME ***\nSHIVAM FUEL POINT\nMumbai-Bengaluru Highway, Baner\nPune - 411015\nGSTIN:27MEGFK3898B1ZM\nRCPT NO: 85935\nDATE: 22-SEP-2026\nTIME: 07:42:17\nFP ID / NOZZLE: 04 / 1\nPRODUCT: PETROL\nRATE (Rs/L): 103.44\nVOLUME (L): 19.33\nAMOUNT (Rs): 2,000.00\nVEHICLE NO: MA37HD5072\nMODE: UPI\nSAVE FUEL SAVE MONEY\nTHANK YOU - VISIT AGAIN",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"fuel\", \"confidence\": 0.97, \"source_snippet\": \"SHIVAM FUEL POINT\"}, \"vendor_name\": {\"value\": \"Shivam Fuel Point\", \"confidence\": 0.98, \"source_snippet\": \"SHIVAM FUEL POINT\"}, \"vendor_gstin\": {\"value\": \"27MEGFK3898B1ZM\", \"confidence\": 0.9, \"source_snippet\": \"GSTIN:27MEGFK3898B1ZM\"}, \"invoice_number\": {\"value\": \"85935\", \"confidence\": 0.98, \"source_snippet\": \"RCPT NO: 85935\"}, \"date\": {\"value\": \"2026-09-22\", \"confidence\": 0.98, \"source_snippet\": \"DATE: 22-SEP-2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"AMOUNT (Rs): 2,000.00\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"total_amount\": {\"value\": 2000, \"confidence\": 0.99, \"source_snippet\": \"AMOUNT (Rs): 2,000.00\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.98, \"source_snippet\": \"MODE: UPI\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.3, \"source_snippet\": null}, \"city\": {\"value\": \"Pune\", \"confidence\": 0.95, \"source_snippet\": \"Pune - 411015\"}, \"category\": {\"value\": \"fuel\", \"confidence\": 0.97, \"source_snippet\": \"PRODUCT: PETROL\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"PETROL\", \"quantity\": 19.33, \"unit_price\": 103.44, \"amount\": 2000}], \"raw_text\": \"*** WELCOME ***\\nSHIVAM FUEL POINT\\nMumbai-Bengaluru Highway, Baner\\nPune - 411015\\nGSTIN:27MEGFK3898B1ZM\\nRCPT NO: 85935\\nDATE: 22-SEP-2026\\nTIME: 07:42:17\\nFP ID / NOZZLE: 04 / 1\\nPRODUCT: PETROL\\nRATE (Rs/L): 103.44\\nVOLUME (L): 19.33\\nAMOUNT (Rs): 2,000.00\\nVEHICLE NO: MA37HD5072\\nMODE: UPI\\nSAVE FUEL SAVE MONEY\\nTHANK YOU - VISIT AGAIN\", \"quality\": \"good\"}"
+  }
+}

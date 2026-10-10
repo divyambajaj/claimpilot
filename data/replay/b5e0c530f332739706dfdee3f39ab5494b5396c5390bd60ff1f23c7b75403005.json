@@ -1,0 +1,108 @@
+{
+  "fingerprint": "b5e0c530f332739706dfdee3f39ab5494b5396c5390bd60ff1f23c7b75403005",
+  "recorded_at": "2026-10-10T15:01:40.135771+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "f43f2eadf225af83ff3a8479cfac490daa0eea8d4aa04a0c36c15efaaa5b9d92:0",
+        "bytes": 162831,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 8859,
+  "usage": {
+    "input_tokens": 41704,
+    "output_tokens": 1165,
+    "cost_usd": 0.046427
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "upi_screenshot",
+        "confidence": 0.98,
+        "source_snippet": "Payment Successful"
+      },
+      "vendor_name": {
+        "value": "DPH HOSPITALITY",
+        "confidence": 0.9,
+        "source_snippet": "DPH HOSPITALITY"
+      },
+      "vendor_gstin": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "invoice_number": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "date": {
+        "value": "2026-09-29",
+        "confidence": 0.98,
+        "source_snippet": "29 Sep 2026, 8:30 PM"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.97,
+        "source_snippet": "₹4,368"
+      },
+      "subtotal": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "tax_amount": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "total_amount": {
+        "value": 4368,
+        "confidence": 0.98,
+        "source_snippet": "₹4,368"
+      },
+      "payment_method": {
+        "value": "upi",
+        "confidence": 0.99,
+        "source_snippet": "Powered by UPI"
+      },
+      "upi_txn_id": {
+        "value": "618802924044",
+        "confidence": 0.98,
+        "source_snippet": "UPI Transaction ID 618802924044"
+      },
+      "payee_name": {
+        "value": "DPH HOSPITALITY",
+        "confidence": 0.98,
+        "source_snippet": "Paid to DPH HOSPITALITY"
+      },
+      "city": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "category": {
+        "value": "other",
+        "confidence": 0.4,
+        "source_snippet": "Note Bill payment"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.1,
+        "source_snippet": null
+      },
+      "items": [],
+      "raw_text": "8:30 61%\nPayNow\nPayment Successful\n₹4,368\n29 Sep 2026, 8:30 PM\nPaid to\nDPH HOSPITALITY\ndphhospitality@paynow\nFrom\nP. Kulkarni (xx6648)\nUPI Transaction ID 618802924044\nPayNow Txn ID PN2609292030BS23\nNote Bill payment\nShare Done\nPowered by UPI",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"upi_screenshot\", \"confidence\": 0.98, \"source_snippet\": \"Payment Successful\"}, \"vendor_name\": {\"value\": \"DPH HOSPITALITY\", \"confidence\": 0.9, \"source_snippet\": \"DPH HOSPITALITY\"}, \"vendor_gstin\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"invoice_number\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"date\": {\"value\": \"2026-09-29\", \"confidence\": 0.98, \"source_snippet\": \"29 Sep 2026, 8:30 PM\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.97, \"source_snippet\": \"\\u20b94,368\"}, \"subtotal\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"tax_amount\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"total_amount\": {\"value\": 4368, \"confidence\": 0.98, \"source_snippet\": \"\\u20b94,368\"}, \"payment_method\": {\"value\": \"upi\", \"confidence\": 0.99, \"source_snippet\": \"Powered by UPI\"}, \"upi_txn_id\": {\"value\": \"618802924044\", \"confidence\": 0.98, \"source_snippet\": \"UPI Transaction ID 618802924044\"}, \"payee_name\": {\"value\": \"DPH HOSPITALITY\", \"confidence\": 0.98, \"source_snippet\": \"Paid to DPH HOSPITALITY\"}, \"city\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"category\": {\"value\": \"other\", \"confidence\": 0.4, \"source_snippet\": \"Note Bill payment\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.1, \"source_snippet\": null}, \"items\": [], \"raw_text\": \"8:30 61%\\nPayNow\\nPayment Successful\\n\\u20b94,368\\n29 Sep 2026, 8:30 PM\\nPaid to\\nDPH HOSPITALITY\\ndphhospitality@paynow\\nFrom\\nP. Kulkarni (xx6648)\\nUPI Transaction ID 618802924044\\nPayNow Txn ID PN2609292030BS23\\nNote Bill payment\\nShare Done\\nPowered by UPI\", \"quality\": \"good\"}"
+  }
+}

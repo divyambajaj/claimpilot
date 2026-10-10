@@ -1,0 +1,115 @@
+{
+  "fingerprint": "3308d764d0a492db949f6710a4b78cc395d0988ad06605cadb977910e30274aa",
+  "recorded_at": "2026-10-10T15:03:35.664817+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v2",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "afaecc19d7bde7fe469a0b0b0e8c1ec73bfa915a82bfdc6de8ab2b8e21e06a85",
+    "images": [
+      {
+        "id": "fff6130d7bd03102279f632a7db9d31815cdbe850d29f4bc38c42139e9396d9e:0",
+        "bytes": 637071,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 11008,
+  "usage": {
+    "input_tokens": 41623,
+    "output_tokens": 1562,
+    "cost_usd": 0.050046400000000005
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "hotel_folio",
+        "confidence": 0.98,
+        "source_snippet": "GUEST FOLIO / TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "Harbourview Residency",
+        "confidence": 0.98,
+        "source_snippet": "HARBOURVIEW RESIDENCY"
+      },
+      "vendor_gstin": {
+        "value": "27XCXCN9446H1ZT",
+        "confidence": 0.9,
+        "source_snippet": "GSTIN: 27XCXCN9446H1ZT"
+      },
+      "invoice_number": {
+        "value": "HR-55476",
+        "confidence": 0.97,
+        "source_snippet": "Folio No: HR-55476"
+      },
+      "date": {
+        "value": "2026-08-27",
+        "confidence": 0.97,
+        "source_snippet": "Bill Date: 27/08/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.98,
+        "source_snippet": "TOTAL (INR)"
+      },
+      "subtotal": {
+        "value": 5000,
+        "confidence": 0.98,
+        "source_snippet": "Taxable Value 5,000.00"
+      },
+      "tax_amount": {
+        "value": 600,
+        "confidence": 0.95,
+        "source_snippet": "CGST @ 6% 300.00 SGST @ 6% 300.00"
+      },
+      "total_amount": {
+        "value": 5600,
+        "confidence": 0.99,
+        "source_snippet": "TOTAL (INR) 5,600.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.97,
+        "source_snippet": "Settlement: Credit Card xx8831"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.95,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.9,
+        "source_snippet": "Marine Drive, Churchgate, Mumbai 400032"
+      },
+      "category": {
+        "value": "lodging",
+        "confidence": 0.95,
+        "source_snippet": "Room Tariff - Superior"
+      },
+      "attendees_count": {
+        "value": null,
+        "confidence": 0.9,
+        "source_snippet": null
+      },
+      "items": [
+        {
+          "description": "Room Tariff - Superior",
+          "quantity": null,
+          "unit_price": null,
+          "amount": 5000
+        }
+      ],
+      "raw_text": "HARBOURVIEW RESIDENCY\nMarine Drive, Churchgate, Mumbai 400032\nTel: +91 71527 16806\nGSTIN: 27XCXCN9446H1ZT\nGUEST FOLIO / TAX INVOICE\nFolio No: HR-55476    Bill Date: 27/08/2026\nGuest: P. Kulkarni    Room: 652 (Superior)\nArrival: 26/08/2026    Departure: 27/08/2026\nCompany: Acme India Pvt Ltd    Nights: 1  Pax: 1\nDate | Particulars | CGST | SGST | Amount\n26/08/26 | Room Tariff - Superior | 300.00 | 300.00 | 5,000.00\nTaxable Value 5,000.00\nCGST @ 6% 300.00\nSGST @ 6% 300.00\nTOTAL (INR) 5,600.00\nLess: Settlement (5,600.00)\nBalance 0.00\nSettlement: Credit Card xx8831\nGuest Signature ____________    Cashier ____________\nCheck-out time 12 noon. Thank you for staying with us.",
+      "quality": "good"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"hotel_folio\", \"confidence\": 0.98, \"source_snippet\": \"GUEST FOLIO / TAX INVOICE\"}, \"vendor_name\": {\"value\": \"Harbourview Residency\", \"confidence\": 0.98, \"source_snippet\": \"HARBOURVIEW RESIDENCY\"}, \"vendor_gstin\": {\"value\": \"27XCXCN9446H1ZT\", \"confidence\": 0.9, \"source_snippet\": \"GSTIN: 27XCXCN9446H1ZT\"}, \"invoice_number\": {\"value\": \"HR-55476\", \"confidence\": 0.97, \"source_snippet\": \"Folio No: HR-55476\"}, \"date\": {\"value\": \"2026-08-27\", \"confidence\": 0.97, \"source_snippet\": \"Bill Date: 27/08/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.98, \"source_snippet\": \"TOTAL (INR)\"}, \"subtotal\": {\"value\": 5000, \"confidence\": 0.98, \"source_snippet\": \"Taxable Value 5,000.00\"}, \"tax_amount\": {\"value\": 600, \"confidence\": 0.95, \"source_snippet\": \"CGST @ 6% 300.00 SGST @ 6% 300.00\"}, \"total_amount\": {\"value\": 5600, \"confidence\": 0.99, \"source_snippet\": \"TOTAL (INR) 5,600.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.97, \"source_snippet\": \"Settlement: Credit Card xx8831\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.95, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.9, \"source_snippet\": \"Marine Drive, Churchgate, Mumbai 400032\"}, \"category\": {\"value\": \"lodging\", \"confidence\": 0.95, \"source_snippet\": \"Room Tariff - Superior\"}, \"attendees_count\": {\"value\": null, \"confidence\": 0.9, \"source_snippet\": null}, \"items\": [{\"description\": \"Room Tariff - Superior\", \"quantity\": null, \"unit_price\": null, \"amount\": 5000}], \"raw_text\": \"HARBOURVIEW RESIDENCY\\nMarine Drive, Churchgate, Mumbai 400032\\nTel: +91 71527 16806\\nGSTIN: 27XCXCN9446H1ZT\\nGUEST FOLIO / TAX INVOICE\\nFolio No: HR-55476    Bill Date: 27/08/2026\\nGuest: P. Kulkarni    Room: 652 (Superior)\\nArrival: 26/08/2026    Departure: 27/08/2026\\nCompany: Acme India Pvt Ltd    Nights: 1  Pax: 1\\nDate | Particulars | CGST | SGST | Amount\\n26/08/26 | Room Tariff - Superior | 300.00 | 300.00 | 5,000.00\\nTaxable Value 5,000.00\\nCGST @ 6% 300.00\\nSGST @ 6% 300.00\\nTOTAL (INR) 5,600.00\\nLess: Settlement (5,600.00)\\nBalance 0.00\\nSettlement: Credit Card xx8831\\nGuest Signature ____________    Cashier ____________\\nCheck-out time 12 noon. Thank you for staying with us.\", \"quality\": \"good\"}"
+  }
+}

@@ -29,7 +29,7 @@ from app.pipeline.validate.dates import date_problem
 from app.pipeline.validate.gstin import checksum_char, gstin_problem, is_valid_gstin, make_gstin
 from tests.factories import TODAY, VALID_GSTIN, make_receipt
 
-DEMO = REPO_ROOT / "data" / "demo_receipts"
+DEMO = REPO_ROOT / "backend" / "tests" / "fixtures" / "demo_v1"
 
 
 def _receipt_image(seed: int, size: tuple[int, int] = (600, 800)) -> Image.Image:

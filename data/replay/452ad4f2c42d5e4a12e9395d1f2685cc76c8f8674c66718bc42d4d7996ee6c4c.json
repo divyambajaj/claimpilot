@@ -1,0 +1,157 @@
+{
+  "fingerprint": "452ad4f2c42d5e4a12e9395d1f2685cc76c8f8674c66718bc42d4d7996ee6c4c",
+  "recorded_at": "2026-10-10T14:51:28.946929+00:00",
+  "request_meta": {
+    "prompt_name": "extract_receipt",
+    "prompt_version": "v1",
+    "schema_sha256": "ab914d7b08f13b2364ef075f64477ce4d3fddbedc6cd5e0a9077470eb09abdcc",
+    "text_sha256": "953b9a7524fb1a0e1c164f36e2ea84cba6aa7a1a5732832496aca270c3093097",
+    "images": [
+      {
+        "id": "bdc954dda37a825f4f3ee35df9ae7d5bb4ccfcbb20dae9f77aab57647e435b13:0",
+        "bytes": 345636,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "provider": "claude_code",
+  "model": "sonnet",
+  "latency_ms": 16851,
+  "usage": {
+    "input_tokens": 41444,
+    "output_tokens": 2423,
+    "cost_usd": 0.0583204
+  },
+  "response": {
+    "data": {
+      "doc_type": {
+        "value": "invoice",
+        "confidence": 0.95,
+        "source_snippet": "TAX INVOICE"
+      },
+      "vendor_name": {
+        "value": "CHAIWALA CORNER PVT LTD",
+        "confidence": 0.97,
+        "source_snippet": "CHAIWALA CORNER PVT LTD"
+      },
+      "vendor_gstin": {
+        "value": "27YDPCD7978G1Z1",
+        "confidence": 0.8,
+        "source_snippet": "GSTIN: 27YDPCD7978G1Z1"
+      },
+      "invoice_number": {
+        "value": "CC/2609/6180",
+        "confidence": 0.9,
+        "source_snippet": "Bill No: CC/2609/6180"
+      },
+      "date": {
+        "value": "2026-09-15",
+        "confidence": 0.95,
+        "source_snippet": "Date: 15/09/2026"
+      },
+      "currency": {
+        "value": "INR",
+        "confidence": 0.95,
+        "source_snippet": "GRAND TOTAL Rs."
+      },
+      "subtotal": {
+        "value": 1330,
+        "confidence": 0.95,
+        "source_snippet": "Sub Total 1,330.00"
+      },
+      "tax_amount": {
+        "value": 66.5,
+        "confidence": 0.93,
+        "source_snippet": "CGST @ 2.5% 33.25 / SGST @ 2.5% 33.25"
+      },
+      "total_amount": {
+        "value": 1396,
+        "confidence": 0.96,
+        "source_snippet": "GRAND TOTAL Rs. 1,396.00"
+      },
+      "payment_method": {
+        "value": "card",
+        "confidence": 0.97,
+        "source_snippet": "Paid by: CARD (VISA xx8064)"
+      },
+      "upi_txn_id": {
+        "value": null,
+        "confidence": 0.98,
+        "source_snippet": null
+      },
+      "payee_name": {
+        "value": null,
+        "confidence": 0.98,
+        "source_snippet": null
+      },
+      "city": {
+        "value": "Mumbai",
+        "confidence": 0.95,
+        "source_snippet": "Mumbai 400045"
+      },
+      "category": {
+        "value": "meals",
+        "confidence": 0.97,
+        "source_snippet": "Table: 30 Covers: 2"
+      },
+      "attendees_count": {
+        "value": 2,
+        "confidence": 0.95,
+        "source_snippet": "Covers: 2"
+      },
+      "items": [
+        {
+          "description": "Mango Lassi",
+          "quantity": 1,
+          "unit_price": 140,
+          "amount": 140
+        },
+        {
+          "description": "Jeera Rice",
+          "quantity": 1,
+          "unit_price": 190,
+          "amount": 190
+        },
+        {
+          "description": "Paneer Tikka",
+          "quantity": 1,
+          "unit_price": 340,
+          "amount": 340
+        },
+        {
+          "description": "Tandoori Roti",
+          "quantity": 1,
+          "unit_price": 40,
+          "amount": 40
+        },
+        {
+          "description": "Veg Biryani",
+          "quantity": 1,
+          "unit_price": 290,
+          "amount": 290
+        },
+        {
+          "description": "Masala Dosa",
+          "quantity": 1,
+          "unit_price": 180,
+          "amount": 180
+        },
+        {
+          "description": "Filter Coffee",
+          "quantity": 1,
+          "unit_price": 90,
+          "amount": 90
+        },
+        {
+          "description": "Butter Naan",
+          "quantity": 1,
+          "unit_price": 60,
+          "amount": 60
+        }
+      ],
+      "raw_text": "CHAIWALA CORNER PVT LTD\nShop 4, Linking Road, Bandra West\nMumbai 400045\nPh: 066-53711878\nGSTIN: 27YDPCD7978G1Z1\nFSSAI Lic No: 18037970414671\nTAX INVOICE\n------------------------------------------\nBill No: CC/2609/6180        Date: 15/09/2026\nTable: 30  Covers: 2         Time: 18:36\nSteward: Anil\n------------------------------------------\nItem                 Qty   Rate    Amount\nMango Lassi           1   140.00   140.00\nJeera Rice            1   190.00   190.00\nPaneer Tikka          1   340.00   340.00\nTandoori Roti         1    40.00    40.00\nVeg Biryani           1   290.00   290.00\nMasala Dosa           1   180.00   180.00\nFilter Coffee         1    90.00    90.00\nButter Naan           1    60.00    60.00\n------------------------------------------\nSub Total                         1,330.00\nCGST @ 2.5%                          33.25\nSGST @ 2.5%                          33.25\nRound Off                            -0.50\nGRAND TOTAL Rs.                   1,396.00\nPaid by: CARD (VISA xx8064)\nThank you! Please visit again\n** Prices inclusive of packing **",
+      "quality": "rotated"
+    },
+    "raw_text": "{\"doc_type\": {\"value\": \"invoice\", \"confidence\": 0.95, \"source_snippet\": \"TAX INVOICE\"}, \"vendor_name\": {\"value\": \"CHAIWALA CORNER PVT LTD\", \"confidence\": 0.97, \"source_snippet\": \"CHAIWALA CORNER PVT LTD\"}, \"vendor_gstin\": {\"value\": \"27YDPCD7978G1Z1\", \"confidence\": 0.8, \"source_snippet\": \"GSTIN: 27YDPCD7978G1Z1\"}, \"invoice_number\": {\"value\": \"CC/2609/6180\", \"confidence\": 0.9, \"source_snippet\": \"Bill No: CC/2609/6180\"}, \"date\": {\"value\": \"2026-09-15\", \"confidence\": 0.95, \"source_snippet\": \"Date: 15/09/2026\"}, \"currency\": {\"value\": \"INR\", \"confidence\": 0.95, \"source_snippet\": \"GRAND TOTAL Rs.\"}, \"subtotal\": {\"value\": 1330, \"confidence\": 0.95, \"source_snippet\": \"Sub Total 1,330.00\"}, \"tax_amount\": {\"value\": 66.5, \"confidence\": 0.93, \"source_snippet\": \"CGST @ 2.5% 33.25 / SGST @ 2.5% 33.25\"}, \"total_amount\": {\"value\": 1396, \"confidence\": 0.96, \"source_snippet\": \"GRAND TOTAL Rs. 1,396.00\"}, \"payment_method\": {\"value\": \"card\", \"confidence\": 0.97, \"source_snippet\": \"Paid by: CARD (VISA xx8064)\"}, \"upi_txn_id\": {\"value\": null, \"confidence\": 0.98, \"source_snippet\": null}, \"payee_name\": {\"value\": null, \"confidence\": 0.98, \"source_snippet\": null}, \"city\": {\"value\": \"Mumbai\", \"confidence\": 0.95, \"source_snippet\": \"Mumbai 400045\"}, \"category\": {\"value\": \"meals\", \"confidence\": 0.97, \"source_snippet\": \"Table: 30 Covers: 2\"}, \"attendees_count\": {\"value\": 2, \"confidence\": 0.95, \"source_snippet\": \"Covers: 2\"}, \"items\": [{\"description\": \"Mango Lassi\", \"quantity\": 1, \"unit_price\": 140, \"amount\": 140}, {\"description\": \"Jeera Rice\", \"quantity\": 1, \"unit_price\": 190, \"amount\": 190}, {\"description\": \"Paneer Tikka\", \"quantity\": 1, \"unit_price\": 340, \"amount\": 340}, {\"description\": \"Tandoori Roti\", \"quantity\": 1, \"unit_price\": 40, \"amount\": 40}, {\"description\": \"Veg Biryani\", \"quantity\": 1, \"unit_price\": 290, \"amount\": 290}, {\"description\": \"Masala Dosa\", \"quantity\": 1, \"unit_price\": 180, \"amount\": 180}, {\"description\": \"Filter Coffee\", \"quantity\": 1, \"unit_price\": 90, \"amount\": 90}, {\"description\": \"Butter Naan\", \"quantity\": 1, \"unit_price\": 60, \"amount\": 60}], \"raw_text\": \"CHAIWALA CORNER PVT LTD\\nShop 4, Linking Road, Bandra West\\nMumbai 400045\\nPh: 066-53711878\\nGSTIN: 27YDPCD7978G1Z1\\nFSSAI Lic No: 18037970414671\\nTAX INVOICE\\n------------------------------------------\\nBill No: CC/2609/6180        Date: 15/09/2026\\nTable: 30  Covers: 2         Time: 18:36\\nSteward: Anil\\n------------------------------------------\\nItem                 Qty   Rate    Amount\\nMango Lassi           1   140.00   140.00\\nJeera Rice            1   190.00   190.00\\nPaneer Tikka          1   340.00   340.00\\nTandoori Roti         1    40.00    40.00\\nVeg Biryani           1   290.00   290.00\\nMasala Dosa           1   180.00   180.00\\nFilter Coffee         1    90.00    90.00\\nButter Naan           1    60.00    60.00\\n------------------------------------------\\nSub Total                         1,330.00\\nCGST @ 2.5%                          33.25\\nSGST @ 2.5%                          33.25\\nRound Off                            -0.50\\nGRAND TOTAL Rs.                   1,396.00\\nPaid by: CARD (VISA xx8064)\\nThank you! Please visit again\\n** Prices inclusive of packing **\", \"quality\": \"rotated\"}"
+  }
+}
