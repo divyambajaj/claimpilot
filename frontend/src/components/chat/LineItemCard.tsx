@@ -10,9 +10,12 @@ interface Props {
   index: number;
   proof?: LineItem;
   onWhy: (f: Finding, line: LineItem) => void;
+  /** Omitted once the claim is with Finance. */
+  onEdit?: (line: LineItem, field: string, value: string) => Promise<void>;
+  onExclude?: (line: LineItem, action: "exclude" | "restore") => void;
 }
 
-export function LineItemCard({ line, index, proof, onWhy }: Props) {
+export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: Props) {
   const [expanded, setExpanded] = useState(false);
   const x = line.extracted;
   const processing = line.status === "processing";
@@ -20,6 +23,9 @@ export function LineItemCard({ line, index, proof, onWhy }: Props) {
   const blocked = line.findings.some((f) => f.severity === "block" && f.resolution === "open");
   const findings = line.findings.filter((f) => !(f.evidence.linked_to && f.severity === "info"));
   const capped = !excluded && line.reimbursable_inr < line.amount_inr;
+  // a policy-blocked line keeps its fields visible so the user can correct the value that blocked it
+  const showFields = !excluded || (blocked && !line.user_excluded);
+  const edit = (field: string) => (onEdit ? (v: string) => onEdit(line, field, v) : undefined);
 
   if (processing) {
     return (
@@ -61,22 +67,22 @@ export function LineItemCard({ line, index, proof, onWhy }: Props) {
         </div>
       )}
 
-      {!excluded && (
+      {showFields && (
         <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 pl-6 sm:grid-cols-3">
-          <FieldChip label="Date" field={x.date} format={(v) => formatDate(v)} />
-          <FieldChip label="Total" field={x.total_amount} format={(v) => formatINR(v)} mono />
+          <FieldChip label="Date" field={x.date} format={(v) => formatDate(v)} onEdit={edit("date")} inputType="date" />
+          <FieldChip label="Total" field={x.total_amount} format={(v) => formatINR(v)} mono onEdit={edit("total_amount")} inputType="number" />
           {line.category === "meals" ? (
-            <FieldChip label="Attendees" field={x.attendees_count} />
+            <FieldChip label="Attendees" field={x.attendees_count} onEdit={edit("attendees_count")} inputType="number" />
           ) : (
             <FieldChip label="Paid by" field={x.payment_method} format={(v) => PAYMENT_LABEL[v]} />
           )}
           {expanded && (
             <>
-              <FieldChip label="GSTIN" field={x.vendor_gstin} mono />
-              <FieldChip label="Invoice no." field={x.invoice_number} mono />
-              <FieldChip label="Tax" field={x.tax_amount} format={(v) => formatINR(v)} mono />
+              <FieldChip label="GSTIN" field={x.vendor_gstin} mono onEdit={edit("vendor_gstin")} />
+              <FieldChip label="Invoice no." field={x.invoice_number} mono onEdit={edit("invoice_number")} />
+              <FieldChip label="Tax" field={x.tax_amount} format={(v) => formatINR(v)} mono onEdit={edit("tax_amount")} inputType="number" />
               {line.category === "meals" && <FieldChip label="Paid by" field={x.payment_method} format={(v) => PAYMENT_LABEL[v]} />}
-              <FieldChip label="City" field={x.city} />
+              <FieldChip label="City" field={x.city} onEdit={edit("city")} />
               <FieldChip label="Category" field={x.category} format={(v) => CATEGORY_LABEL[v]} />
             </>
           )}
@@ -122,12 +128,19 @@ export function LineItemCard({ line, index, proof, onWhy }: Props) {
         </div>
       )}
 
-      {!excluded && (
-        <div className="mt-2 pl-6">
-          <button type="button" onClick={() => setExpanded((e) => !e)} className="inline-flex items-center gap-1 text-2xs text-ink-3 hover:text-ink-2" aria-expanded={expanded}>
-            {expanded ? "Fewer fields" : "All fields"}
-            <ChevronDown size={12} strokeWidth={1.5} className={expanded ? "rotate-180" : ""} />
-          </button>
+      {!line.linked_to_line_id && (showFields || onExclude) && (
+        <div className="mt-2 flex items-center gap-4 pl-6">
+          {showFields && (
+            <button type="button" onClick={() => setExpanded((e) => !e)} className="inline-flex items-center gap-1 text-2xs text-ink-3 hover:text-ink-2" aria-expanded={expanded}>
+              {expanded ? "Fewer fields" : "All fields"}
+              <ChevronDown size={12} strokeWidth={1.5} className={expanded ? "rotate-180" : ""} />
+            </button>
+          )}
+          {onExclude && (line.user_excluded || !excluded) && (
+            <button type="button" onClick={() => onExclude(line, line.user_excluded ? "restore" : "exclude")} className="text-2xs text-ink-3 hover:text-ink-2">
+              {line.user_excluded ? "Restore line" : "Leave out of claim"}
+            </button>
+          )}
           {line.status === "flagged" && blocked && <Pill tone={SEVERITY_TONE.block}>Fix or exclude to continue</Pill>}
         </div>
       )}

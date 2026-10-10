@@ -9,6 +9,8 @@ interface Props {
   onSubmit: () => void;
   submitting?: boolean;
   onWhy: (f: Finding, line: LineItem) => void;
+  onEdit?: (line: LineItem, field: string, value: string) => Promise<void>;
+  onExclude?: (line: LineItem, action: "exclude" | "restore") => void;
 }
 
 export function claimHint(claim: Claim): string {
@@ -24,11 +26,11 @@ export function claimHint(claim: Claim): string {
   return "Waiting for checks.";
 }
 
-export function ClaimCard({ claim, onSubmit, submitting, onWhy }: Props) {
+export function ClaimCard({ claim, onSubmit, submitting, onWhy, onEdit, onExclude }: Props) {
   const proofIds = new Set(claim.lines.map((l) => l.linked_proof_line_id).filter(Boolean));
   const byId = new Map(claim.lines.map((l) => [l.id, l]));
   const visible = claim.lines.filter((l) => !proofIds.has(l.id));
-  const counted = claim.lines.filter((l) => l.status !== "excluded" && l.status !== "processing");
+  const left = visible.filter((l) => l.status === "excluded").length;
   const attention = claim.lines.filter((l) => l.status === "missing_info" || l.status === "flagged").length;
   const submitted = claim.status === "submitted" || claim.status === "approved" || claim.status === "rejected";
   const ready = claim.status === "ready_to_submit";
@@ -43,7 +45,7 @@ export function ClaimCard({ claim, onSubmit, submitting, onWhy }: Props) {
         <p className="mt-0.5 text-xs text-ink-3">
           {claim.lines.length === 0
             ? "No receipts yet"
-            : `${pluralize(counted.length, "line")}${attention ? ` · ${attention} ${attention === 1 ? "needs" : "need"} attention` : ""} · Policy v${claim.ruleset_version}`}
+            : `${pluralize(visible.length, "line")}${left ? ` · ${left} left out` : ""}${attention ? ` · ${attention} ${attention === 1 ? "needs" : "need"} attention` : ""} · Policy v${claim.ruleset_version}`}
         </p>
       </header>
 
@@ -52,7 +54,7 @@ export function ClaimCard({ claim, onSubmit, submitting, onWhy }: Props) {
       ) : (
         <ul className="min-h-0 flex-1 divide-y divide-line overflow-y-auto">
           {visible.map((l, i) => (
-            <LineItemCard key={l.id} line={l} index={i + 1} proof={l.linked_proof_line_id ? byId.get(l.linked_proof_line_id) : undefined} onWhy={onWhy} />
+            <LineItemCard key={l.id} line={l} index={i + 1} proof={l.linked_proof_line_id ? byId.get(l.linked_proof_line_id) : undefined} onWhy={onWhy} onEdit={submitted ? undefined : onEdit} onExclude={submitted ? undefined : onExclude} />
           ))}
         </ul>
       )}

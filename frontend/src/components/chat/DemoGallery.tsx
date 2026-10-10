@@ -78,7 +78,7 @@ export function DemoGallery({ open, receipts, onClose, onAdd }: Props) {
           })}
         </ul>
       )}
-      <div className="sticky bottom-0 -mx-5 mt-5 flex items-center justify-between border-t border-line bg-surface px-5 pt-4">
+      <div className="sticky -bottom-5 -mx-5 -mb-5 mt-5 flex items-center justify-between border-t border-line bg-surface px-5 py-4">
         <span className="text-xs text-ink-3">{sel.size} selected</span>
         <button type="button" className="btn-primary" disabled={sel.size === 0} onClick={() => onAdd((receipts ?? []).filter((r) => sel.has(r.name)).map((r) => r.name))}>
           Add {sel.size || ""} to claim

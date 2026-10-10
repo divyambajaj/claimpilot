@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import type { ExtractedField } from "../../types";
 
 export type ConfidenceBand = "high" | "medium" | "low";
@@ -26,11 +26,17 @@ interface Props<T> {
   field: ExtractedField<T>;
   format?: (v: T) => string;
   mono?: boolean;
+  /** Save a corrected value (re-checks the line); omitted when the field is not editable. */
+  onEdit?: (value: string) => Promise<void>;
+  inputType?: "date" | "number" | "text";
 }
 
-export function FieldChip<T>({ label, field, format, mono }: Props<T>) {
+export function FieldChip<T>({ label, field, format, mono, onEdit, inputType = "text" }: Props<T>) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
+  const [right, setRight] = useState(false);
+  const [draft, setDraft] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const popId = useId();
   const band = confidenceBand(field.confidence);
   const assumed = field.origin === "assumed";
@@ -52,12 +58,35 @@ export function FieldChip<T>({ label, field, format, mono }: Props<T>) {
 
   const pct = Math.round(field.confidence * 100);
 
+  function toggle() {
+    const el = ref.current;
+    if (!open && el) {
+      // open leftwards when a 288px popover would be clipped by the scrolling list it sits in
+      const box = el.closest("ul")?.getBoundingClientRect();
+      setRight(el.getBoundingClientRect().left + 288 > (box?.right ?? window.innerWidth));
+    }
+    setOpen((o) => !o);
+    setDraft(null);
+    setErr(null);
+  }
+
+  async function save(e: FormEvent) {
+    e.preventDefault();
+    if (!onEdit || draft === null || !draft.trim()) return;
+    try {
+      await onEdit(draft.trim());
+      setOpen(false);
+    } catch (x) {
+      setErr(x instanceof Error ? x.message : "Could not save");
+    }
+  }
+
   return (
-    <span ref={ref} className="relative inline-flex min-w-0 flex-col">
+    <div ref={ref} className="relative inline-flex min-w-0 flex-col">
       <span className="label !text-[10px] !tracking-[0.05em]">{label}</span>
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={toggle}
         aria-expanded={open}
         aria-label={`${label}: ${text}${assumed ? " (assumed)" : band === "low" && !user && !missing ? " (low confidence)" : ""}`}
         aria-controls={popId}
@@ -77,11 +106,11 @@ export function FieldChip<T>({ label, field, format, mono }: Props<T>) {
         {assumed && <span className="text-[10px] uppercase tracking-wide text-ink-3 no-underline">assumed</span>}
       </button>
       {open && (
-        <span
+        <div
           id={popId}
           role="dialog"
           aria-label={`${label} details`}
-          className="animate-in absolute left-0 top-full z-30 mt-1.5 block w-72 rounded-lg border border-line bg-surface p-3 text-left shadow-pop"
+          className={`animate-in absolute ${right ? "right-0" : "left-0"} top-full z-30 mt-1.5 block w-72 rounded-lg border border-line bg-surface p-3 text-left shadow-pop`}
         >
           <span className="flex items-baseline justify-between">
             <span className="text-xs font-medium text-ink">{label}</span>
@@ -100,8 +129,28 @@ export function FieldChip<T>({ label, field, format, mono }: Props<T>) {
             </span>
           )}
           <span className="mt-2.5 block text-2xs leading-4 text-ink-2">{ORIGIN_NOTE[field.origin]}</span>
-        </span>
+          {onEdit &&
+            (draft === null ? (
+              <button type="button" className="link mt-2.5 text-xs" onClick={() => setDraft(missing ? "" : String(field.value))}>
+                {missing ? "Add the value" : "Correct this value"}
+              </button>
+            ) : (
+              <form className="mt-2.5 flex gap-2" onSubmit={save}>
+                <input
+                  autoFocus
+                  type={inputType}
+                  step={inputType === "number" ? "any" : undefined}
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  className="input h-8 min-w-0 flex-1 text-xs"
+                  aria-label={`Correct ${label}`}
+                />
+                <button type="submit" className="btn-primary h-8 shrink-0" disabled={!draft.trim()}>Save</button>
+              </form>
+            ))}
+          {err && <span className="mt-1.5 block text-2xs text-bad" role="alert">{err}</span>}
+        </div>
       )}
-    </span>
+    </div>
   );
 }

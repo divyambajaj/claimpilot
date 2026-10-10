@@ -129,6 +129,10 @@ export interface LineItem {
   status: LineStatus;
   findings: Finding[];
   linked_proof_line_id: string | null;
+  /** Set on a UPI screenshot attached to its invoice. */
+  linked_to_line_id?: string | null;
+  /** The user left this line out of the claim (restore brings it back). */
+  user_excluded?: boolean;
   trip_key: string | null;
   questions_asked: number;
 }
@@ -160,6 +164,8 @@ export interface Claim {
   created_at: string;
   updated_at: string;
   submitted_at: string | null;
+  /** Documents still being read. */
+  processing?: number;
   /** UI contract: documents attached to the claim (filename lookup for progress rows). Optional. */
   documents?: Document[];
 }
@@ -319,6 +325,8 @@ export interface EvalRun {
   git_sha: string | null;
   /** UI contract: "smoke" | "full" if the backend records it. */
   subset?: string;
+  /** Micro accuracy, Brier, per-rule P/R, duplicate misses by layer, UPI-link P/R, gate messages. */
+  details?: Record<string, unknown>;
 }
 
 export interface CorrectionLabel {

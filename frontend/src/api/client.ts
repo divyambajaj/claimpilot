@@ -65,11 +65,23 @@ export interface Api {
 
 const BASE = "/api";
 
+/** Each browser is its own demo employee, so one visitor's claims never show up as another's duplicates. */
+export const userId: string = (() => {
+  try {
+    const id = localStorage.getItem("claimpilot.userId") ?? `demo-${Math.random().toString(36).slice(2, 8)}`;
+    localStorage.setItem("claimpilot.userId", id);
+    return id;
+  } catch {
+    return "demo-user";
+  }
+})();
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   if (init.body && !(init.body instanceof FormData) && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
+  headers.set("X-User-Id", userId);
   const token = readAdminToken();
   if (token && path.startsWith("/admin")) headers.set("Authorization", `Bearer ${token}`);
   const res = await fetch(`${BASE}${path}`, { ...init, headers });

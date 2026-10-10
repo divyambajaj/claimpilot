@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "./api/client";
+import { api, userId } from "./api/client";
 import type { Health } from "./types";
 import { ChatPage } from "./pages/ChatPage";
 import { AdminPage } from "./pages/AdminPage";
@@ -47,7 +47,7 @@ export function App() {
               Demo mode
             </span>
           )}
-          <span className="hidden text-xs text-ink-3 sm:inline">demo-user</span>
+          <span className="mono hidden text-xs text-ink-3 sm:inline">{userId}</span>
         </div>
       </header>
       <main className="flex min-h-0 flex-1 flex-col">

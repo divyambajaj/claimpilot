@@ -1,5 +1,5 @@
 import type { Finding, LineItem, Rule } from "../../types";
-import { formatINR } from "../../lib/format";
+import { fieldLabel, formatINR } from "../../lib/format";
 import { Drawer, Pill, SEVERITY_LABEL, SEVERITY_TONE } from "../ui";
 
 /** Plain-language evidence line, e.g. "Matches receipt #2 — same vendor, amount, date (score 0.93, fuzzy layer)". */
@@ -21,8 +21,9 @@ export function describeEvidence(f: Finding, lines: LineItem[]): string[] {
     out.push(`Linked to receipt #${n || "?"} on ${(e.matched_on as string[] | undefined)?.join(", ") ?? "amount and date"} (score ${Number(e.score ?? 1).toFixed(2)}). Counted once, as proof of payment.`);
   }
   if (e.per_person_amount !== undefined) out.push(`${formatINR(Number(e.per_person_amount))} per person across ${e.attendees_count} attendees; limit ${formatINR(Number(e.cap_inr ?? 750))}.`);
+  if (e.allowed_inr !== undefined && e.over_by_inr !== undefined) out.push(`Reimbursed up to the limit: ${formatINR(Number(e.allowed_inr))}, ${formatINR(Number(e.over_by_inr))} over.`);
   if (e.days_since_expense !== undefined) out.push(`Expense date is ${e.days_since_expense} days before today.`);
-  if (e.field) out.push(`Field “${String(e.field)}” could not be read with enough confidence.`);
+  if (e.field) out.push(e.action === "require_field" ? `The policy needs a valid ${fieldLabel(String(e.field))} on this receipt. Correct it on the line to re-check.` : `Field “${fieldLabel(String(e.field))}” could not be read with enough confidence.`);
   return out;
 }
 

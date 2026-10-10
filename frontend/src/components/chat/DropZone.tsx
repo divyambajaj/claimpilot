@@ -5,7 +5,8 @@ const ACCEPT = "image/png,image/jpeg,image/webp,image/heic,application/pdf";
 const MAX_BYTES = 10 * 1024 * 1024;
 
 interface Props {
-  onFiles: (files: File[]) => void;
+  /** `skipped`: files left out for type, size or count; reported with the upload. */
+  onFiles: (files: File[], skipped: number) => void;
   onSamples: () => void;
   compact?: boolean;
   disabled?: boolean;
@@ -22,7 +23,7 @@ export function DropZone({ onFiles, onSamples, compact, disabled }: Props) {
     const ok = all.filter((f) => (f.type.startsWith("image/") || f.type === "application/pdf") && f.size <= MAX_BYTES).slice(0, 10);
     const skipped = all.length - ok.length;
     setNote(skipped ? `${skipped} file${skipped > 1 ? "s" : ""} skipped: images or PDFs up to 10 MB, 10 at a time.` : null);
-    if (ok.length) onFiles(ok);
+    if (ok.length) onFiles(ok, skipped);
   }
 
   const drag = {

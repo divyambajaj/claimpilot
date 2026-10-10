@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatINR, formatDate } from "../lib/format";
+import { formatINR, formatDate, formatDateTime } from "../lib/format";
 import { describeEvidence } from "../components/chat/WhyDrawer";
 import { makeLine } from "./fixtures";
 
@@ -11,6 +11,9 @@ describe("formatting", () => {
   });
   it("formats plain dates without timezone shifts", () => {
     expect(formatDate("2026-10-03")).toBe("3 Oct 2026");
+  });
+  it("reads naive API timestamps as UTC", () => {
+    expect(formatDateTime("2026-10-10T15:32:00")).toBe(formatDateTime("2026-10-10T15:32:00Z"));
   });
   it("explains duplicate evidence in plain words", () => {
     const lines = [makeLine({ id: "a" }), makeLine({ id: "b" })];

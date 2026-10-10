@@ -13,9 +13,11 @@ interface Props {
   messages: Message[];
   onAnswer: (messageId: string, answers: AnswerIn[]) => Promise<void>;
   answerError: string | null;
+  /** Questions still open on the claim; ones resolved elsewhere (Why drawer, field edit) drop out of the form. */
+  openIds: Set<string>;
 }
 
-export function MessageList({ messages, onAnswer, answerError }: Props) {
+export function MessageList({ messages, onAnswer, answerError, openIds }: Props) {
   return (
     <ol className="space-y-5" aria-live="polite">
       {messages.map((m) => (
@@ -43,13 +45,16 @@ export function MessageList({ messages, onAnswer, answerError }: Props) {
           )}
           {m.kind === "progress" && <ProgressBubble docs={m.docs} />}
           {m.kind === "questions" &&
-            (m.answered ? (
-              <div className="rounded-lg border border-line px-4 py-3 text-sm text-ink-3">
-                {m.questions.length === 1 ? "1 question answered." : `${m.questions.length} questions answered.`}
-              </div>
-            ) : (
-              <QuestionForm questions={m.questions} onSubmit={(a) => onAnswer(m.id, a)} error={answerError} />
-            ))}
+            (() => {
+              const live = m.questions.filter((q) => openIds.has(q.id));
+              return m.answered || !live.length ? (
+                <div className="rounded-lg border border-line px-4 py-3 text-sm text-ink-3">
+                  {m.answered ? (m.questions.length === 1 ? "1 question answered." : `${m.questions.length} questions answered.`) : "Resolved in the claim panel."}
+                </div>
+              ) : (
+                <QuestionForm questions={live} onSubmit={(a) => onAnswer(m.id, a)} error={answerError} />
+              );
+            })()}
         </li>
       ))}
     </ol>

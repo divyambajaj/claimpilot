@@ -11,6 +11,26 @@ import { answerLabel } from "../components/chat/QuestionForm";
 import { WhyDrawer } from "../components/chat/WhyDrawer";
 import { StatusPill } from "../components/ui";
 
+const CLAIM_KEY = "claimpilot.claimId";
+/** The open claim survives a page refresh; storage can be unavailable (private mode), which only loses that. */
+const savedClaim = {
+  get: () => {
+    try {
+      return localStorage.getItem(CLAIM_KEY);
+    } catch {
+      return null;
+    }
+  },
+  set: (id: string | null) => {
+    try {
+      if (id) localStorage.setItem(CLAIM_KEY, id);
+      else localStorage.removeItem(CLAIM_KEY);
+    } catch {
+      /* storage blocked */
+    }
+  },
+};
+
 let mid = 0;
 const nextId = () => `m${++mid}-${Math.random().toString(36).slice(2, 7)}`; // random suffix keeps keys unique across HMR reloads
 
@@ -48,6 +68,7 @@ export function ChatPage() {
   const [submitting, setSubmitting] = useState(false);
   const [answerError, setAnswerError] = useState<string | null>(null);
   const [sheet, setSheet] = useState(false);
+  const submittingRef = useRef(false);
 
   const claimRef = useRef<Claim | null>(null);
   const progressId = useRef<string | null>(null);
@@ -113,15 +134,12 @@ export function ChatPage() {
     [askNew, push, updateClaim],
   );
 
-  async function ensureClaim(): Promise<Claim> {
-    if (claimRef.current) return claimRef.current;
-    const c = await api.createClaim();
-    updateClaim(c);
-    // The stream opens with the current claim; wait for it so no stage event of the first upload is missed.
-    await new Promise<void>((resolve) => {
+  /** The stream opens with the current claim; resolves on it so no stage event of the next upload is missed. */
+  function subscribe(claimId: string) {
+    return new Promise<void>((resolve) => {
       const timer = setTimeout(resolve, 3000);
       unsub.current = api.subscribeClaim(
-        c.id,
+        claimId,
         (e) => {
           if (e.type === "claim_update") {
             clearTimeout(timer);
@@ -132,8 +150,58 @@ export function ChatPage() {
         () => push({ id: nextId(), kind: "assistant", tone: "error", text: "Lost the live connection. Refresh to see the latest state." }),
       );
     });
+  }
+
+  async function ensureClaim(): Promise<Claim> {
+    if (claimRef.current) return claimRef.current;
+    const c = await api.createClaim();
+    updateClaim(c);
+    savedClaim.set(c.id);
+    await subscribe(c.id);
     return c;
   }
+
+  function newClaim() {
+    unsub.current?.();
+    unsub.current = null;
+    savedClaim.set(null);
+    claimRef.current = null;
+    progressId.current = null;
+    asked.current.clear();
+    setClaim(null);
+    setMessages([]);
+    setWhy(null);
+    setAnswerError(null);
+  }
+
+  // Resume the claim this browser was working on (refresh, reopened tab); finished ones start fresh.
+  useEffect(() => {
+    const id = savedClaim.get();
+    if (!id) return;
+    api
+      .getClaim(id)
+      .then((c) => {
+        if (claimRef.current) return; // a second effect run (StrictMode) or an upload got there first
+        if (c.status === "approved" || c.status === "rejected") return savedClaim.set(null);
+        updateClaim(c);
+        docCount.current = c.processing ?? 0;
+        void subscribe(c.id);
+        push({
+          id: nextId(),
+          kind: "assistant",
+          text: (
+            <>
+              Picked up “{c.title}” where you left it.{" "}
+              <button type="button" className="link" onClick={newClaim}>Start a new claim</button>
+            </>
+          ),
+        });
+        askNew(c.open_questions);
+        if (c.status === "submitted") void awaitDecision(c.id);
+      })
+      .catch(() => savedClaim.set(null));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, on mount
+  }, []);
 
   async function startBatch(label: string, names: string[], send: (claimId: string) => Promise<unknown>) {
     const pid = nextId();
@@ -163,8 +231,8 @@ export function ChatPage() {
     }
   }
 
-  const onFiles = (files: File[]) =>
-    startBatch(`Added ${pluralize(files.length, "file")}`, files.map((f) => f.name), (id) => api.uploadDocuments(id, files));
+  const onFiles = (files: File[], skipped: number) =>
+    startBatch(`Added ${pluralize(files.length, "file")}${skipped ? ` · ${skipped} skipped (images or PDFs up to 10 MB, 10 at a time)` : ""}`, files.map((f) => f.name), (id) => api.uploadDocuments(id, files));
 
   const openGallery = () => setGalleryOpen(true);
   useEffect(() => {
@@ -225,22 +293,36 @@ export function ChatPage() {
     }
   }
 
-  async function onLineAction(action: "override_duplicate" | "confirm_duplicate") {
+  /** Apply a change made in the claim panel and surface what it unlocked. */
+  async function change(fn: (claimId: string) => Promise<Claim>) {
     const c = claimRef.current;
-    if (!c || !why) return;
+    if (!c) return;
+    const updated = await fn(c.id);
+    updateClaim(updated);
+    askNew(updated.open_questions);
+    if (c.status !== "ready_to_submit" && updated.status === "ready_to_submit")
+      push({ id: nextId(), kind: "assistant", text: `All lines are complete. ${formatINR(updated.reimbursable_inr)} reimbursable of ${formatINR(updated.total_inr)} claimed. Review the claim and submit when ready.` });
+  }
+  const failed = (err: unknown) =>
+    push({ id: nextId(), kind: "assistant", tone: "error", text: `Could not update the line: ${err instanceof Error ? err.message : "unknown error"}.` });
+
+  async function onLineAction(action: "override_duplicate" | "confirm_duplicate") {
+    if (!why) return;
     try {
-      const updated = await api.lineAction(c.id, why.line.id, action);
-      updateClaim(updated);
+      await change((id) => api.lineAction(id, why.line.id, action));
       setWhy(null);
-      askNew(updated.open_questions);
     } catch (err) {
-      push({ id: nextId(), kind: "assistant", tone: "error", text: `Could not update the line: ${err instanceof Error ? err.message : "unknown error"}.` });
+      failed(err);
     }
   }
 
+  const onExclude = (line: LineItem, action: "exclude" | "restore") => change((id) => api.lineAction(id, line.id, action)).catch(failed);
+  const onEdit = (line: LineItem, field: string, value: string) => change((id) => api.editLine(id, line.id, { [field]: value })); // errors show in the field popover
+
   async function onSubmit() {
     const c = claimRef.current;
-    if (!c) return;
+    if (!c || submittingRef.current) return; // a double click must not send twice
+    submittingRef.current = true;
     setSubmitting(true);
     try {
       const { finance_reference } = await api.submit(c.id);
@@ -251,6 +333,7 @@ export function ChatPage() {
     } catch (err) {
       push({ id: nextId(), kind: "assistant", tone: "error", text: `Could not submit: ${err instanceof Error ? err.message : "unknown error"}.` });
     } finally {
+      submittingRef.current = false;
       setSubmitting(false);
     }
   }
@@ -260,7 +343,7 @@ export function ChatPage() {
   const processing = progressId.current !== null;
   const submitted = claim?.status === "submitted" || claim?.status === "approved" || claim?.status === "rejected";
   const panel = claim ? (
-    <ClaimCard claim={claim} onSubmit={onSubmit} submitting={submitting} onWhy={(f, line) => setWhy({ f, line })} />
+    <ClaimCard claim={claim} onSubmit={onSubmit} submitting={submitting} onWhy={(f, line) => setWhy({ f, line })} onEdit={onEdit} onExclude={onExclude} />
   ) : (
     <section className="card">
       <header className="border-b border-line px-4 py-3.5">
@@ -299,14 +382,21 @@ export function ChatPage() {
                 </dl>
               </div>
             ) : (
-              <MessageList messages={messages} onAnswer={onAnswer} answerError={answerError} />
+              <MessageList messages={messages} onAnswer={onAnswer} answerError={answerError} openIds={new Set(claim?.open_questions.map((q) => q.id))} />
             )}
           </div>
         </div>
-        {started && !submitted && (
+        {started && (
           <div className="border-t border-line bg-page px-4 py-3 sm:px-6">
             <div className="mx-auto max-w-[680px]">
-              <DropZone compact onFiles={onFiles} onSamples={openGallery} disabled={processing} />
+              {submitted ? (
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-ink-3">{claim?.status === "submitted" ? "This claim is with Finance." : "Finance has decided this claim."}</span>
+                  <button type="button" className="btn-secondary" onClick={newClaim}>Start a new claim</button>
+                </div>
+              ) : (
+                <DropZone compact onFiles={onFiles} onSamples={openGallery} disabled={processing} />
+              )}
             </div>
           </div>
         )}
