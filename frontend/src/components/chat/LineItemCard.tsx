@@ -23,10 +23,14 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
   const blockFinding = line.findings.find((f) => f.severity === "block" && f.resolution === "open");
   const blocked = Boolean(blockFinding);
   const payment = x.doc_type.value === "upi_screenshot";
-  const findings = line.findings.filter((f) => !(f.evidence.linked_to && f.severity === "info"));
+  const showBlock = blocked && !line.user_excluded;
+  // a blocked line shows one reason (the banner); other open checks are moot and stay in its Why drawer
+  const findings = line.findings.filter(
+    (f) => !(f.evidence.linked_to && f.severity === "info") && !(blocked && f.resolution === "open" && f.severity !== "info"),
+  );
   const capped = !excluded && line.reimbursable_inr < line.amount_inr;
   // a policy-blocked line keeps its fields visible so the user can correct the value that blocked it
-  const showFields = !excluded || (blocked && !line.user_excluded);
+  const showFields = !excluded || showBlock;
   const edit = (field: string) => (onEdit ? (v: string) => onEdit(line, field, v) : undefined);
 
   if (processing) {
@@ -63,9 +67,12 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
         </div>
       </div>
 
-      {blockFinding && !line.user_excluded && (
-        <div className="mt-2 pl-6 text-xs text-bad" data-testid="block-reason">
-          Not reimbursable: {blockFinding.message}
+      {blockFinding && showBlock && (
+        <div className="mt-2 pl-6 text-xs leading-5 text-bad" data-testid="block-reason">
+          Not reimbursable: {blockFinding.message}{" "}
+          <button type="button" className="link whitespace-nowrap" onClick={() => onWhy(blockFinding, line)}>
+            Why?
+          </button>
         </div>
       )}
 
@@ -154,7 +161,7 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
               <ChevronDown size={12} strokeWidth={1.5} className={expanded ? "rotate-180" : ""} />
             </button>
           )}
-          {onExclude && (line.user_excluded || !excluded) && (
+          {onExclude && (line.user_excluded || !excluded || blocked) && (
             <button type="button" onClick={() => onExclude(line, line.user_excluded ? "restore" : "exclude")} className="text-2xs text-ink-3 hover:text-ink-2">
               {line.user_excluded ? "Restore line" : "Leave out of claim"}
             </button>

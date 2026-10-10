@@ -39,7 +39,11 @@ interface Props {
 
 export function WhyDrawer({ finding, line, lines, rule, onClose, onAction }: Props) {
   const f = finding;
+  // number receipts like the claim card, which nests a UPI proof under its bill
+  const shown = lines.filter((l) => !lines.some((o) => o.linked_proof_line_id === l.id));
   const citation = f?.citation ?? rule?.citation ?? null;
+  // checks a blocked line's card hides: listed here, no action needed
+  const moot = f?.severity === "block" && line ? line.findings.filter((o) => o.id !== f.id && o.resolution === "open" && o.severity !== "info") : [];
   const title = rule?.title ?? (f?.kind === "duplicate" ? (f.evidence.linked_to ? "Proof of payment" : "Possible duplicate") : "Check");
   return (
     <Drawer open={!!f} onClose={onClose} title="Why this was flagged">
@@ -70,14 +74,14 @@ export function WhyDrawer({ finding, line, lines, rule, onClose, onAction }: Pro
           <section>
             <div className="label">Evidence</div>
             <ul className="mt-2 space-y-2 text-sm text-ink">
-              {describeEvidence(f, lines).map((s) => (
+              {describeEvidence(f, shown).map((s) => (
                 <li key={s} className="leading-6">{s}</li>
               ))}
             </ul>
             {line && (
               <dl className="mt-3 grid grid-cols-[96px_1fr] gap-y-1.5 rounded-md border border-line bg-page p-3 text-xs">
                 <dt className="text-ink-3">Receipt</dt>
-                <dd className="text-ink">#{lines.findIndex((l) => l.id === line.id) + 1} · {line.extracted.vendor_name.value}</dd>
+                <dd className="text-ink">#{shown.findIndex((l) => l.id === (line.linked_to_line_id ?? line.id)) + 1} · {line.extracted.vendor_name.value ?? line.extracted.payee_name.value}</dd>
                 <dt className="text-ink-3">Amount</dt>
                 <dd className="mono text-ink">{formatINR(line.amount_inr)}</dd>
                 {line.extracted.total_amount.source_snippet && (
@@ -89,6 +93,18 @@ export function WhyDrawer({ finding, line, lines, rule, onClose, onAction }: Pro
               </dl>
             )}
           </section>
+
+          {moot.length > 0 && (
+            <section>
+              <div className="label">Also noted</div>
+              <ul className="mt-2 space-y-1.5 text-sm text-ink-2">
+                {moot.map((o) => (
+                  <li key={o.id} className="leading-6">{o.message}</li>
+                ))}
+              </ul>
+              <p className="mt-2 text-xs text-ink-3">Nothing to do for these while the line is not reimbursable.</p>
+            </section>
+          )}
 
           {onAction && f.kind === "duplicate" && !f.evidence.linked_to && f.resolution === "open" && (
             <section className="flex flex-wrap gap-2">

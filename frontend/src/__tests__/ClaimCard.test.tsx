@@ -40,9 +40,11 @@ describe("ClaimCard", () => {
       payee_type: { value: "individual" as const, confidence: 0.95, origin: "llm" as const },
     };
     const msg = "₹2,800 was sent to a person (Rohan Desai), not paid to a business; person-to-person transfers are not reimbursed.";
-    const p2p = makeLine({ id: "p", status: "excluded", reimbursable_inr: 0, extracted, findings: [{ id: "p:P2P", kind: "policy", severity: "block", rule_id: "P2P_TRANSFER_NOT_REIMBURSABLE", message: msg, citation: null, evidence: {}, resolution: "open" }] });
+    const p2p = makeLine({ id: "p", status: "excluded", reimbursable_inr: 0, extracted, findings: [{ id: "p:P2P", kind: "policy", severity: "block", rule_id: "P2P_TRANSFER_NOT_REIMBURSABLE", message: msg, citation: null, evidence: {}, resolution: "open" }, { id: "p:BILL", kind: "missing", severity: "warn", rule_id: "BILL_REQUIRED", message: "Attach the bill", citation: null, evidence: {}, resolution: "open" }] });
     render(<ClaimCard claim={makeClaim({ lines: [p2p] })} onSubmit={() => {}} onWhy={() => {}} />);
     expect(screen.getByTestId("block-reason")).toHaveTextContent(`Not reimbursable: ${msg}`);
+    expect(screen.queryByText(/Attach the bill/)).not.toBeInTheDocument(); // one reason on a blocked card
+    expect(screen.getAllByText(/person-to-person/)).toHaveLength(1);
     expect(screen.getByText("Rohan Desai")).toBeInTheDocument();
     expect(screen.getByText("Person · Rohan Desai")).toBeInTheDocument();
   });
