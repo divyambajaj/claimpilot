@@ -428,8 +428,8 @@ Seeded hosted dashboard (verified with the container environment): 15 claims, au
 
 | Suite | Count | Notes |
 |---|---|---|
-| Backend pytest (unit + integration + golden) | **310 tests, 98.9% line coverage** (4,387 statements, 50 missed) | `--cov-fail-under=80` enforced; ~13 s |
-| Frontend Vitest | **27 tests in 7 files** | ClaimCard, FieldChip, QuestionForm, SSE parser, formatting, summaries, mock client |
+| Backend pytest (unit + integration + golden) | **374 tests, 98.8% line coverage** | `--cov-fail-under=80` enforced; ~13 s |
+| Frontend Vitest | **36 tests in 9 files** | ClaimCard, FieldChip, QuestionForm, SSE parser, formatting, summaries, mock client |
 | Eval regression gate | 68 receipts | `make eval`, section 7 |
 | Manual browser QA | 56 cases (31 pass, 24 fixed and re-verified, 1 note, 0 open) | [QA_REPORT.md](QA_REPORT.md), 1440 px and 375 px |
 

@@ -27,7 +27,7 @@ LLM_PROVIDER=replay SEED_DEMO=1 REPLAY_DELAY_S=1.5 make serve
 | 3:45–4:05 | Traces → open a trace; Audit trail | "Every claim is traced step by step: ingest, extract, validate, dedupe, rules, plan, with model, prompt version, tokens and cost. The audit trail shows every flag with its rule and source text." |
 | 4:05–4:35 | Evaluation → Smoke set → Run eval (13 receipts, about 20 s, "Gate passed"); pick the full v3 run in the Run menu; comparison table, reliability chart | "We built a synthetic evaluation set of 68 Indian receipts with ground truth: blurred, rotated, handwritten, UPI screenshots, planted duplicates and decoys, plus payments with no bill, a person-to-person transfer, a salon bill, someone else's recharge and a split purchase. With prompt v3 on 68 receipts: field accuracy 100%, duplicate precision and recall 100%, policy accuracy 100%, calibration measured, and the v1 and v2 runs on the earlier 61-receipt set alongside (the table shows each run's receipt count). A regression gate runs in CI." |
 | 4:35–4:55 | Policy → hover a rule → highlighted sentence | "The policy is written in plain English. The AI compiles it once into rules with verified citations, and a deterministic engine runs them. Change the policy, not the code." |
-| 4:55–5:10 | Back to chat / GitHub repo | "Model-agnostic provider layer, record-and-replay for keyless deployment, 310 tests at 99% coverage. ClaimPilot: from a pile of receipts to ready-to-submit." |
+| 4:55–5:10 | Back to chat / GitHub repo | "Model-agnostic provider layer, record-and-replay for keyless deployment, 374 backend tests at 99% coverage plus 36 UI tests. ClaimPilot: from a pile of receipts to ready-to-submit." |
 
 ## Expected numbers (replay, DEMO_TODAY 2026-10-10)
 
