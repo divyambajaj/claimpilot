@@ -24,3 +24,6 @@ frontend/coverage/
 .idea/
 .vscode/
 .claimpilot/
+
+# Voice-over recordings (local only)
+audio_raw_files/
