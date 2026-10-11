@@ -14,7 +14,7 @@ from app.domain.models import FieldEdit
 from app.finance_mock import MockFinance
 from app.pipeline.answers import check_text, declares_personal
 from app.pipeline.orchestrator import AnswerError, Orchestrator, Upload, reassess
-from app.pipeline.planner import PlanContext
+from app.pipeline.planner import PlanContext, plan
 from tests.factories import NOW, TODAY, FakeProvider, extraction_payload, make_claim, make_line
 from tests.unit.test_rules import POLICY_TEXT, RULESET
 
@@ -284,3 +284,12 @@ async def test_business_purpose_edit_is_validated(upi_claim) -> None:
     assert set(err.value.errors) == {"business_purpose"}
     claim = await orch.edit_line(claim.id, fuel.id, {"business_purpose": TRIP})
     assert next(x for x in claim.lines if x.id == fuel.id).business_purpose == TRIP
+
+
+async def test_a_question_ranked_out_by_a_later_upload_can_still_be_answered(upi_claim) -> None:
+    orch, claim = upi_claim
+    queued = plan(claim, orch.context(claim)).queued
+    q = next(q for q in queued if q.field == "FUEL_TRIP_NOTE")  # on screen from an earlier round
+    claim = await orch.answer(claim.id, [{"question_id": q.id, "value": TRIP}])
+    line = next(x for x in claim.lines if x.id == q.line_id)
+    assert line.business_purpose == TRIP

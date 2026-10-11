@@ -423,7 +423,8 @@ class Orchestrator:
         async with self._locks[claim_id]:
             claim = self.repo.get_claim(claim_id)
             ensure_editable(claim)
-            questions = {q.id: q for q in claim.open_questions}
+            # a question still on screen may have been ranked out of the shown three by a later upload
+            questions = {q.id: q for q in plan(claim, self.context(claim)).all}
             errors: dict[str, str] = {}
             for a in answers:  # apply all to a copy, collect every error; nothing is saved if any fails
                 q = questions.get(a.get("question_id") or "")
