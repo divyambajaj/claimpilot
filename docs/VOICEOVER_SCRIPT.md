@@ -15,8 +15,8 @@ Don't worry about timing: the screen recording is cut to fit your audio. A fluff
 **Scene 3 — Adding the bills** (~20 s)
 > So let's see how ClaimPilot handles it. Here is a two-day client trip to Mumbai: cab rides, meals, a hotel bill with its UPI payment, a handwritten fuel bill, an office supplies bill, and money sent to a colleague. I add all thirteen at once, and the AI starts reading every bill and filling in the details by itself.
 
-**Scene 4 — Clear reasons for every decision** (~30 s)
-> Now, reading is only half the job. For every value, I can see exactly where on the bill it was read from. But the AI only reads. The decisions are made by fixed company rules. That's why the hotel's UPI payment is matched to its bill, so it isn't counted twice. The office supplies bill is stopped, because its GST number is not valid. Money sent to a person is not allowed. And when a meal goes over the limit, "Why?" shows the exact line from the company policy.
+**Scene 4 — Who decides, and why** (~35 s)
+> Now, reading the bills is only half the job. The other half is deciding what can be paid back. Here, the AI only reads. The decision is always made by the company's own rules, so every result can be explained. Let me show you four examples. The hotel's UPI payment is matched to its bill, so it isn't paid twice. The office supplies bill is stopped, because its GST number is not valid. The money sent to a colleague is stopped, because payments to a person are not allowed. And this meal costs more than the limit, so it's paid only up to the limit. If I click "Why?", it shows the exact line from the company policy.
 
 **Scene 5 — Only the questions that matter** (~25 s)
 > So what's left for the employee? Very little. For thirteen bills, it asks only three questions: a date it can't read, a cab bill uploaded twice, and a reason for the costly meal. If I just type "no", it isn't accepted, because that explains nothing. A proper answer goes through. After one last question about the fuel trip, the claim is ready.
