@@ -150,6 +150,17 @@ class Question(BaseModel):
     finding_id: str | None = None
 
 
+class Ticket(BaseModel):
+    """Employee's request for a manual Finance review of lines that were left out."""
+
+    id: str
+    claim_id: str
+    line_ids: list[str]
+    reason: str
+    status: Literal["open", "in_review", "resolved"] = "open"
+    created_at: dt.datetime
+
+
 class Claim(BaseModel):
     id: str
     user_id: str
@@ -170,6 +181,7 @@ class Claim(BaseModel):
     answers_received: int = 0
     processing: int = 0
     documents: list[Document] = Field(default_factory=list)  # filled on read, not stored in the payload
+    tickets: list[Ticket] = Field(default_factory=list)
 
 
 class Span(BaseModel):

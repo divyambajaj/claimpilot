@@ -10,7 +10,7 @@ from app.api.claims import audit_rows
 from app.api.deps import Container, container, require_admin
 from app.api.events import SSE_HEADERS
 from app.api.schemas import AuditRow, EvalRunIn, PolicyIn, PolicyOut, RuleSetOut, TraceSummary
-from app.domain.models import CorrectionLabel, EvalRun, Trace
+from app.domain.models import CorrectionLabel, EvalRun, Ticket, Trace
 from app.evaluation.runner import run_eval
 from app.observability import metrics
 from app.rules.compiler import compile_policy
@@ -42,7 +42,13 @@ def metrics_overview(days: int = Query(30, ge=1, le=365), c: Container = Depends
 
 
 # What a claim trace covers, from its first span (upload batch, re-check after answers, submit).
-TRACE_STEP = {"ingest": " · upload", "extract": " · upload", "rules": " · re-check", "submit": " · submit"}
+TRACE_STEP = {
+    "ingest": " · upload",
+    "extract": " · upload",
+    "rules": " · re-check",
+    "submit": " · submit",
+    "ticket": " · ticket",
+}
 
 
 @router.get("/traces", response_model=list[TraceSummary])
@@ -86,6 +92,13 @@ def audit(c: Container = Depends(container)):
     rulesets = {rs.version: rs for rs, _ in c.repo.list_rulesets()}
     rows = [row for cl in c.repo.list_claims() for row in audit_rows(cl, rulesets.get(cl.ruleset_version))]
     return sorted(rows, key=lambda r: r.created_at, reverse=True)
+
+
+@router.get("/tickets", response_model=list[Ticket])
+def tickets(c: Container = Depends(container)):
+    now = c.orchestrator.clock()
+    rows = [c.finance.poll_ticket(t, now) for cl in c.repo.list_claims() for t in cl.tickets]
+    return sorted(rows, key=lambda t: t.created_at, reverse=True)
 
 
 @router.get("/labels", response_model=list[CorrectionLabel])

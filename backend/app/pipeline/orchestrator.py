@@ -21,9 +21,16 @@ from app.domain.models import (
     Question,
     SubmissionLine,
     SubmissionPayload,
+    Ticket,
 )
 from app.domain.repo import Repo
-from app.domain.state import derive_claim_status, derive_line_status, ensure_editable, ensure_submittable
+from app.domain.state import (
+    IllegalTransitionError,
+    derive_claim_status,
+    derive_line_status,
+    ensure_editable,
+    ensure_submittable,
+)
 from app.finance_mock import MockFinance
 from app.llm.base import ImageInput, LLMError, ReplayMissError
 from app.llm.client import LLMClient
@@ -238,6 +245,9 @@ class Orchestrator:
             sub = self.finance.poll(claim.finance_reference, self.clock())
             if sub.status != "submitted":
                 claim = self._save(claim.model_copy(update={"status": ClaimStatus(sub.status)}))
+        tickets = [self.finance.poll_ticket(t, self.clock()) for t in claim.tickets]
+        if tickets != claim.tickets:
+            claim = self._save(claim.model_copy(update={"tickets": tickets}))
         return claim
 
     # --- documents ------------------------------------------------------------------------------------
@@ -565,6 +575,30 @@ class Orchestrator:
             claim = self._save(claim)
             self._publish(claim_id, "claim_update", {"claim": claim})
             return claim
+
+    # --- tickets --------------------------------------------------------------------------------------
+    async def raise_ticket(self, claim_id: str, line_ids: list[str], note: str) -> Ticket:
+        """Ask Finance to review left-out lines by hand; allowed on any claim, submitted or not."""
+        async with self._locks[claim_id]:
+            claim = self.repo.get_claim(claim_id)
+            excluded = {x.id for x in claim.lines if x.status == LineStatus.EXCLUDED}
+            if not line_ids or not set(line_ids) <= excluded:
+                msg = "Pick lines that were left out of the claim."
+                raise AnswerError(msg, {"line_ids": msg})
+            check = check_text(note)
+            if check.status == "rejected":  # a personal purpose is fine: the employee is asking for review
+                raise AnswerError(check.message, {"note": check.message})
+            taken = {i for t in claim.tickets if t.status != "resolved" for i in t.line_ids}
+            if taken & set(line_ids):
+                raise IllegalTransitionError("A ticket is already open for one of these lines.")
+            with self.tracer.trace("claim", claim_id), self.tracer.span("ticket") as span:
+                ticket = self.finance.raise_ticket(
+                    claim.id, list(dict.fromkeys(line_ids)), note.strip(), self.clock(), len(claim.tickets)
+                )
+                span.set(reference=ticket.id, lines=len(ticket.line_ids))
+            claim = self._save(claim.model_copy(update={"tickets": [*claim.tickets, ticket]}))
+            self._publish(claim_id, "claim_update", {"claim": claim})
+            return ticket
 
 
 def _not_the_bill(target: LineItem, other: LineItem) -> str:

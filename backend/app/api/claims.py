@@ -1,12 +1,20 @@
-"""Claims: create/list/read, answers, line actions and edits, submit, per-claim audit trail."""
+"""Claims: create/list/read, answers, line actions and edits, submit, tickets, per-claim audit trail."""
 
 from typing import Any
 
 from fastapi import APIRouter, Depends
 
 from app.api.deps import Container, container, user_id
-from app.api.schemas import AnswerIn, AuditRow, ClaimAudit, ClaimCreate, FinanceReference, LineActionIn
-from app.domain.models import Claim
+from app.api.schemas import (
+    AnswerIn,
+    AuditRow,
+    ClaimAudit,
+    ClaimCreate,
+    FinanceReference,
+    LineActionIn,
+    TicketIn,
+)
+from app.domain.models import Claim, Ticket
 from app.domain.repo import NotFoundError
 from app.rules.dsl import RuleSet
 
@@ -82,6 +90,11 @@ async def edit_line(claim_id: str, line_id: str, patch: dict[str, Any], c: Conta
 async def submit(claim_id: str, c: Container = Depends(container)):
     claim = await c.orchestrator.submit(claim_id)
     return FinanceReference(finance_reference=claim.finance_reference or "")
+
+
+@router.post("/claims/{claim_id}/tickets", response_model=Ticket, status_code=201)
+async def raise_ticket(claim_id: str, body: TicketIn, c: Container = Depends(container)):
+    return await c.orchestrator.raise_ticket(claim_id, body.line_ids, body.note)
 
 
 @router.get("/claims/{claim_id}/audit", response_model=ClaimAudit)

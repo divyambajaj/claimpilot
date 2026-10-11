@@ -21,6 +21,11 @@ class AnswerIn(BaseModel):
     value: Any = None
 
 
+class TicketIn(BaseModel):
+    line_ids: list[str]
+    note: str = ""
+
+
 class LineActionIn(BaseModel):
     action: Literal["exclude", "restore", "override_duplicate", "confirm_duplicate", "justify"]
     justification: str | None = None

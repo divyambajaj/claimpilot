@@ -3,7 +3,7 @@
 import datetime as dt
 import random
 
-from app.domain.models import FinanceSubmission, SubmissionPayload
+from app.domain.models import FinanceSubmission, SubmissionPayload, Ticket
 from app.domain.repo import Repo
 
 APPROVAL_RATE = 0.9
@@ -45,3 +45,16 @@ class MockFinance:
         )
         self.repo.save_submission(sub)
         return sub
+
+    def raise_ticket(
+        self, claim_id: str, line_ids: list[str], reason: str, now: dt.datetime, n: int
+    ) -> Ticket:
+        """`n` = tickets the claim already has, so each ticket of a claim gets its own seeded id."""
+        number = random.Random(f"{self.seed}:{claim_id}:ticket:{n}").randint(1000, 9999)
+        return Ticket(id=f"TKT-{number}", claim_id=claim_id, line_ids=line_ids, reason=reason, created_at=now)
+
+    def poll_ticket(self, ticket: Ticket, now: dt.datetime) -> Ticket:
+        """A reviewer picks the ticket up once the review delay has passed."""
+        if ticket.status != "open" or now < ticket.created_at + self.delay:
+            return ticket
+        return ticket.model_copy(update={"status": "in_review"})

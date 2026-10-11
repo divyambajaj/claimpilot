@@ -317,6 +317,37 @@ class TestAdminAndPublic:
         assert client.get("/api/admin/eval/runs").json() == []
         assert client.get("/api/admin/eval/runs/nope").status_code == 404
 
+    def test_tickets_for_left_out_lines(self, client: TestClient, container: Container) -> None:
+        claim = _dinner_claim(client)
+        cid, lid = claim["id"], claim["lines"][0]["id"]
+        url = f"/api/claims/{cid}/tickets"
+        note = "Shared cab with a colleague to the client site; I paid him back by UPI."
+        r = client.post(url, json={"line_ids": [lid], "note": note})
+        assert r.status_code == 422 and "line_ids" in r.json()["errors"]  # line is not left out
+        client.post(f"/api/claims/{cid}/lines/{lid}/actions", json={"action": "exclude"})
+        assert client.post(url, json={"line_ids": ["nope"], "note": note}).status_code == 422
+        for bad in ("", "asdf qwrt", "no"):
+            r = client.post(url, json={"line_ids": [lid], "note": bad})
+            assert r.status_code == 422 and "note" in r.json()["errors"]
+        before = client.get(f"/api/claims/{cid}").json()
+        r = client.post(url, json={"line_ids": [lid], "note": note})
+        assert r.status_code == 201
+        ticket = r.json()
+        assert ticket["id"].startswith("TKT-") and ticket["status"] == "open"
+        assert client.post(url, json={"line_ids": [lid], "note": note}).status_code == 409
+        claim = client.get(f"/api/claims/{cid}").json()
+        assert claim["tickets"] == [ticket]
+        assert (claim["total_inr"], claim["reimbursable_inr"]) == (
+            before["total_inr"],
+            before["reimbursable_inr"],
+        )
+        traces = client.get(f"/api/admin/traces?claim_id={cid}").json()
+        assert "Dinner · ticket" in {t["title"] for t in traces}
+        container.orchestrator.clock = lambda: NOW + dt.timedelta(minutes=5)
+        assert client.get(f"/api/claims/{cid}").json()["tickets"][0]["status"] == "in_review"
+        listed = client.get("/api/admin/tickets").json()
+        assert [(t["id"], t["status"], t["line_ids"]) for t in listed] == [(ticket["id"], "in_review", [lid])]
+
     def test_admin_token(self, client: TestClient, container: Container) -> None:
         container.settings.ADMIN_TOKEN = "s3cret"
         assert client.get("/api/admin/labels").status_code == 401
