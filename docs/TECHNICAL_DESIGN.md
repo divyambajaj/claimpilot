@@ -552,3 +552,4 @@ Backend: `backend/app/` (≈ 7,800 lines of Python). Frontend: `frontend/src/`.
 5. Larger evaluation on consented, anonymised real receipts; provider comparison rows on the same set.
 6. Persistent Postgres, queue-backed workers and horizontal scaling; image redaction of phone numbers and VPAs.
 7. Mobile capture (camera, WhatsApp / email forwarding) and multi-currency with live FX.
+8. Hybrid answer validation: deterministic rules stay first and decide the clear cases (empty, refusals, gibberish, declared personal purpose); only borderline justifications (e.g. vague "for work purposes") go to a small, low-cost model that checks business relevance against the cited policy sentence and returns a schema-validated verdict. Rules remain the fallback when no model key is configured, so the keyless hosted demo keeps working, and every model verdict is traced and added to the evaluation set.
