@@ -184,6 +184,74 @@ class TestLiveProviderPath:
             assert claim["status"] == "ready_to_submit"
             assert Path(claim["documents"][0]["stored_path"]).exists()
 
+    UPI = {
+        "doc_type": "upi_screenshot",
+        "payment_method": "upi",
+        "vendor_name": "Shree Om Sai Auto Care Centre",
+        "payee_name": "Shree Om Sai Auto Care Centre",
+        "payee_type": "merchant",
+        "payer_name": "Kavya Mehta",
+        "vendor_gstin": None,
+        "invoice_number": None,
+        "attendees_count": None,
+        "total_amount": 687.08,
+        "date": dt.date(2026, 10, 2),
+        "category": "fuel",
+    }
+    BILL = UPI | {
+        "doc_type": "invoice",
+        "payment_method": "upi",
+        "payee_name": None,
+        "invoice_number": "SO/88",
+    }
+    SALON = UPI | {"vendor_name": "Danish Luxury Unisex Salon", "payee_name": "Danish Luxury Unisex Salon"}
+
+    def _attach(self, fake_client, second: dict):
+        client, _ = fake_client([extraction_payload(**self.UPI), extraction_payload(**second)])
+        client.__enter__()
+        cid = client.post("/api/claims").json()["id"]
+        client.post(f"/api/claims/{cid}/documents", files=[("files", ("upi.png", _png("gray"), "image/png"))])
+        claim = wait_processed(client, cid)
+        upi = claim["lines"][0]
+        assert f"q:{upi['id']}:BILL_REQUIRED" in {q["id"] for q in claim["open_questions"]}
+        r = client.post(
+            f"/api/claims/{cid}/documents?for_line_id={upi['id']}",
+            files=[("files", ("bill.png", _png("black"), "image/png"))],
+        )
+        return client, cid, upi, r
+
+    def test_attach_bill_links_it_to_the_screenshot(self, fake_client) -> None:
+        client, cid, upi, r = self._attach(fake_client, self.BILL)
+        assert r.status_code == 202
+        claim = client.get(f"/api/claims/{cid}").json()
+        by_id = {x["id"]: x for x in claim["lines"]}
+        bill = by_id[by_id[upi["id"]]["linked_to_line_id"]]
+        assert bill["has_proof_of_payment"] and bill["linked_proof_line_id"] == upi["id"]
+        assert r.json()["document_ids"][0] in bill["document_ids"]
+        assert not any(q["field"] == "BILL_REQUIRED" for q in claim["open_questions"])
+        assert claim["total_inr"] == 687.08
+        client.__exit__(None, None, None)
+
+    @pytest.mark.parametrize(
+        ("second", "says"),
+        [
+            (BILL | {"total_amount": 1200.0}, "it's a bill for ₹1,200 from Shree Om Sai Auto Care Centre"),
+            (
+                SALON | {"total_amount": 300.0},
+                "it's a payment screenshot for ₹300 to Danish Luxury Unisex Salon",
+            ),
+        ],
+    )
+    def test_attach_rejects_a_file_that_is_not_the_bill(self, fake_client, second, says) -> None:
+        client, cid, upi, r = self._attach(fake_client, second)
+        assert r.status_code == 422
+        assert r.json()["detail"].startswith("That file isn't the bill for ₹687.08 to Shree Om Sai Auto Care")
+        assert says in r.json()["detail"]
+        claim = client.get(f"/api/claims/{cid}").json()
+        assert [x["id"] for x in claim["lines"]] == [upi["id"]]
+        assert len(claim["documents"]) == 1
+        client.__exit__(None, None, None)
+
     def test_compile_policy_endpoint(self, fake_client) -> None:
         client, _ = fake_client([_draft()])
         with client:

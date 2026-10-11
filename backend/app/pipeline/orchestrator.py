@@ -36,7 +36,8 @@ from app.pipeline.answers import (
     original_category,
     personal_purpose_finding,
 )
-from app.pipeline.dedupe.detector import DuplicateDetector, apply_upi_link, duplicate_finding
+from app.pipeline.dedupe.detector import DuplicateDetector, UpiLink, apply_upi_link, duplicate_finding
+from app.pipeline.dedupe.upi_link import is_upi_screenshot, upi_link_evidence
 from app.pipeline.extract import amount_in_inr, normalize_field, parse_extraction
 from app.pipeline.ingest import Page, ingest_bytes
 from app.pipeline.planner import DUPLICATE_CHOICES, PlanContext, outcome, plan, sticky, with_value
@@ -273,6 +274,40 @@ class Orchestrator:
         self._tasks.add(task)
         task.add_done_callback(self._tasks.discard)
         return [d.id for u in units for d in u.docs]
+
+    async def attach_document(self, claim_id: str, line_id: str, up: Upload) -> list[str]:
+        """Read the bill for one payment screenshot now; link it as the UPI-link logic would, or reject it.
+
+        A rejected file is not stored and never becomes a line of its own."""
+        ensure_editable(self.repo.get_claim(claim_id))
+        with self.tracer.trace("claim", claim_id):
+            with self.tracer.span("ingest", filename=up.filename, bytes=len(up.data)) as span:
+                mime, pages = await asyncio.to_thread(ingest_bytes, up.data)
+                span.set(mime=mime, pages=len(pages))
+            unit = self._unit(claim_id, up.filename, mime, pages)
+            if not self.llm.can_serve(unit.images):
+                raise ReplayMissError(unit.docs[0].sha256)
+            try:
+                with self.tracer.span("extract", doc_id=unit.docs[0].id, filename=up.filename) as span:
+                    receipt, resp = await self.llm.extract(unit.images)
+                    span.set(provider=resp.provider, model=resp.model, replayed=resp.replayed)
+            except LLMError as exc:
+                raise AnswerError(f"Could not read this document: {exc}") from exc
+            bill = self._new_line(claim_id, unit, adjust_confidence(receipt, self.clock().date()), None)
+        async with self._locks[claim_id]:
+            claim = self.repo.get_claim(claim_id)
+            ensure_editable(claim)
+            target = _line(claim, line_id)
+            ev = None if target.linked_to_line_id else upi_link_evidence(target, bill)
+            if ev is None:
+                raise AnswerError(_not_the_bill(target, bill))
+            for doc, img in zip(unit.docs, unit.images, strict=True):
+                await asyncio.to_thread(_write, doc.stored_path, img.data)
+                self.repo.save_document(doc)
+            upi, bill = apply_upi_link(target, bill, UpiLink(target.id, bill.id, ev))
+            lines = [upi if x.id == upi.id else x for x in claim.lines]
+            self._commit(claim.model_copy(update={"lines": [*lines, bill]}))
+        return [d.id for d in unit.docs]
 
     def _unit(self, claim_id: str, filename: str, mime: str, pages: list[Page]) -> _Unit:
         docs, images = [], []
@@ -529,6 +564,21 @@ class Orchestrator:
             claim = self._save(claim)
             self._publish(claim_id, "claim_update", {"claim": claim})
             return claim
+
+
+def _not_the_bill(target: LineItem, other: LineItem) -> str:
+    def what(line: LineItem) -> str:
+        r, amount = line.extracted, f"₹{line.amount_inr:,.2f}".removesuffix(".00")
+        d = r.date.value
+        on = f" on {d.day} {d:%b}" if d else ""
+        if is_upi_screenshot(line):
+            return f"{amount} to {r.payee_name.value or r.vendor_name.value or 'an unknown payee'}{on}"
+        return f"{amount} from {r.vendor_name.value or 'an unknown vendor'}{on}"
+
+    if not is_upi_screenshot(target):
+        return "Only a payment screenshot can take a bill this way."
+    kind = "a payment screenshot" if is_upi_screenshot(other) else "a bill"
+    return f"That file isn't the bill for {what(target)}; it's {kind} for {what(other)}."
 
 
 def _write(path: str, data: bytes) -> None:
