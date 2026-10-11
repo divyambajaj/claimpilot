@@ -55,6 +55,8 @@ The time and wage figures are assumptions, not measurements; the LLM cost, auto-
 | **Built-in evaluation** | 68 synthetic receipts with ground truth, oracle mode, calibration, regression gate in CI | Prompt changes are measured; bugs were found by the eval (section 7) |
 | **Provider-agnostic record / replay** | Local CLI, Gemini or Anthropic behind one interface; fingerprinted recordings | Keyless hosted demo and deterministic CI with real model outputs |
 
+A blocked line is not a dead end: the employee can raise a ticket asking Finance to review left-out lines by hand (note checked like any answer, sent through the same finance adapter as submissions), and totals stay as the rules decided.
+
 ---
 
 ## 3. Architecture
@@ -371,6 +373,7 @@ Base `/api`. OpenAPI at `/api/docs`. Users are identified by `X-User-Id` (each b
 | POST | `/claims/{id}/lines/{line_id}/actions` | `exclude`, `restore`, `override_duplicate`, `confirm_duplicate`, `justify` |
 | PATCH | `/claims/{id}/lines/{line_id}` | Edit a field (logged as a correction label) |
 | POST | `/claims/{id}/submit` | 409 unless READY_TO_SUBMIT → finance reference |
+| POST | `/claims/{id}/tickets` | `{line_ids, note}` → ticket `TKT-xxxx` for left-out lines; 422 if a line is not excluded or the note is unusable, 409 if a line already has an open ticket |
 | GET | `/claims/{id}/audit` | Findings with rule, citation, snippets and span timeline |
 | GET | `/demo/receipts`, `/demo/receipts/{name}/image` | Demo gallery |
 | GET | `/policies/active` | Active ruleset with citations |
@@ -378,7 +381,7 @@ Base `/api`. OpenAPI at `/api/docs`. Users are identified by `X-User-Id` (each b
 | POST / GET | `/finance/submissions`, `/finance/submissions/{ref}` | Mock finance |
 | GET | `/admin/metrics/overview?days=30` | KPIs, charts, impact assumptions |
 | GET | `/admin/traces`, `/admin/traces/{id}` | Trace list and span tree |
-| GET | `/admin/audit`, `/admin/labels` | Cross-claim findings; correction labels |
+| GET | `/admin/audit`, `/admin/labels`, `/admin/tickets` | Cross-claim findings; correction labels; review tickets |
 | GET / POST | `/admin/policies` | List / compile a policy |
 | GET / POST | `/admin/rulesets/{v}`, `/admin/rulesets/{v}/activate` | Ruleset detail / activate |
 | POST | `/admin/eval/run` | Start a smoke or full run (409 while one runs) |
