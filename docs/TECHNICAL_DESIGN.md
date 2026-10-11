@@ -4,7 +4,7 @@
 
 ClaimPilot turns a pile of receipt photos, PDFs and UPI payment screenshots into a submission-ready reimbursement claim. Design thesis, enforced everywhere: **the LLM perceives, the code decides.** A vision model reads documents into schema-validated facts with confidence and provenance; deterministic, unit-tested code (validators, a compiled policy DSL, duplicate matchers, a question planner and a state machine) makes every decision, and every flag cites the policy sentence it came from.
 
-Links: [README](../README.md) · [Evaluation](EVALUATION.md) · [Demo video](YOUTUBE_LINK_TBD) · Hosted demo: `HOSTED_LINK_TBD`
+Links: [README](../README.md) · [Evaluation](EVALUATION.md) · [Demo video](YOUTUBE_LINK_TBD) · Hosted demo: [claimpilot-mjwr.onrender.com](https://claimpilot-mjwr.onrender.com)
 
 Contents: [1 Overview](#1-overview-and-track) · [2 Solution](#2-solution-and-innovations) · [3 Architecture](#3-architecture) · [4 AI design](#4-ai-design) · [5 Data model](#5-data-model) · [6 API](#6-api-reference) · [7 Evaluation](#7-evaluation-methodology-and-results) · [8 Observability](#8-observability) · [9 Testing](#9-testing-strategy-and-results) · [10 Setup](#10-setup-and-deployment) · [11 Code walkthrough](#11-code-walkthrough) · [12 Assumptions](#12-assumptions-and-limitations) · [13 Security](#13-security-and-compliance) · [14 Future work](#14-future-work)
 
