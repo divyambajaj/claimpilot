@@ -1,4 +1,4 @@
-.PHONY: install dev backend frontend test lint fmt eval eval-live eval-baseline synth record-demo build serve docker-build docker-run
+.PHONY: install dev backend frontend test lint fmt eval eval-live eval-baseline synth record-demo video build serve docker-build docker-run
 
 PY := PYTHONPATH=backend uv run
 UVICORN := uv run uvicorn app.main:app --app-dir backend
@@ -48,6 +48,9 @@ synth:
 
 record-demo:
 	$(PY) python backend/scripts/record_demo.py
+
+video:  # narrated demo video from audio_raw_files/scene1..9.m4a -> video_out/claimpilot_demo.mp4
+	uv run python backend/scripts/make_demo_video.py
 
 build:
 	npm --prefix frontend ci

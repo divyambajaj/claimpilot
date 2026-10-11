@@ -27,3 +27,6 @@ frontend/coverage/
 
 # Voice-over recordings (local only)
 audio_raw_files/
+
+# Demo video build output (local only)
+video_out/
