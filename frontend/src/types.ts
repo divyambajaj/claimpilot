@@ -183,6 +183,17 @@ export interface Claim {
   processing?: number;
   /** UI contract: documents attached to the claim (filename lookup for progress rows). Optional. */
   documents?: Document[];
+  /** Requests for a manual Finance review of left-out lines. */
+  tickets?: Ticket[];
+}
+
+export interface Ticket {
+  id: string;
+  claim_id: string;
+  line_ids: string[];
+  reason: string;
+  status: "open" | "in_review" | "resolved";
+  created_at: string;
 }
 
 // ---------- rules (section 6) ----------

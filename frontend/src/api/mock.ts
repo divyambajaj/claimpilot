@@ -20,6 +20,7 @@ import type {
   Question,
   RuleSet,
   Span,
+  Ticket,
   Trace,
   TraceSummary,
 } from "../types";
@@ -628,6 +629,23 @@ export function createMockApi(): Api {
         emit(mc, { type: "claim_update", data: { claim: mc.claim } });
         return { finance_reference: ref };
       }, 900),
+    raiseTicket: (claimId, lineIds, note) =>
+      guard(() => {
+        const mc = getMc(claimId);
+        const excluded = new Set(mc.claim.lines.filter((l) => l.status === "excluded").map((l) => l.id));
+        if (!lineIds.length || lineIds.some((id) => !excluded.has(id))) throw new MockHttpError(422, "Pick lines that were left out of the claim.");
+        if (note.trim().split(/\s+/).length < 4) throw new MockHttpError(422, "Add a little more detail (at least 4 words).");
+        const tickets = (mc.claim.tickets ??= []);
+        if (tickets.some((t) => t.line_ids.some((id) => lineIds.includes(id)))) throw new MockHttpError(409, "A ticket is already open for one of these lines.");
+        const ticket: Ticket = { id: `TKT-${1000 + tickets.length + 42}`, claim_id: claimId, line_ids: lineIds, reason: note.trim(), status: "open", created_at: new Date().toISOString() };
+        tickets.push(ticket);
+        emit(mc, { type: "claim_update", data: { claim: mc.claim } });
+        setTimeout(() => {
+          ticket.status = "in_review";
+          emit(mc, { type: "claim_update", data: { claim: mc.claim } });
+        }, 4000);
+        return ticket;
+      }),
     demoReceipts: () => guard(() => TEMPLATES.map((t) => t.demo)),
     activeRuleset: () => guard(() => rulesets.find((r) => r.active)!),
 
@@ -635,6 +653,7 @@ export function createMockApi(): Api {
     traces: (claimId) => guard(() => traceList.filter((t) => !claimId || t.claim_id === claimId)),
     trace: (id) => guard(() => makeTrace(id)),
     audit: () => guard(() => audit),
+    tickets: () => guard(() => [...claims.values()].flatMap((mc) => mc.claim.tickets ?? [])),
     evalRuns: () => guard(() => evalRuns),
     evalRun: (id) =>
       guard(() => {

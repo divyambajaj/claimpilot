@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, CornerDownRight } from "lucide-react";
-import type { Finding, LineItem } from "../../types";
+import type { Finding, LineItem, Ticket } from "../../types";
 import { CATEGORY_LABEL, DOC_TYPE_LABEL, PAYEE_TYPE_LABEL, PAYMENT_LABEL, formatDate, formatINR } from "../../lib/format";
 import { Pill, SEVERITY_TONE, StatusPill } from "../ui";
 import { FieldChip } from "./FieldChip";
@@ -13,9 +13,13 @@ interface Props {
   /** Omitted once the claim is with Finance. */
   onEdit?: (line: LineItem, field: string, value: string) => Promise<void>;
   onExclude?: (line: LineItem, action: "exclude" | "restore") => void;
+  /** Finance review request covering this left-out line. */
+  ticket?: Ticket;
 }
 
-export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: Props) {
+const TICKET_STATUS: Record<Ticket["status"], string> = { open: "Open", in_review: "In review", resolved: "Resolved" };
+
+export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude, ticket }: Props) {
   const [expanded, setExpanded] = useState(false);
   const x = line.extracted;
   const processing = line.status === "processing";
@@ -64,6 +68,11 @@ export function LineItemCard({ line, index, proof, onWhy, onEdit, onExclude }: P
           <div className="mt-1 flex justify-end">
             <StatusPill status={line.status} blocked={blocked} />
           </div>
+          {ticket && (
+            <div className="mt-1 flex justify-end" data-testid="ticket-pill">
+              <Pill>Ticket {ticket.id} · {TICKET_STATUS[ticket.status]}</Pill>
+            </div>
+          )}
         </div>
       </div>
 

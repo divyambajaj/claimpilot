@@ -3,7 +3,7 @@ import { ChevronUp } from "lucide-react";
 import { api, ApiError } from "../api/client";
 import type { AnswerIn, Claim, ClaimEvent, DemoReceipt, Finding, LineItem, Question, RuleSet } from "../types";
 import { formatINR, pluralize } from "../lib/format";
-import { afterAnswersText, ClaimCard } from "../components/chat/ClaimCard";
+import { afterAnswersText, allLeftOut, ClaimCard, TicketForm } from "../components/chat/ClaimCard";
 import { DemoGallery } from "../components/chat/DemoGallery";
 import { ACCEPT, DropZone, MAX_BYTES } from "../components/chat/DropZone";
 import { MessageList, type Message } from "../components/chat/MessageList";
@@ -339,6 +339,26 @@ export function ChatPage() {
     }
   }
 
+  /** Raise errors to the form (422/409 shown under the note); success lands in the chat, status via polling. */
+  async function onRaiseTicket(lineIds: string[], note: string) {
+    const c = claimRef.current;
+    if (!c) return;
+    const ticket = await api.raiseTicket(c.id, lineIds, note);
+    updateClaim(await api.getClaim(c.id).catch(() => ({ ...c, tickets: [...(c.tickets ?? []), ticket] })));
+    push({ id: nextId(), kind: "assistant", tone: "ok", text: `Ticket ${ticket.id} raised for ${pluralize(ticket.line_ids.length, "line")}. Finance will review it — you'll see the status here.` });
+    void awaitTicket(c.id, ticket.id);
+  }
+
+  async function awaitTicket(claimId: string, ticketId: string) {
+    for (let i = 0; i < 8; i++) {
+      await new Promise((r) => setTimeout(r, 5000));
+      const fresh = await api.getClaim(claimId).catch(() => null);
+      if (claimRef.current?.id !== claimId) return;
+      if (fresh) updateClaim(fresh);
+      if (fresh && fresh.tickets?.find((t) => t.id === ticketId)?.status !== "open") return;
+    }
+  }
+
   /** Apply a change made in the claim panel and surface what it unlocked. */
   async function change(fn: (claimId: string) => Promise<Claim>) {
     const c = claimRef.current;
@@ -389,7 +409,7 @@ export function ChatPage() {
   const processing = progressId.current !== null;
   const submitted = claim?.status === "submitted" || claim?.status === "approved" || claim?.status === "rejected";
   const panel = claim ? (
-    <ClaimCard claim={claim} onSubmit={onSubmit} submitting={submitting} onWhy={(f, line) => setWhy({ f, line })} onEdit={onEdit} onExclude={onExclude} />
+    <ClaimCard claim={claim} onSubmit={onSubmit} submitting={submitting} onWhy={(f, line) => setWhy({ f, line })} onEdit={onEdit} onExclude={onExclude} onRaiseTicket={onRaiseTicket} />
   ) : (
     <section className="card">
       <header className="border-b border-line px-4 py-3.5">
@@ -440,6 +460,7 @@ export function ChatPage() {
                 drafts={drafts}
                 onDraft={(id, v) => setDrafts((s) => ({ ...s, [id]: v }))}
               />
+              {claim && !processing && allLeftOut(claim) && <TicketForm claim={claim} onRaise={onRaiseTicket} />}
               <input
                 ref={attachInput}
                 type="file"

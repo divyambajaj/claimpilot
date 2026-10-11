@@ -12,6 +12,7 @@ import type {
   MetricsOverview,
   Policy,
   RuleSet,
+  Ticket,
   Trace,
   TraceSummary,
 } from "../types";
@@ -48,6 +49,8 @@ export interface Api {
   lineAction(claimId: string, lineId: string, action: LineActionName, justification?: string): Promise<Claim>;
   editLine(claimId: string, lineId: string, patch: Record<string, unknown>): Promise<Claim>;
   submit(claimId: string): Promise<{ finance_reference: string }>;
+  /** Ask Finance to review left-out lines; 422 `errors` keyed `note` / `line_ids`, 409 if one is already open. */
+  raiseTicket(claimId: string, lineIds: string[], note: string): Promise<Ticket>;
   demoReceipts(): Promise<DemoReceipt[]>;
   activeRuleset(): Promise<RuleSet>;
   // admin
@@ -55,6 +58,7 @@ export interface Api {
   traces(claimId?: string): Promise<TraceSummary[]>;
   trace(id: string): Promise<Trace>;
   audit(): Promise<AuditRow[]>;
+  tickets(): Promise<Ticket[]>;
   evalRuns(): Promise<EvalRun[]>;
   evalRun(id: string): Promise<EvalRun>;
   startEval(subset: "smoke" | "full"): Promise<{ run_id?: string }>;
@@ -148,12 +152,14 @@ export function createHttpApi(): Api {
     editLine: (claimId, lineId, patch) =>
       request(`/claims/${claimId}/lines/${lineId}`, { method: "PATCH", body: JSON.stringify(patch) }),
     submit: (claimId) => request(`/claims/${claimId}/submit`, { method: "POST" }),
+    raiseTicket: (claimId, lineIds, note) => request(`/claims/${claimId}/tickets`, json({ line_ids: lineIds, note })),
     demoReceipts: () => request("/demo/receipts"),
     activeRuleset: () => request("/policies/active"),
     metricsOverview: (days = 30) => request(`/admin/metrics/overview?days=${days}`),
     traces: (claimId) => request(`/admin/traces${claimId ? `?claim_id=${encodeURIComponent(claimId)}` : ""}`),
     trace: (id) => request(`/admin/traces/${id}`),
     audit: () => request("/admin/audit"),
+    tickets: () => request("/admin/tickets"),
     evalRuns: () => request("/admin/eval/runs"),
     evalRun: (id) => request(`/admin/eval/runs/${id}`),
     startEval: (subset) => request("/admin/eval/run", json({ subset })),

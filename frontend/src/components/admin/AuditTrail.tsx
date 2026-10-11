@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, Search } from "lucide-react";
 import { api } from "../../api/client";
-import type { AuditRow, Severity } from "../../types";
+import type { AuditRow, Severity, Ticket } from "../../types";
 import { formatDateTime, formatINR } from "../../lib/format";
 import { Pill, SEVERITY_LABEL, SEVERITY_TONE, Spinner } from "../ui";
 
@@ -10,12 +10,14 @@ const SEV_RANK: Record<Severity, number> = { info: 0, warn: 1, block: 2 };
 
 export function AuditTrail() {
   const [rows, setRows] = useState<AuditRow[] | null>(null);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [q, setQ] = useState("");
   const [sev, setSev] = useState<Severity | "all">("all");
   const [sort, setSort] = useState<{ key: Key; dir: 1 | -1 }>({ key: "created_at", dir: -1 });
 
   useEffect(() => {
     api.audit().then(setRows);
+    api.tickets().then(setTickets).catch(() => setTickets([]));
   }, []);
 
   const view = useMemo(() => {
@@ -44,6 +46,7 @@ export function AuditTrail() {
 
   return (
     <div className="space-y-3">
+      {tickets.length > 0 && <TicketTable tickets={tickets} />}
       <div className="flex flex-wrap items-center gap-2">
         <label className="relative w-full max-w-xs">
           <Search size={14} strokeWidth={1.5} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-3" />
@@ -99,6 +102,38 @@ export function AuditTrail() {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+const TICKET_STATUS: Record<Ticket["status"], string> = { open: "Open", in_review: "In review", resolved: "Resolved" };
+
+/** Employees' requests for a manual review of left-out lines. */
+function TicketTable({ tickets }: { tickets: Ticket[] }) {
+  return (
+    <div className="card overflow-x-auto">
+      <h3 className="border-b border-line px-3 py-2 text-xs font-medium text-ink">Tickets</h3>
+      <table className="w-full min-w-[800px] text-xs">
+        <thead className="border-b border-line bg-page text-ink-3">
+          <tr>
+            {["Ref", "Claim", "Lines", "Note", "Status", "Created"].map((h) => (
+              <th key={h} scope="col" className="whitespace-nowrap px-3 py-2 text-left font-medium">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-line">
+          {tickets.map((t) => (
+            <tr key={t.id} className="align-top">
+              <td className="mono whitespace-nowrap px-3 py-2 text-ink">{t.id}</td>
+              <td className="mono whitespace-nowrap px-3 py-2 text-ink-2">{t.claim_id}</td>
+              <td className="px-3 py-2 text-ink-2">{t.line_ids.length}</td>
+              <td className="max-w-[360px] px-3 py-2 text-ink-2"><span className="line-clamp-2" title={t.reason}>{t.reason}</span></td>
+              <td className="px-3 py-2"><Pill tone={t.status === "open" ? "warn" : "neutral"}>{TICKET_STATUS[t.status]}</Pill></td>
+              <td className="mono whitespace-nowrap px-3 py-2 text-ink-3">{formatDateTime(t.created_at)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
