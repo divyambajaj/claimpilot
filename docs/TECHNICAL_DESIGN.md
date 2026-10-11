@@ -294,7 +294,7 @@ Citation mechanics (`rules/citations.py`): the quote is located exactly, then wh
 | Field with confidence < τ = 0.75 **and** a counterfactual value changes the outcome | `(1 − conf) × (0.5 + 0.5 × min(impact, 1))` |
 | Same, but no counterfactual changes anything | no question; field marked **assumed** |
 | Open duplicate | 0.9 × match score |
-| WARN `require_field` (e.g. bill missing for a payment screenshot) | 0.7 |
+| WARN `require_field` on a document (bill missing for a payment screenshot): "Attach bill" or "I don't have the bill", never text | 0.7 |
 | WARN cap / require_justification | 0.6; plain flag 0.5 |
 | Open BLOCK | no question (the card shows the fix path) |
 
@@ -315,12 +315,21 @@ Two rides on the same day with different amounts stay below 0.80 (tested). Linki
 
 ### 4.8 Eligibility
 
-- **A payment screenshot is not a bill**: an unlinked screenshot has `has_bill = false` → `BILL_REQUIRED` asks for the bill or an explanation; uploading the bill links them and the question disappears.
+- **A payment screenshot is not a bill**: an unlinked screenshot has `has_bill = false` → `BILL_REQUIRED` asks for the bill; uploading it links them and the question disappears. "I don't have the bill" blocks the line under policy 3.1; no text answer is accepted.
 - **P2P transfers and personal expenses** (`payee_type = individual`, category `personal`) are BLOCKed under policy 6.3.
 - **Payer checks**: `payer_name` ("From" on a payment, "Billed to" or guest on a bill) is fuzzy-matched (tokens and initials) to `EMPLOYEE_NAME` and `COMPANY_NAME`; mismatch flags `PAYER_NOT_EMPLOYEE` (not for phone bills, which have their own rule).
 - **Trip note / business purpose**: fuel and "other" lines need a justification, stored as `business_purpose`.
 
-### 4.9 PII masking
+### 4.9 Answer validation
+
+`pipeline/answers.py` checks every free-text answer (justifications, business purpose, trip notes) with deterministic code; nothing is marked justified until it passes, and accepted findings carry `validated: true`.
+
+- **Rejected (422, message under the question, nothing saved)**: empty; made only of refusal or filler words ("no i wont", "n/a", "no bill available", "idk", "ok"); mostly non-letters; repeated characters or keyboard mash; fewer than 4 words or 15 letters. Caps need 6 words; a fuel trip note needs 6 words and a client, site, route or place name.
+- **Declared personal purpose** ("vacation", "friend's birthday", "own use"; not "personal vehicle" or "not personal"): accepted as stated and stored as the line's purpose; `PERSONAL_PURPOSE_DECLARED` BLOCKs the line, citing the verified section 2.1 eligibility sentence.
+- **Documents are not text**: a `require_field` question on a document (`bill`) offers "Attach bill" (upload; the UPI link resolves it) or "I don't have the bill" (BLOCK: payment confirmation alone is not enough).
+- **Category edits by the employee** add `CATEGORY_CHANGED_BY_EMPLOYEE` (WARN, needs a validated justification, kept in the audit trail) with old → new category and the rules that fired under the model's category and no longer do.
+
+### 4.10 PII masking
 
 `pipeline/redact.py` (pure, idempotent) runs inside `LLMClient.extract` on the provider output **before** it is parsed, stored or recorded: mobile numbers (last 2 digits kept), personal UPI VPAs (first/last character and separators kept; merchant collection IDs stay, they name a business), full card numbers (Luhn-checked) and last-4 patterns, emails, keyword-anchored account numbers. Names, amounts, GSTINs and UPI references are kept because decisions need them. The payee check works on the masked shape, so a live run and its replay agree.
 
