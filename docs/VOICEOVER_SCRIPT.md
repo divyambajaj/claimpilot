@@ -31,7 +31,7 @@ Don't worry about timing: the screen recording is cut to fit your audio. A fluff
 > But watching is not enough. We also need proof that it's right. So we built a test set of sixty-eight sample Indian bills, blurry, tilted, handwritten, and some uploaded twice, where we already know the correct answers. ClaimPilot got every detail, every duplicate and every policy check right. We also check that when it says it's sure, it really is right. This testing caught three real mistakes early, which we fixed. And every change is re-tested automatically, so a new version can never quietly get worse.
 
 **Scene 9 — Close** (~20 s)
-> To sum up: ClaimPilot saves employees time, saves Finance from rework, and explains every decision it makes. The policy is written in plain English and turned into rules, each linked to the exact policy line. Every claim is tracked, and every change is tested. It isn't tied to any one AI company, and the online demo runs without any paid keys. ClaimPilot: from a pile of bills to a claim that's ready to submit. Thank you.
+> To sum up: ClaimPilot saves employees time, saves Finance from rework, and explains every decision it makes. The policy is written in plain English and turned into rules, each linked to the exact policy line. Every claim is tracked, and every change is tested. It can switch to a different AI model without rebuilding anything, and anyone can try the live demo online, for free. ClaimPilot: from a pile of bills to a claim that's ready to submit. Thank you.
 
 ---
 
