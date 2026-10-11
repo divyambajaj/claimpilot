@@ -542,7 +542,7 @@ Backend: `backend/app/` (≈ 7,800 lines of Python). Frontend: `frontend/src/`.
 ## 13. Security and compliance
 
 - **Synthetic data only**; no real people, brands or Jio/Reliance data. Policy file states it is illustrative.
-- **PII**: masked in model output before parsing, storage and recording (section 4.9). Uploaded images re-encoded (EXIF/GPS dropped) and stored under random ids; `data/uploads/` is gitignored.
+- **PII**: masked in model output before parsing, storage and recording (section 4.10). Uploaded images re-encoded (EXIF/GPS dropped) and stored under random ids; `data/uploads/` is gitignored.
 - **Replay provenance guard** (`backend/scripts/check_replay_provenance.py`, in `make lint` and CI): fails if a recording references an image that is not a committed fixture, so no real receipt can enter the repo through a recording.
 - **Secrets**: only in `.env` (gitignored, excluded from the Docker build context); `.env.example` is complete; `make lint` greps for key patterns.
 - **Prompt injection**: documents are untrusted; prompts say so; output is data validated by schema; the CLI provider is limited to the Read tool; the rules engine never takes free text as instructions.
