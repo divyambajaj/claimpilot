@@ -322,7 +322,8 @@ RULES = [
         },
         {"type": "flag"},
         "warn",
-        "Paid by or billed to {payer_name}, not you; only expenses you paid personally are reimbursed.",
+        "Paid by {payer_name}, but this claim is for {employee_name}; only expenses you paid personally are "
+        "reimbursable.",
         "2.1 Eligibility",
         "An expense is reimbursable only if it was incurred wholly and necessarily for Company business, was paid "
         "by the employee personally, and has not been reimbursed by anyone else.",

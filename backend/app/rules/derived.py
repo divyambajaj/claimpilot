@@ -108,5 +108,6 @@ def line_facts(line: LineItem, today: dt.date, payer_names: tuple[str, ...] = ()
         "payee_type": _plain(r.payee_type.value),
         "payer_name": r.payer_name.value,
         "payer_matches_employee": payer_matches(r.payer_name.value, payer_names),
+        "employee_name": payer_names[0] if payer_names else None,
         "business_purpose": line.business_purpose,
     }

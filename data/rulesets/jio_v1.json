@@ -817,7 +817,7 @@
         "category": null
       },
       "severity": "warn",
-      "message_template": "Paid by or billed to {payer_name}, not you; only expenses you paid personally are reimbursed.",
+      "message_template": "Paid by {payer_name}, but this claim is for {employee_name}; only expenses you paid personally are reimbursable.",
       "confidence": 0.84,
       "citation": {
         "section": "2.1 Eligibility",

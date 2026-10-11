@@ -167,6 +167,8 @@ class TestRules:
         assert fired(line) == {"L1": {"OTHER_NEEDS_BUSINESS_PURPOSE", "PAYER_NOT_EMPLOYEE"}}
         noted = line.model_copy(update={"business_purpose": "Projector cable for the client demo"})
         assert fired(noted) == {"L1": {"PAYER_NOT_EMPLOYEE"}}
+        payer = next(f for f in evaluate([noted], RULESET, TODAY, payer_names=NAMES).lines["L1"].findings)
+        assert payer.message.startswith("Paid by R. Iyer, but this claim is for Kavya Mehta;")
 
     def test_split_bills_same_vendor_day(self) -> None:
         a = make_line("A", category="office", total_amount=3000.0, vendor_name="Fort Stationery Mart", date=D)
