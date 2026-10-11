@@ -135,6 +135,8 @@ def _sample_answer(q: Question, line: LineItem, when: dt.datetime) -> object:
         return "confirm"
     if q.kind == "justify_flag":
         return SAMPLE_JUSTIFICATION
+    if q.kind == "attach_document":
+        return q.choices[0] if q.choices else ""
     current = line.extracted.field(q.field).value if q.field in EXTRACTED_FIELD_NAMES else None
     if current is not None:
         return getattr(current, "value", current) if not isinstance(current, dt.date) else current.isoformat()

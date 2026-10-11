@@ -20,7 +20,8 @@
           "needs_justification": true
         },
         "resolution": "open",
-        "justification": null
+        "justification": null,
+        "validated": false
       }
     ]
   },
@@ -45,7 +46,8 @@
           "needs_justification": true
         },
         "resolution": "open",
-        "justification": null
+        "justification": null,
+        "validated": false
       },
       {
         "id": "B:EXPENSE_OLDER_THAN_90D",
@@ -65,7 +67,8 @@
           "needs_justification": false
         },
         "resolution": "open",
-        "justification": null
+        "justification": null,
+        "validated": false
       }
     ]
   }

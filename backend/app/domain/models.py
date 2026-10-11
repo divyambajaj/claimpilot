@@ -111,6 +111,7 @@ class Finding(BaseModel):
     evidence: dict[str, Any] = Field(default_factory=dict)
     resolution: Resolution = "open"
     justification: str | None = None
+    validated: bool = False  # the justification passed pipeline/answers.check_text
 
 
 class LineItem(BaseModel):
@@ -134,6 +135,7 @@ class LineItem(BaseModel):
     error: str | None = None
     created_at: dt.datetime | None = None
     business_purpose: str | None = None  # the user's note (trip note, purpose of an "other" expense)
+    missing_documents: list[str] = Field(default_factory=list)  # documents the user said they don't have
 
 
 class Question(BaseModel):
@@ -141,7 +143,7 @@ class Question(BaseModel):
     line_id: str
     field: str
     prompt: str
-    kind: Literal["value", "choice", "confirm_duplicate", "justify_flag"]
+    kind: Literal["value", "choice", "confirm_duplicate", "justify_flag", "attach_document"]
     choices: list[str] | None = None
     voi_score: float
     reason: str

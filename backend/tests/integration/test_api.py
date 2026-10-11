@@ -27,6 +27,9 @@ def _png(color: str = "white") -> bytes:
     return buf.getvalue()
 
 
+JUSTIFICATION = "Client dinner approved in advance by the department head."
+
+
 def _dinner_claim(client: TestClient) -> dict:
     claim = client.post("/api/claims", json={"title": "Dinner"}).json()
     client.post(f"/api/claims/{claim['id']}/documents/from-demo", json={"names": [DINNER]})
@@ -67,8 +70,12 @@ class TestClaimsApi:
         cid, lid = claim["id"], claim["lines"][0]["id"]
         url = f"/api/claims/{cid}/lines/{lid}/actions"
         assert client.post(url, json={"action": "justify"}).status_code == 422
-        claim = client.post(url, json={"action": "justify", "justification": "Client dinner"}).json()
+        assert (
+            client.post(url, json={"action": "justify", "justification": "Client dinner"}).status_code == 422
+        )
+        claim = client.post(url, json={"action": "justify", "justification": JUSTIFICATION}).json()
         assert claim["lines"][0]["findings"][0]["resolution"] == "justified"
+        assert claim["lines"][0]["findings"][0]["validated"] is True
         assert claim["status"] == "ready_to_submit"
         claim = client.post(url, json={"action": "exclude"}).json()
         assert claim["lines"][0]["status"] == "excluded"
@@ -88,6 +95,10 @@ class TestClaimsApi:
         assert client.post(url, json=[{"question_id": "q:none"}]).status_code == 422
         assert client.post(url, json=[{"value": 1}]).status_code == 422
         assert client.post(url, json=[{"question_id": q["id"], "value": "  "}]).status_code == 422
+        r = client.post(url, json=[{"question_id": q["id"], "value": "no i wont"}])
+        assert r.status_code == 422 and set(r.json()["errors"]) == {q["id"]}
+        assert "doesn't explain the expense" in r.json()["errors"][q["id"]]
+        assert client.get(f"/api/claims/{claim['id']}").json()["open_questions"] == claim["open_questions"]
         by_field = client.post(
             url, json=[{"line_id": claim["lines"][0]["id"], "field": "city", "value": "Pune"}]
         )
@@ -248,7 +259,7 @@ class TestAdminAndPublic:
         claim = _dinner_claim(client)
         client.post(
             f"/api/claims/{claim['id']}/lines/{claim['lines'][0]['id']}/actions",
-            json={"action": "justify", "justification": "ok"},
+            json={"action": "justify", "justification": JUSTIFICATION},
         )
         ref = client.post(f"/api/claims/{claim['id']}/submit").json()["finance_reference"]
         assert client.get(f"/api/finance/submissions/{ref}").json()["status"] == "submitted"

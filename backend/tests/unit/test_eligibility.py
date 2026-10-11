@@ -235,17 +235,20 @@ async def test_bill_and_trip_note_answers(tmp_path: Path, repo, tracer, make_cli
     assert questions["BILL_REQUIRED"].prompt.startswith(
         "Attach the bill for this ₹687.08 payment to Shree Ganesh Auto Care Centre"
     )
+    assert questions["BILL_REQUIRED"].kind == "attach_document"
+    assert questions["BILL_REQUIRED"].choices == ["I don't have the bill"]
+    note = "Client visits in Thane and Vashi on 6 Oct"
     claim = await orch.answer(
         claim.id,
         [
-            {"question_id": questions["FUEL_TRIP_NOTE"].id, "value": "Client visits in Thane, 6 Oct"},
-            {"question_id": questions["BILL_REQUIRED"].id, "value": "Station gave no printed bill"},
+            {"question_id": questions["FUEL_TRIP_NOTE"].id, "value": note},
+            {"question_id": questions["BILL_REQUIRED"].id, "value": "I don't have the bill"},
         ],
     )
     line = claim.lines[0]
-    assert line.business_purpose == "Client visits in Thane, 6 Oct"
-    assert {f.rule_id: f.resolution for f in line.findings if f.rule_id} == {"BILL_REQUIRED": "justified"}
-    assert line.status == LineStatus.COMPLETE and claim.status == "ready_to_submit"
+    assert line.business_purpose == note and line.missing_documents == ["bill"]
+    bill = next(f for f in line.findings if f.rule_id == "BILL_REQUIRED")
+    assert bill.severity == "block" and bill.message.startswith("No bill — policy 3.1 requires a bill")
+    assert line.status == LineStatus.EXCLUDED and not claim.open_questions
     claim = await orch.edit_line(claim.id, line.id, {"business_purpose": ""})
     assert claim.lines[0].business_purpose is None
-    assert any(q.field == "FUEL_TRIP_NOTE" for q in claim.open_questions)

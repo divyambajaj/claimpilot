@@ -91,7 +91,10 @@ def create_app(container: Container | None = None, dist: Path = FRONTEND_DIST) -
 def _handler(status: int):
     async def handle(_: Request, exc: Exception) -> JSONResponse:
         detail = REPLAY_MISS_DETAIL if isinstance(exc, ReplayMissError) else str(exc)
-        return JSONResponse({"detail": detail, "code": type(exc).__name__}, status_code=status)
+        body = {"detail": detail, "code": type(exc).__name__}
+        if getattr(exc, "errors", None):  # per-question messages for an invalid answer
+            body["errors"] = exc.errors  # type: ignore[attr-defined]
+        return JSONResponse(body, status_code=status)
 
     return handle
 

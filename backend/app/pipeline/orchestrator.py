@@ -9,7 +9,7 @@ from typing import Any
 
 from app.api.sse import Broker
 from app.config import Settings
-from app.domain.enums import Category, ClaimStatus, FindingKind, LineStatus
+from app.domain.enums import Category, ClaimStatus, FindingKind, LineStatus, Severity
 from app.domain.models import (
     EXTRACTED_FIELD_NAMES,
     Claim,
@@ -18,6 +18,7 @@ from app.domain.models import (
     ExtractedReceipt,
     FieldEdit,
     LineItem,
+    Question,
     SubmissionLine,
     SubmissionPayload,
 )
@@ -27,10 +28,18 @@ from app.finance_mock import MockFinance
 from app.llm.base import ImageInput, LLMError, ReplayMissError
 from app.llm.client import LLMClient
 from app.observability.tracing import Tracer, new_id, utcnow
+from app.pipeline.answers import (
+    category_change_finding,
+    check_text,
+    no_document_choice,
+    no_document_finding,
+    original_category,
+    personal_purpose_finding,
+)
 from app.pipeline.dedupe.detector import DuplicateDetector, apply_upi_link, duplicate_finding
 from app.pipeline.extract import amount_in_inr, normalize_field, parse_extraction
 from app.pipeline.ingest import Page, ingest_bytes
-from app.pipeline.planner import DUPLICATE_CHOICES, PlanContext, plan, sticky
+from app.pipeline.planner import DUPLICATE_CHOICES, PlanContext, outcome, plan, sticky, with_value
 from app.pipeline.validate.confidence import adjust_confidence, validation_findings
 from app.rules.dsl import RuleSet
 from app.rules.engine import evaluate, merge_resolutions
@@ -44,7 +53,11 @@ DUPLICATE_ANSWERS = {
 
 
 class AnswerError(ValueError):
-    """An answer or edit could not be applied (mapped to HTTP 422)."""
+    """An answer or edit could not be applied (mapped to HTTP 422); `errors` maps question id -> message."""
+
+    def __init__(self, message: str, errors: dict[str, str] | None = None) -> None:
+        super().__init__(message)
+        self.errors = errors or {}
 
 
 @dataclass(frozen=True)
@@ -68,7 +81,16 @@ def reassess(claim: Claim, ctx: PlanContext) -> Claim:
         out = result.lines.get(line.id)
         if out is None:  # excluded/linked/error lines keep their findings (and resolutions) untouched
             continue
-        fresh = validation_findings(line.extracted, line.id, ctx.today) + out.findings
+        fresh = validation_findings(line.extracted, line.id, ctx.today) + [
+            no_document_finding(f) if f.evidence.get("field") in line.missing_documents else f
+            for f in out.findings
+        ]
+        if personal := personal_purpose_finding(line, ctx.ruleset):
+            fresh.append(personal)
+        if original := original_category(line):  # what the employee's category change avoided
+            others = [o for o in lines if o.id != line.id]
+            before = outcome(with_value(line, "category", original), others, ctx).fired
+            fresh.append(category_change_finding(line, original, sorted(before - out.fired)))
         line.findings = sticky(line.findings) + merge_resolutions(line.findings, fresh)
         line.category = out.category
     claim = claim.model_copy(
@@ -367,35 +389,67 @@ class Orchestrator:
             claim = self.repo.get_claim(claim_id)
             ensure_editable(claim)
             questions = {q.id: q for q in claim.open_questions}
-            for a in answers:
+            errors: dict[str, str] = {}
+            for a in answers:  # apply all to a copy, collect every error; nothing is saved if any fails
                 q = questions.get(a.get("question_id") or "")
-                if q is None and a.get("question_id"):
-                    raise AnswerError(f"question {a['question_id']} is not open")
-                line_id = q.line_id if q else a.get("line_id")
-                name = q.field if q else a.get("field")
-                if not line_id or not name:
-                    raise AnswerError("each answer needs question_id, or line_id and field")
-                if q is None or q.kind in ("value", "choice"):
-                    claim = self._edit_field(claim, line_id, name, a.get("value"))
-                elif q.kind == "confirm_duplicate":
-                    resolution = DUPLICATE_ANSWERS.get(str(a.get("value")).lower())
-                    if resolution is None:
-                        raise AnswerError("answer a duplicate question with 'confirm' or 'override'")
-                    claim = _resolve(claim, line_id, lambda f, fid=q.finding_id: f.id == fid, resolution)
-                else:
-                    text = str(a.get("value") or "").strip()
-                    if not text:
-                        raise AnswerError("a justification needs some text")
-                    claim = _resolve(
-                        claim, line_id, lambda f, fid=q.finding_id: f.id == fid, "justified", text
-                    )
-                    rule = self.ruleset().rule(q.field)
-                    if rule and "business_purpose" in rule.when.fields():  # trip note / purpose answers it
-                        claim = _replace(
-                            claim, _line(claim, line_id).model_copy(update={"business_purpose": text})
-                        )
+                key = a.get("question_id") or f"{a.get('line_id')}:{a.get('field')}"
+                try:
+                    claim = self._apply_answer(claim, q, a)
+                except AnswerError as e:
+                    errors[key] = str(e)
+            if errors:
+                raise AnswerError(" ".join(dict.fromkeys(errors.values())), errors)
             claim.answers_received += len(answers)
             return self._commit(claim)
+
+    def _apply_answer(self, claim: Claim, q: Question | None, a: dict[str, Any]) -> Claim:
+        if q is None and a.get("question_id"):
+            raise AnswerError(f"question {a['question_id']} is not open")
+        line_id = q.line_id if q else a.get("line_id")
+        name = q.field if q else a.get("field")
+        if not line_id or not name:
+            raise AnswerError("each answer needs question_id, or line_id and field")
+        value = a.get("value")
+        if q is None or q.kind in ("value", "choice"):
+            return self._edit_field(claim, line_id, name, value)
+        is_q = lambda f, fid=q.finding_id: f.id == fid  # noqa: E731
+        if q.kind == "confirm_duplicate":
+            resolution = DUPLICATE_ANSWERS.get(str(value).lower())
+            if resolution is None:
+                raise AnswerError("answer a duplicate question with 'confirm' or 'override'")
+            return _resolve(claim, line_id, is_q, resolution)
+        if q.kind == "attach_document":  # text never replaces a bill: attach it, or say there is none
+            finding = next(f for f in _line(claim, line_id).findings if is_q(f))
+            document = str(finding.evidence.get("field"))
+            if str(value or "").strip().casefold() != no_document_choice(document).casefold():
+                raise AnswerError(
+                    f"A note can't replace the {document}. Attach the {document}, or choose "
+                    f"“{no_document_choice(document)}”."
+                )
+            line = _line(claim, line_id)
+            return _replace(
+                claim, line.model_copy(update={"missing_documents": [*line.missing_documents, document]})
+            )
+        return self._justify(claim, line_id, is_q, str(value or ""))
+
+    def _justify(self, claim: Claim, line_id: str, which: Callable[[Any], bool], text: str) -> Claim:
+        """Resolve the open WARN findings `which` selects with a validated justification."""
+        line = _line(claim, line_id)
+        targets = [
+            f for f in line.findings if which(f) and f.resolution == "open" and f.severity == Severity.WARN
+        ]
+        text = text.strip()
+        for f in targets:
+            check = check_text(text, f.rule_id, f.evidence.get("action"))
+            if check.status == "rejected":
+                raise AnswerError(check.message)
+            if check.status == "personal":  # accepted as stated; reassess blocks the line (policy 2.1)
+                return _replace(claim, line.model_copy(update={"business_purpose": text}))
+        claim = _resolve(claim, line_id, lambda f: f in targets, "justified", text)
+        rules = [self.ruleset().rule(f.rule_id or "") for f in targets]
+        if any(r and "business_purpose" in r.when.fields() for r in rules):  # trip note / purpose answers it
+            claim = _replace(claim, _line(claim, line_id).model_copy(update={"business_purpose": text}))
+        return claim
 
     async def edit_line(self, claim_id: str, line_id: str, patch: dict[str, Any]) -> Claim:
         async with self._locks[claim_id]:
@@ -419,10 +473,8 @@ class Orchestrator:
                 case "confirm_duplicate":
                     claim = _resolve(claim, line_id, is_dup, "confirmed")
                 case "justify":
-                    if not (justification or "").strip():
-                        raise AnswerError("a justification needs some text")
-                    claim = _resolve(
-                        claim, line_id, lambda f: f.kind == FindingKind.POLICY, "justified", justification
+                    claim = self._justify(
+                        claim, line_id, lambda f: f.kind == FindingKind.POLICY, justification or ""
                     )
                 case _:
                     raise AnswerError(f"unknown action {action}")
@@ -430,8 +482,12 @@ class Orchestrator:
 
     def _edit_field(self, claim: Claim, line_id: str, name: str, value: Any) -> Claim:
         if name == "business_purpose":
+            line = _line(claim, line_id)
             note = str(value or "").strip() or None
-            return _replace(claim, _line(claim, line_id).model_copy(update={"business_purpose": note}))
+            rule = "FUEL_TRIP_NOTE" if line.category == Category.FUEL else None
+            if note and (check := check_text(note, rule)).status == "rejected":
+                raise AnswerError(check.message, {name: check.message})
+            return _replace(claim, line.model_copy(update={"business_purpose": note}))
         line, label = set_field(_line(claim, line_id), name, value, self.clock())
         if label:
             self.repo.add_label(label)
@@ -500,7 +556,13 @@ def _resolve(
 ) -> Claim:
     line = _line(claim, line_id)
     findings = [
-        f.model_copy(update={"resolution": resolution, "justification": justification})
+        f.model_copy(
+            update={
+                "resolution": resolution,
+                "justification": justification,
+                "validated": justification is not None,
+            }
+        )
         if which(f) and f.resolution == "open"
         else f
         for f in line.findings

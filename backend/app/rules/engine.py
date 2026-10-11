@@ -307,7 +307,13 @@ def merge_resolutions(previous: list[Finding], fresh: list[Finding]) -> list[Fin
     for f in fresh:
         old = resolved.get(f.id)
         merged.append(
-            f.model_copy(update={"resolution": old.resolution, "justification": old.justification})
+            f.model_copy(
+                update={
+                    "resolution": old.resolution,
+                    "justification": old.justification,
+                    "validated": old.validated,
+                }
+            )
             if old
             else f
         )

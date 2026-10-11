@@ -20,7 +20,8 @@
           "field": "vendor_gstin"
         },
         "resolution": "open",
-        "justification": null
+        "justification": null,
+        "validated": false
       },
       {
         "id": "L1:CASH_ABOVE_2000_JUSTIFY",
@@ -40,7 +41,8 @@
           "needs_justification": true
         },
         "resolution": "open",
-        "justification": null
+        "justification": null,
+        "validated": false
       }
     ]
   }

@@ -31,7 +31,8 @@
           "reimbursable_before_inr": 650.0
         },
         "resolution": "open",
-        "justification": null
+        "justification": null,
+        "validated": false
       }
     ]
   }

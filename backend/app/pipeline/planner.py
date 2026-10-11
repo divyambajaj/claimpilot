@@ -8,6 +8,7 @@ from typing import Any
 from app.domain.enums import Category, FindingKind, LineStatus, PayeeType, PaymentMethod, Severity
 from app.domain.models import Claim, Finding, LineItem, Question
 from app.domain.state import derive_line_status
+from app.pipeline.answers import DOCUMENT_FIELDS, no_document_choice
 from app.pipeline.extract import FX_TO_INR
 from app.rules.derived import FACT_TO_FIELD, line_facts
 from app.rules.dsl import RuleSet
@@ -192,19 +193,21 @@ def _finding_question(line: LineItem, f: Finding) -> Question | None:
             reason="Duplicates are not reimbursed twice.",
             finding_id=f.id,
         )
-    if f.kind == FindingKind.MISSING and f.severity == Severity.WARN:  # e.g. a payment with no bill
+    document = f.evidence.get("field")
+    if f.kind == FindingKind.MISSING and f.severity == Severity.WARN and document in DOCUMENT_FIELDS:
+        # e.g. a payment with no bill: only the bill (or saying there is none) resolves it, never a note
         return Question(
             id=f"q:{line.id}:{f.rule_id}",
             line_id=line.id,
             field=f.rule_id or "justification",
-            prompt=f"{f.message} Add it to this claim and it is linked automatically, or explain why there is"
-            " none.",
-            kind="justify_flag",
+            prompt=f"{f.message} Add it to this claim and it is linked automatically.",
+            kind="attach_document",
+            choices=[no_document_choice(document)],
             voi_score=0.7,
             reason=f"Policy {f.citation.section if f.citation else ''}".strip() + " needs a bill.",
             finding_id=f.id,
         )
-    if f.kind == FindingKind.POLICY and f.severity == Severity.WARN:
+    if f.kind in (FindingKind.POLICY, FindingKind.MISSING) and f.severity == Severity.WARN:
         ask = "" if f.message.endswith("?") else " Add a short justification for Finance."
         return Question(
             id=f"q:{line.id}:{f.rule_id}",
