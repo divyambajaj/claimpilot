@@ -25,6 +25,7 @@ PORT = 8090
 BASE = f"http://127.0.0.1:{PORT}"
 DB = Path("/tmp/cp_video.db")
 LEAD, TAIL = 0.3, 0.6  # clip starts 0.3 s into its scene; scene lasts at least clip + 0.6 s
+MAX_SPEEDUP = 1.4  # UI clicks and typing still read naturally up to this speed
 
 CARD = """<!doctype html><html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -357,9 +358,22 @@ def record(durs: list[float]) -> tuple[Path, list[float], float]:
             page.screenshot(path=str(OUT / "last.png"))
             ctx.close()
             browser.close()
+    # Scenes whose clicks outran the narration are played faster (up to MAX_SPEEDUP) so there is no dead air.
+    spans = [b - a for a, b in zip(starts, [*starts[1:], total], strict=True)]
+    fits = [min(s, max(dur + TAIL + 0.3, s / MAX_SPEEDUP)) for s, dur in zip(spans, durs, strict=True)]
+    new_starts = [sum(fits[:i]) for i in range(len(fits))]
+
+    def remap(t: float) -> float:
+        i = max(k for k, s in enumerate(starts) if s <= t) if t >= starts[0] else 0
+        return new_starts[i] + (t - starts[i]) * fits[i] / spans[i]
+
+    for i, (s, f) in enumerate(zip(spans, fits, strict=True), 1):
+        if f < s:
+            print(f"scene{i}: sped up {s / f:.2f}x ({s:.1f}s -> {f:.1f}s)", flush=True)
     # concat list: each frame holds until the next one; the first is stretched back to t0
     lst = raw / "frames.txt"
-    times = [0.0] + [ts - d.t0 for ts, _ in frames[1:]] + [total]
+    times = [0.0] + [remap(ts - d.t0) for ts, _ in frames[1:]] + [sum(fits)]
+    starts, total = new_starts, sum(fits)
     lst.write_text(
         "".join(
             f"file '{p.name}'\nduration {max(times[i + 1] - times[i], 0.001):.4f}\n"
@@ -433,12 +447,35 @@ def render(frames: Path, starts: list[float], total: float, clips: list[Path]) -
     return out
 
 
+def trim(clip: Path) -> Path:
+    """Cut the silence the speaker left at both ends down to ~0.2 s so scenes don't drag."""
+    out = OUT / "clips" / f"{clip.stem}.wav"
+    out.parent.mkdir(exist_ok=True)
+    edge = "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.2"
+    subprocess.run(
+        [
+            "ffmpeg",
+            "-y",
+            "-loglevel",
+            "error",
+            "-i",
+            str(clip),
+            "-af",
+            f"{edge},areverse,{edge},areverse",
+            str(out),
+        ],
+        check=True,
+    )
+    return out
+
+
 def main() -> None:
-    clips = [AUDIO / f"scene{i}.m4a" for i in range(1, 10)]
-    if missing := [c.name for c in clips if not c.exists()]:
+    raw_clips = [AUDIO / f"scene{i}.m4a" for i in range(1, 10)]
+    if missing := [c.name for c in raw_clips if not c.exists()]:
         raise SystemExit(f"missing clips: {missing}")
-    durs = [duration(c) for c in clips]
     OUT.mkdir(exist_ok=True)
+    clips = [trim(c) for c in raw_clips]
+    durs = [duration(c) for c in clips]
     server = start_server()
     try:
         frames, starts, total = record(durs)
