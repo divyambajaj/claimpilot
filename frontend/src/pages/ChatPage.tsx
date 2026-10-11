@@ -58,6 +58,15 @@ export function summarize(claim: Claim, nDocs: number): string {
   return s;
 }
 
+/** Settled questions leave their form; one that a re-plan merely ranked lower stays, with what was typed. */
+export function isSettled(q: Question, claim: Claim): boolean {
+  const line = claim.lines.find((l) => l.id === q.line_id);
+  if (!line || line.linked_to_line_id || line.user_excluded || line.status === "error") return true;
+  if (line.findings.some((f) => f.severity === "block" && f.resolution === "open")) return true; // blocked lines get no questions
+  if (q.finding_id) return !line.findings.some((f) => f.id === q.finding_id && f.resolution === "open");
+  return (line.extracted as unknown as Record<string, { origin?: string } | undefined>)[q.field]?.origin === "user";
+}
+
 export function ChatPage() {
   const [claim, setClaim] = useState<Claim | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -69,6 +78,9 @@ export function ChatPage() {
   const [answerError, setAnswerError] = useState<string | null>(null);
   const [answerErrors, setAnswerErrors] = useState<Record<string, string>>({});
   const attachInput = useRef<HTMLInputElement>(null);
+  const attachFor = useRef<Question | null>(null);
+  const [attaching, setAttaching] = useState<string | null>(null);
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [sheet, setSheet] = useState(false);
   const submittingRef = useRef(false);
 
@@ -174,6 +186,8 @@ export function ChatPage() {
     setMessages([]);
     setWhy(null);
     setAnswerError(null);
+    setAnswerErrors({});
+    setDrafts({});
   }
 
   // Resume the claim this browser was working on (refresh, reopened tab); finished ones start fresh.
@@ -276,6 +290,34 @@ export function ChatPage() {
     } catch (err) {
       setAnswerError(err instanceof Error ? err.message : "Could not save answers");
       setAnswerErrors(err instanceof ApiError ? err.errors ?? {} : {});
+    }
+  }
+
+  function onAttach(q: Question) {
+    attachFor.current = q;
+    attachInput.current?.click();
+  }
+
+  /** The bill is read now and linked to this question's payment, or rejected with a reason shown under it. */
+  async function attachBill(q: Question, file: File) {
+    const c = claimRef.current;
+    if (!c) return;
+    const setError = (msg?: string) =>
+      setAnswerErrors((s) => {
+        const { [q.id]: _, ...rest } = s;
+        return msg ? { ...rest, [q.id]: msg } : rest;
+      });
+    if (!(file.type.startsWith("image/") || file.type === "application/pdf") || file.size > MAX_BYTES) return setError("Attach an image or PDF up to 10 MB.");
+    setError();
+    setAttaching(q.id);
+    try {
+      await api.uploadDocuments(c.id, [file], q.line_id);
+      updateClaim(await api.getClaim(c.id));
+    } catch (err) {
+      const notInDemo = err instanceof ApiError && err.status === 409;
+      setError(notInDemo ? "This file is not in the recorded demo set, so it cannot be read in demo mode." : err instanceof Error ? err.message : "Could not attach the bill.");
+    } finally {
+      setAttaching(null);
     }
   }
 
@@ -387,19 +429,28 @@ export function ChatPage() {
               </div>
             ) : (
               <>
-              <MessageList messages={messages} onAnswer={onAnswer} answerError={answerError} answerErrors={answerErrors} onAttach={() => attachInput.current?.click()} openIds={new Set(claim?.open_questions.map((q) => q.id))} />
+              <MessageList
+                messages={messages}
+                onAnswer={onAnswer}
+                answerError={answerError}
+                answerErrors={answerErrors}
+                onAttach={onAttach}
+                attaching={attaching}
+                isOpen={(q) => !!claim && (claim.open_questions.some((o) => o.id === q.id) || !isSettled(q, claim))}
+                drafts={drafts}
+                onDraft={(id, v) => setDrafts((s) => ({ ...s, [id]: v }))}
+              />
               <input
                 ref={attachInput}
                 type="file"
-                multiple
                 accept={ACCEPT}
                 className="sr-only"
                 tabIndex={-1}
                 aria-hidden
+                data-testid="attach-input"
                 onChange={(e) => {
-                  const all = Array.from(e.target.files ?? []);
-                  const ok = all.filter((f) => (f.type.startsWith("image/") || f.type === "application/pdf") && f.size <= MAX_BYTES).slice(0, 10);
-                  if (ok.length) onFiles(ok, all.length - ok.length);
+                  const file = e.target.files?.[0];
+                  if (file && attachFor.current) void attachBill(attachFor.current, file);
                   e.target.value = "";
                 }}
               />

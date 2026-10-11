@@ -551,9 +551,10 @@ export function createMockApi(): Api {
       }),
     listClaims: () => guard(() => [...claims.values()].map((m) => m.claim)),
     getClaim: (id) => guard(() => getMc(id).claim),
-    uploadDocuments: (claimId, files) =>
+    uploadDocuments: (claimId, files, forLineId) =>
       guard(() => {
         const mc = getMc(claimId);
+        if (forLineId) throw new MockHttpError(422, "Attaching a bill to a payment needs the real backend.");
         if (files.length > 10) throw new MockHttpError(413, "Up to 10 files per upload");
         // shortcut: uploaded files are mapped onto demo templates by order; the real backend reads them.
         const offset = mc.lines.length;

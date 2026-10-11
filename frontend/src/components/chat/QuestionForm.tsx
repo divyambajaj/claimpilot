@@ -26,12 +26,18 @@ interface Props {
   errors?: Record<string, string>;
   /** Opens the file picker so the bill for this question's line can be added to the claim. */
   onAttach?: (q: Question) => void;
+  /** Question id whose bill is being read right now. */
+  attaching?: string | null;
+  /** Answers typed so far, keyed by question id, owned by the page so they outlive this form. */
+  values?: Record<string, string>;
+  onChange?: (id: string, value: string) => void;
 }
 
-export function QuestionForm({ questions, onSubmit, error, errors, onAttach }: Props) {
-  const [values, setValues] = useState<Record<string, string>>({});
+export function QuestionForm({ questions, onSubmit, error, errors, onAttach, attaching, values: shared, onChange }: Props) {
+  const [own, setOwn] = useState<Record<string, string>>({});
+  const values = shared ?? own;
   const [busy, setBusy] = useState(false);
-  const set = (id: string, v: string) => setValues((s) => ({ ...s, [id]: v }));
+  const set = (id: string, v: string) => (onChange ? onChange(id, v) : setOwn((s) => ({ ...s, [id]: v })));
   const valid = (q: Question) => {
     const v = (values[q.id] ?? "").trim();
     if (!v) return false;
@@ -71,7 +77,7 @@ export function QuestionForm({ questions, onSubmit, error, errors, onAttach }: P
                 </label>
                 <p className="mt-0.5 text-xs text-ink-3">{q.reason}</p>
                 <div className="mt-2.5">
-                  <QuestionInput q={q} value={values[q.id] ?? ""} onChange={(v) => set(q.id, v)} onAttach={onAttach} />
+                  <QuestionInput q={q} value={values[q.id] ?? ""} onChange={(v) => set(q.id, v)} onAttach={onAttach} attaching={attaching === q.id} />
                 </div>
                 {errors?.[q.id] && (
                   <p id={`q-${q.id}-error`} className="mt-1.5 text-xs leading-5 text-warn" role="alert">
@@ -97,15 +103,21 @@ export function QuestionForm({ questions, onSubmit, error, errors, onAttach }: P
   );
 }
 
-function QuestionInput({ q, value, onChange, onAttach }: { q: Question; value: string; onChange: (v: string) => void; onAttach?: (q: Question) => void }) {
+function QuestionInput({ q, value, onChange, onAttach, attaching }: { q: Question; value: string; onChange: (v: string) => void; onAttach?: (q: Question) => void; attaching?: boolean }) {
   const id = `q-${q.id}`;
   if (q.kind === "attach_document") {
     const none = q.choices?.[0] ?? "I don't have the bill";
     return (
       <div id={id} className="flex flex-wrap gap-2">
         {onAttach && (
-          <button type="button" onClick={() => onAttach(q)} className="h-8 rounded-md border border-line bg-surface px-3 text-sm text-ink hover:border-line-strong">
-            Attach bill
+          <button type="button" onClick={() => onAttach(q)} disabled={attaching} className="inline-flex h-8 items-center gap-1.5 rounded-md border border-line bg-surface px-3 text-sm text-ink hover:border-line-strong disabled:text-ink-3">
+            {attaching ? (
+              <>
+                <Spinner size={12} /> Reading the bill…
+              </>
+            ) : (
+              "Attach bill"
+            )}
           </button>
         )}
         <button

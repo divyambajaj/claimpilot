@@ -40,7 +40,8 @@ export interface Api {
   createClaim(title?: string): Promise<Claim>;
   listClaims(): Promise<Claim[]>;
   getClaim(id: string): Promise<Claim>;
-  uploadDocuments(claimId: string, files: File[]): Promise<{ document_ids: string[] }>;
+  /** `forLineId`: one bill for that payment, read and linked now (422 with the reason if it is not that bill). */
+  uploadDocuments(claimId: string, files: File[], forLineId?: string): Promise<{ document_ids: string[] }>;
   addDemoDocuments(claimId: string, names: string[]): Promise<{ document_ids: string[] }>;
   subscribeClaim(claimId: string, onEvent: (e: ClaimEvent) => void, onError?: (e: unknown) => void): Unsubscribe;
   answer(claimId: string, answers: AnswerIn[]): Promise<Claim>;
@@ -124,10 +125,11 @@ export function createHttpApi(): Api {
     createClaim: (title) => request("/claims", json({ title })),
     listClaims: () => request("/claims"),
     getClaim: (id) => request(`/claims/${id}`),
-    uploadDocuments: (claimId, files) => {
+    uploadDocuments: (claimId, files, forLineId) => {
       const fd = new FormData();
       files.forEach((f) => fd.append("files", f, f.name));
-      return request(`/claims/${claimId}/documents`, { method: "POST", body: fd });
+      const q = forLineId ? `?for_line_id=${encodeURIComponent(forLineId)}` : "";
+      return request(`/claims/${claimId}/documents${q}`, { method: "POST", body: fd });
     },
     addDemoDocuments: (claimId, names) => request(`/claims/${claimId}/documents/from-demo`, json({ names })),
     subscribeClaim: (claimId, onEvent, onError) =>

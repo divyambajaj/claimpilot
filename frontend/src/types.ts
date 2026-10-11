@@ -162,6 +162,7 @@ export interface Question {
   choices: string[] | null;
   voi_score: number;
   reason: string;
+  finding_id?: string | null;
 }
 
 export interface Claim {
