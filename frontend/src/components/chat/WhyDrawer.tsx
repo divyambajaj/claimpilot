@@ -1,5 +1,5 @@
-import type { Finding, LineItem, Rule } from "../../types";
-import { fieldLabel, formatINR } from "../../lib/format";
+import type { Category, Finding, LineItem, Rule } from "../../types";
+import { CATEGORY_LABEL, fieldLabel, formatINR } from "../../lib/format";
 import { Drawer, Pill, SEVERITY_LABEL, SEVERITY_TONE } from "../ui";
 
 /** Plain-language evidence line, e.g. "Matches receipt #2 — same vendor, amount, date (score 0.93, fuzzy layer)". */
@@ -23,7 +23,15 @@ export function describeEvidence(f: Finding, lines: LineItem[]): string[] {
   if (e.per_person_amount !== undefined) out.push(`${formatINR(Number(e.per_person_amount))} per person across ${e.attendees_count} attendees; limit ${formatINR(Number(e.cap_inr ?? 750))}.`);
   if (e.allowed_inr !== undefined && e.over_by_inr !== undefined) out.push(`Reimbursed up to the limit: ${formatINR(Number(e.allowed_inr))}, ${formatINR(Number(e.over_by_inr))} over.`);
   if (e.days_since_expense !== undefined) out.push(`Expense date is ${e.days_since_expense} days before today.`);
-  if (e.field) out.push(e.action === "require_field" ? `The policy needs a valid ${fieldLabel(String(e.field))} on this receipt. Correct it on the line to re-check.` : `Field “${fieldLabel(String(e.field))}” could not be read with enough confidence.`);
+  if (e.from && e.to) {
+    const label = (c: unknown) => CATEGORY_LABEL[c as Category] ?? String(c);
+    out.push(`Category: ${label(e.from)} → ${label(e.to)}, changed by the employee.`);
+    const avoided = (e.avoided_rules as string[] | undefined) ?? [];
+    if (avoided.length) out.push(`Checks that applied under ${label(e.from)} and no longer do: ${avoided.join(", ")}.`);
+  }
+  if (e.declared_purpose) out.push(`Stated purpose: “${String(e.declared_purpose)}”.`);
+  if (e.declared_missing) out.push("The employee said there is no bill for this payment.");
+  else if (e.field) out.push(e.action === "require_field" ? `The policy needs a valid ${fieldLabel(String(e.field))} on this receipt. Correct it on the line to re-check.` : `Field “${fieldLabel(String(e.field))}” could not be read with enough confidence.`);
   return out;
 }
 
@@ -117,7 +125,7 @@ export function WhyDrawer({ finding, line, lines, rule, onClose, onAction }: Pro
             <section>
               <div className="label">Resolution</div>
               <p className="mt-2 text-sm capitalize text-ink">{f.resolution}</p>
-              {f.justification && <p className="mt-1 text-sm text-ink-2">“{f.justification}”</p>}
+              {f.justification && <p className="mt-1 text-sm text-ink-2">“{f.justification}”{f.validated && <span className="ml-1.5 text-xs text-ink-3">· checked</span>}</p>}
             </section>
           )}
 

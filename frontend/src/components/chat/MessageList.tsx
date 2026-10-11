@@ -13,11 +13,13 @@ interface Props {
   messages: Message[];
   onAnswer: (messageId: string, answers: AnswerIn[]) => Promise<void>;
   answerError: string | null;
+  answerErrors?: Record<string, string>;
+  onAttach?: (q: Question) => void;
   /** Questions still open on the claim; ones resolved elsewhere (Why drawer, field edit) drop out of the form. */
   openIds: Set<string>;
 }
 
-export function MessageList({ messages, onAnswer, answerError, openIds }: Props) {
+export function MessageList({ messages, onAnswer, answerError, answerErrors, onAttach, openIds }: Props) {
   return (
     <ol className="space-y-5" aria-live="polite">
       {messages.map((m) => (
@@ -52,7 +54,7 @@ export function MessageList({ messages, onAnswer, answerError, openIds }: Props)
                   {m.answered ? (m.questions.length === 1 ? "1 question answered." : `${m.questions.length} questions answered.`) : "Resolved in the claim panel."}
                 </div>
               ) : (
-                <QuestionForm questions={live} onSubmit={(a) => onAnswer(m.id, a)} error={answerError} />
+                <QuestionForm questions={live} onSubmit={(a) => onAnswer(m.id, a)} error={answerError} errors={answerErrors} onAttach={onAttach} />
               );
             })()}
         </li>

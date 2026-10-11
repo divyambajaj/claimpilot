@@ -23,6 +23,8 @@ export class ApiError extends Error {
     readonly status: number,
     message: string,
     readonly detail?: unknown,
+    /** 422 on answers: question id (or field) -> message to show under that question. */
+    readonly errors?: Record<string, string>,
   ) {
     super(message);
     this.name = "ApiError";
@@ -90,7 +92,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!res.ok) {
     const detail = (body as { detail?: unknown } | undefined)?.detail ?? body;
     const msg = typeof detail === "string" ? detail : `${res.status} ${res.statusText}`;
-    throw new ApiError(res.status, msg, detail);
+    throw new ApiError(res.status, msg, detail, (body as { errors?: Record<string, string> } | undefined)?.errors);
   }
   return body as T;
 }

@@ -1,8 +1,8 @@
 import { useRef, useState, type DragEvent } from "react";
 import { Paperclip, Upload } from "lucide-react";
 
-const ACCEPT = "image/png,image/jpeg,image/webp,image/heic,application/pdf";
-const MAX_BYTES = 10 * 1024 * 1024;
+export const ACCEPT = "image/png,image/jpeg,image/webp,image/heic,application/pdf";
+export const MAX_BYTES = 10 * 1024 * 1024;
 
 interface Props {
   /** `skipped`: files left out for type, size or count; reported with the upload. */

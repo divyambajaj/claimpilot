@@ -48,6 +48,32 @@ describe("QuestionForm", () => {
     expect(screen.getByRole("button", { name: "Send answers" })).toBeEnabled();
   });
 
+  it("shows a server error under its question and keeps the other answers", async () => {
+    const qs = [q({ id: "j1", kind: "justify_flag", prompt: "Why over the cap?" }), q({ id: "j2", kind: "justify_flag", prompt: "Trip note?" })];
+    const { rerender } = render(<QuestionForm questions={qs} onSubmit={() => {}} />);
+    await userEvent.type(screen.getByLabelText("Why over the cap?"), "no i wont");
+    await userEvent.type(screen.getByLabelText("Trip note?"), "Drove to the Thane client site and back on 6 Oct for the workshop.");
+    const msg = "“no i wont” doesn't explain the expense. Add the business reason — who, where or which project.";
+    rerender(<QuestionForm questions={qs} onSubmit={() => {}} error={msg} errors={{ j1: msg }} />);
+    expect(screen.getByRole("alert")).toHaveTextContent(msg);
+    expect(screen.getByRole("alert")).toHaveAttribute("id", "q-j1-error");
+    expect(screen.getByLabelText("Trip note?")).toHaveValue("Drove to the Thane client site and back on 6 Oct for the workshop.");
+    expect(screen.getByText("2 of 2 answered")).toBeInTheDocument();
+  });
+
+  it("offers attach or no bill for a missing bill, never a text box", async () => {
+    const onAttach = vi.fn();
+    const onSubmit = vi.fn();
+    const bill = q({ id: "b", kind: "attach_document", field: "BILL_REQUIRED", prompt: "Attach the bill", choices: ["I don't have the bill"] });
+    render(<QuestionForm questions={[bill]} onSubmit={onSubmit} onAttach={onAttach} />);
+    expect(screen.queryByRole("textbox")).toBeNull();
+    await userEvent.click(screen.getByRole("button", { name: "Attach bill" }));
+    expect(onAttach).toHaveBeenCalledWith(bill);
+    await userEvent.click(screen.getByRole("radio", { name: "I don't have the bill" }));
+    await userEvent.click(screen.getByRole("button", { name: "Send answers" }));
+    expect(onSubmit).toHaveBeenCalledWith([{ question_id: "b", value: "I don't have the bill" }]);
+  });
+
   it("labels answers for the transcript", () => {
     expect(answerLabel(QS[2], "override")).toBe("Different ride, keep both");
     expect(answerLabel(QS[1], "2026-10-04")).toBe("4 Oct 2026");

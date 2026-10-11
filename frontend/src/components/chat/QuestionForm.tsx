@@ -22,9 +22,13 @@ interface Props {
   questions: Question[];
   onSubmit: (answers: AnswerIn[]) => Promise<void> | void;
   error?: string | null;
+  /** Server messages per question id (422); shown under that question, other answers are kept. */
+  errors?: Record<string, string>;
+  /** Opens the file picker so the bill for this question's line can be added to the claim. */
+  onAttach?: (q: Question) => void;
 }
 
-export function QuestionForm({ questions, onSubmit, error }: Props) {
+export function QuestionForm({ questions, onSubmit, error, errors, onAttach }: Props) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const set = (id: string, v: string) => setValues((s) => ({ ...s, [id]: v }));
@@ -36,6 +40,7 @@ export function QuestionForm({ questions, onSubmit, error }: Props) {
     return true;
   };
   const allValid = questions.every(valid);
+  const hasInline = questions.some((q) => errors?.[q.id]);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -66,16 +71,22 @@ export function QuestionForm({ questions, onSubmit, error }: Props) {
                 </label>
                 <p className="mt-0.5 text-xs text-ink-3">{q.reason}</p>
                 <div className="mt-2.5">
-                  <QuestionInput q={q} value={values[q.id] ?? ""} onChange={(v) => set(q.id, v)} />
+                  <QuestionInput q={q} value={values[q.id] ?? ""} onChange={(v) => set(q.id, v)} onAttach={onAttach} />
                 </div>
+                {errors?.[q.id] && (
+                  <p id={`q-${q.id}-error`} className="mt-1.5 text-xs leading-5 text-warn" role="alert">
+                    {errors[q.id]}
+                  </p>
+                )}
               </div>
             </div>
           </li>
         ))}
       </ol>
       <div className="flex items-center justify-between gap-3 border-t border-line bg-page/60 px-4 py-3">
-        <span className={`text-xs ${error ? "text-bad" : "text-ink-3"}`} role={error ? "alert" : undefined}>
-          {error ?? `${questions.filter(valid).length} of ${questions.length} answered`}
+        {/* per-question messages sit under their question; the footer keeps only a general error */}
+        <span className={`text-xs ${error && !hasInline ? "text-bad" : "text-ink-3"}`} role={error && !hasInline ? "alert" : undefined}>
+          {error && !hasInline ? error : `${questions.filter(valid).length} of ${questions.length} answered`}
         </span>
         <button type="submit" className="btn-primary" disabled={!allValid || busy}>
           {busy && <Spinner size={12} />}
@@ -86,8 +97,29 @@ export function QuestionForm({ questions, onSubmit, error }: Props) {
   );
 }
 
-function QuestionInput({ q, value, onChange }: { q: Question; value: string; onChange: (v: string) => void }) {
+function QuestionInput({ q, value, onChange, onAttach }: { q: Question; value: string; onChange: (v: string) => void; onAttach?: (q: Question) => void }) {
   const id = `q-${q.id}`;
+  if (q.kind === "attach_document") {
+    const none = q.choices?.[0] ?? "I don't have the bill";
+    return (
+      <div id={id} className="flex flex-wrap gap-2">
+        {onAttach && (
+          <button type="button" onClick={() => onAttach(q)} className="h-8 rounded-md border border-line bg-surface px-3 text-sm text-ink hover:border-line-strong">
+            Attach bill
+          </button>
+        )}
+        <button
+          type="button"
+          role="radio"
+          aria-checked={value === none}
+          onClick={() => onChange(value === none ? "" : none)}
+          className={`h-8 rounded-md border px-3 text-sm transition-colors ${value === none ? "border-accent bg-accent-soft text-accent" : "border-line bg-surface text-ink hover:border-line-strong"}`}
+        >
+          {none}
+        </button>
+      </div>
+    );
+  }
   if (q.kind === "justify_flag") {
     return (
       <textarea

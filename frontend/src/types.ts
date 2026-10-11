@@ -123,6 +123,8 @@ export interface Finding {
   evidence: Record<string, unknown>;
   resolution: Resolution;
   justification?: string | null;
+  /** The justification passed the server's answer checks. */
+  validated?: boolean;
 }
 
 export interface LineItem {
@@ -144,9 +146,12 @@ export interface LineItem {
   questions_asked: number;
   /** The user's trip note / business purpose (answers OTHER_NEEDS_BUSINESS_PURPOSE, FUEL_TRIP_NOTE). */
   business_purpose?: string | null;
+  /** Documents the employee said they don't have (e.g. "bill"). */
+  missing_documents?: string[];
 }
 
-export type QuestionKind = "value" | "choice" | "confirm_duplicate" | "justify_flag";
+/** attach_document: a bill can only be attached (upload) or declared missing, never explained in text. */
+export type QuestionKind = "value" | "choice" | "confirm_duplicate" | "justify_flag" | "attach_document";
 
 export interface Question {
   id: string;

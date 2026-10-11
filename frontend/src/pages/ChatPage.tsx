@@ -5,7 +5,7 @@ import type { AnswerIn, Claim, ClaimEvent, DemoReceipt, Finding, LineItem, Quest
 import { formatINR, pluralize } from "../lib/format";
 import { ClaimCard } from "../components/chat/ClaimCard";
 import { DemoGallery } from "../components/chat/DemoGallery";
-import { DropZone } from "../components/chat/DropZone";
+import { ACCEPT, DropZone, MAX_BYTES } from "../components/chat/DropZone";
 import { MessageList, type Message } from "../components/chat/MessageList";
 import { answerLabel } from "../components/chat/QuestionForm";
 import { WhyDrawer } from "../components/chat/WhyDrawer";
@@ -67,6 +67,8 @@ export function ChatPage() {
   const [why, setWhy] = useState<{ f: Finding; line: LineItem } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [answerError, setAnswerError] = useState<string | null>(null);
+  const [answerErrors, setAnswerErrors] = useState<Record<string, string>>({});
+  const attachInput = useRef<HTMLInputElement>(null);
   const [sheet, setSheet] = useState(false);
   const submittingRef = useRef(false);
 
@@ -191,8 +193,8 @@ export function ChatPage() {
           kind: "assistant",
           text: (
             <>
-              Picked up “{c.title}” where you left it.{" "}
-              <button type="button" className="link" onClick={newClaim}>Start a new claim</button>
+                Picked up “{c.title}” where you left it.{" "}
+                <button type="button" className="link" onClick={newClaim}>Start a new claim</button>
             </>
           ),
         });
@@ -248,6 +250,7 @@ export function ChatPage() {
     const c = claimRef.current;
     if (!c) return;
     setAnswerError(null);
+    setAnswerErrors({});
     const msg = messages.find((m) => m.id === messageId);
     try {
       const updated = await api.answer(c.id, answers);
@@ -272,6 +275,7 @@ export function ChatPage() {
       askNew(updated.open_questions);
     } catch (err) {
       setAnswerError(err instanceof Error ? err.message : "Could not save answers");
+      setAnswerErrors(err instanceof ApiError ? err.errors ?? {} : {});
     }
   }
 
@@ -382,7 +386,24 @@ export function ChatPage() {
                 </dl>
               </div>
             ) : (
-              <MessageList messages={messages} onAnswer={onAnswer} answerError={answerError} openIds={new Set(claim?.open_questions.map((q) => q.id))} />
+              <>
+              <MessageList messages={messages} onAnswer={onAnswer} answerError={answerError} answerErrors={answerErrors} onAttach={() => attachInput.current?.click()} openIds={new Set(claim?.open_questions.map((q) => q.id))} />
+              <input
+                ref={attachInput}
+                type="file"
+                multiple
+                accept={ACCEPT}
+                className="sr-only"
+                tabIndex={-1}
+                aria-hidden
+                onChange={(e) => {
+                  const all = Array.from(e.target.files ?? []);
+                  const ok = all.filter((f) => (f.type.startsWith("image/") || f.type === "application/pdf") && f.size <= MAX_BYTES).slice(0, 10);
+                  if (ok.length) onFiles(ok, all.length - ok.length);
+                  e.target.value = "";
+                }}
+              />
+              </>
             )}
           </div>
         </div>
