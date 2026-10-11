@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ClaimCard } from "../components/chat/ClaimCard";
+import { afterAnswersText, ClaimCard } from "../components/chat/ClaimCard";
 import { formatINR } from "../lib/format";
 import { makeClaim, makeLine } from "./fixtures";
 
@@ -67,5 +67,24 @@ describe("ClaimCard", () => {
     expect(screen.getByText("Flagged")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Why?" }));
     expect(onWhy).toHaveBeenCalledWith(f, expect.objectContaining({ id: "l1" }));
+  });
+});
+
+describe("afterAnswersText", () => {
+  const block = (rule: string) => ({ id: rule, kind: "policy" as const, severity: "block" as const, rule_id: rule, message: rule, citation: null, evidence: {}, resolution: "open" as const });
+
+  it("says nothing is reimbursable when every line is left out, with reasons", () => {
+    const fuel = makeLine({ id: "a", status: "excluded", reimbursable_inr: 0, findings: [block("BILL_REQUIRED"), block("PERSONAL_PURPOSE_DECLARED")] });
+    const p2p = makeLine({ id: "b", status: "excluded", reimbursable_inr: 0, findings: [block("P2P_TRANSFER_NOT_REIMBURSABLE")] });
+    const text = afterAnswersText(makeClaim({ lines: [fuel, p2p], open_questions: [] }));
+    expect(text).toMatch(/^Nothing in this claim is reimbursable\. All 2 lines are left out: /);
+    expect(text).toContain("no bill, personal purpose");
+    expect(text).toContain("payment to a person");
+    expect(text).not.toMatch(/need attention/);
+  });
+
+  it("names the lines that are still open", () => {
+    const open = makeLine({ id: "c", status: "flagged" });
+    expect(afterAnswersText(makeClaim({ lines: [open], open_questions: [] }))).toMatch(/^Still open: .+\. Tap Why\? on that line/);
   });
 });

@@ -3,7 +3,7 @@ import { ChevronUp } from "lucide-react";
 import { api, ApiError } from "../api/client";
 import type { AnswerIn, Claim, ClaimEvent, DemoReceipt, Finding, LineItem, Question, RuleSet } from "../types";
 import { formatINR, pluralize } from "../lib/format";
-import { ClaimCard } from "../components/chat/ClaimCard";
+import { afterAnswersText, ClaimCard } from "../components/chat/ClaimCard";
 import { DemoGallery } from "../components/chat/DemoGallery";
 import { ACCEPT, DropZone, MAX_BYTES } from "../components/chat/DropZone";
 import { MessageList, type Message } from "../components/chat/MessageList";
@@ -284,7 +284,7 @@ export function ChatPage() {
       } else if (pending.length) {
         push({ id: nextId(), kind: "assistant", text: `Thanks. ${pending.length === 1 ? "One more question" : `${pending.length} more questions`}, then the claim is ready.` });
       } else {
-        push({ id: nextId(), kind: "assistant", text: "Updated. Some lines still need attention in the claim panel." });
+        push({ id: nextId(), kind: "assistant", text: afterAnswersText(updated) });
       }
       askNew(updated.open_questions);
     } catch (err) {

@@ -26,6 +26,36 @@ export function claimHint(claim: Claim): string {
   return "Waiting for checks.";
 }
 
+const LEFT_OUT_REASON: Record<string, string> = {
+  PERSONAL_EXPENSE_NOT_REIMBURSABLE: "personal expense",
+  PERSONAL_PURPOSE_DECLARED: "personal purpose",
+  P2P_TRANSFER_NOT_REIMBURSABLE: "payment to a person",
+  BILL_REQUIRED: "no bill",
+  DUPLICATE: "duplicate",
+  GST_INVOICE_ABOVE_5000: "no valid GST invoice",
+};
+
+const lineName = (l: LineItem) => l.extracted.vendor_name.value ?? l.extracted.payee_name.value ?? "Unknown vendor";
+
+/** Chat reply after answers when the claim is neither ready nor waiting on a question. */
+export function afterAnswersText(claim: Claim): string {
+  const proofIds = new Set(claim.lines.map((l) => l.linked_proof_line_id).filter(Boolean));
+  const visible = claim.lines.filter((l) => !proofIds.has(l.id));
+  const open = visible.filter((l) => l.status === "flagged" || l.status === "missing_info" || l.status === "error");
+  if (open.length) {
+    return `Still open: ${open.map(lineName).join(", ")}. Tap Why? on ${open.length === 1 ? "that line" : "those lines"} to fix it or leave it out.`;
+  }
+  if (visible.length && visible.every((l) => l.status === "excluded")) {
+    const why = (l: LineItem) => {
+      const labels = [...new Set(l.findings.filter((f) => f.severity === "block").map((f) => LEFT_OUT_REASON[f.rule_id ?? f.kind] ?? "blocked by policy"))];
+      return `${lineName(l)} (${labels.join(", ") || "left out"})`;
+    };
+    const head = visible.length === 1 ? "The only line is left out" : `All ${visible.length} lines are left out`;
+    return `Nothing in this claim is reimbursable. ${head}: ${visible.map(why).join("; ")}. Add other receipts or start a new claim.`;
+  }
+  return "Updated.";
+}
+
 export function ClaimCard({ claim, onSubmit, submitting, onWhy, onEdit, onExclude }: Props) {
   const proofIds = new Set(claim.lines.map((l) => l.linked_proof_line_id).filter(Boolean));
   const byId = new Map(claim.lines.map((l) => [l.id, l]));
