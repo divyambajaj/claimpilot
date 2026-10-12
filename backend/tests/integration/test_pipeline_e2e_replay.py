@@ -90,7 +90,16 @@ def test_gallery_claim_end_to_end(client: TestClient, container: Container) -> N
         "submit",
     }
 
-    # Same file again in a new claim: caught as a duplicate of the submitted one.
+    # Re-running a sample-gallery bill in a new claim is a repeat of the demo, not a duplicate claim.
+    rerun = client.post("/api/claims", json={}).json()
+    client.post(
+        f"/api/claims/{rerun['id']}/documents/from-demo", json={"names": ["restaurant_chaiwala_mumbai"]}
+    )
+    rerun = wait_processed(client, rerun["id"])
+    assert not any(f["kind"] == "duplicate" for f in rerun["lines"][0]["findings"])
+
+    # Any other file seen in an earlier claim is caught (treat the gallery as ordinary uploads here).
+    container.orchestrator._sample_hashes = set()
     second = client.post("/api/claims", json={}).json()
     client.post(
         f"/api/claims/{second['id']}/documents/from-demo", json={"names": ["restaurant_chaiwala_mumbai"]}
@@ -110,7 +119,7 @@ def test_gallery_claim_end_to_end(client: TestClient, container: Container) -> N
     assert second["lines"][0]["status"] in ("flagged", "complete")
 
     overview = client.get("/api/admin/metrics/overview?days=30").json()
-    assert overview["kpis"]["claims_total"] == 2
+    assert overview["kpis"]["claims_total"] == 3
     assert overview["kpis"]["duplicate_inr_prevented"] == 0  # overridden by the user
     assert {d["layer"] for d in overview["duplicates_by_layer"]} == {"perceptual", "fuzzy", "semantic"}
 

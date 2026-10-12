@@ -2,6 +2,7 @@
 
 import asyncio
 import datetime as dt
+import hashlib
 from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -194,6 +195,7 @@ class Orchestrator:
         self.detector = detector or DuplicateDetector()
         self._locks: dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
         self._tasks: set[asyncio.Task[None]] = set()
+        self._sample_hashes: set[str] | None = None
 
     # --- helpers --------------------------------------------------------------------------------------
     def ruleset(self) -> RuleSet:
@@ -406,6 +408,14 @@ class Orchestrator:
             created_at=self.clock(),
         )
 
+    def _is_sample(self, line: LineItem) -> bool:
+        if self._sample_hashes is None:
+            folder = self.settings.demo_dir
+            files = [p for p in folder.iterdir() if p.is_file()] if folder.is_dir() else []
+            self._sample_hashes = {hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
+        docs = self.repo.get_documents(line.document_ids).values()
+        return any(d.sha256 in self._sample_hashes for d in docs)
+
     def _dedupe(self, claim: Claim, line: LineItem) -> Claim:
         """Append `line` to the claim after UPI linking / duplicate checks against the user's history."""
         lines = [*claim.lines, line]
@@ -420,6 +430,8 @@ class Orchestrator:
         history = self.repo.user_lines_near(
             claim.user_id, line.extracted.date.value, self.settings.DEDUPE_WINDOW_DAYS, claim.id
         )
+        if self._is_sample(line):
+            history = []  # sample-gallery bills are shared demo files: re-running the demo is not a duplicate
         candidates = [*history, *(x for x in claim.lines if not x.user_excluded)]
         docs = self.repo.get_documents([d for x in [line, *candidates] for d in x.document_ids])
         match = self.detector.find_duplicate(line, candidates, docs)
