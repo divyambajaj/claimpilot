@@ -51,6 +51,7 @@ record-demo:
 
 video:  # narrated demo video from audio_raw_files/scene1..9.m4a -> video_out/claimpilot_demo.mp4
 	uv run python backend/scripts/make_demo_video.py
+	uv run python backend/scripts/add_subtitles.py  # + subtitled and 1.25x subtitled copies
 
 build:
 	npm --prefix frontend ci
