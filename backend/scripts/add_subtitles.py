@@ -1,9 +1,9 @@
-"""Burn captions into the demo video, and make a 1.25x-speed copy.
+"""Make the final demo video: captions burned in, played at 1.25x speed.
 
 Captions come from docs/VOICEOVER_SCRIPT.md, timed against the voiced parts of each trimmed narration clip
 (video_out/clips/sceneN.wav) at the scene starts in video_out/timings.json, both written by make_demo_video.py.
 
-Outputs in video_out/: claimpilot_demo_subtitled.mp4 (+ .srt) and claimpilot_demo_1.25x_subtitled.mp4 (+ .srt).
+Output: video_out/claimpilot_demo_final.mp4 (+ .srt for YouTube captions).
 """
 
 import json
@@ -155,21 +155,15 @@ def main() -> None:
         ins += ["-i", str(png)]
         chain.append(f"[{last}][{i}:v]overlay=x=(W-w)/2:y=H-h-48:enable='between(t,{a:.2f},{b:.2f})'[v{i}]")
         last = f"v{i}"
-    sub = OUT / "claimpilot_demo_subtitled.mp4"
+    out = OUT / "claimpilot_demo_final.mp4"
+    chain.append(f"[{last}]setpts=PTS/{SPEED},fps=30[v];[0:a]atempo={SPEED}[a]")
     ffmpeg(
-        "-i", str(src), *ins, "-filter_complex", ";".join(chain), "-map", f"[{last}]", "-map", "0:a",
+        "-i", str(src), *ins, "-filter_complex", ";".join(chain), "-map", "[v]", "-map", "[a]",
         "-c:v", "libx264", "-crf", "20", "-preset", "medium", "-pix_fmt", "yuv420p",
-        "-c:a", "copy", "-movflags", "+faststart", str(sub),
+        "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(out),
     )  # fmt: skip
-    srt(caps, sub.with_suffix(".srt"))
-    fast = OUT / "claimpilot_demo_1.25x_subtitled.mp4"
-    ffmpeg(
-        "-i", str(sub), "-filter_complex", f"[0:v]setpts=PTS/{SPEED},fps=30[v];[0:a]atempo={SPEED}[a]",
-        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "20", "-preset", "medium",
-        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(fast),
-    )  # fmt: skip
-    srt(caps, fast.with_suffix(".srt"), SPEED)
-    print(f"{len(caps)} captions -> {sub.name}, {fast.name}")
+    srt(caps, out.with_suffix(".srt"), SPEED)
+    print(f"{len(caps)} captions -> {out.name}")
 
 
 if __name__ == "__main__":
