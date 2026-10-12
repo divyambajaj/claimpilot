@@ -6,7 +6,7 @@ Jio AI Innovation Lab, Season 2, Round 2. Track: **Business case 1: Expense & Re
 
 Employees drop receipt photos, PDFs and UPI payment screenshots into a chat. ClaimPilot reads every document with a vision model into structured fields (each with a confidence score and the exact text it was read from), applies the company expense policy with a deterministic rules engine, catches duplicates three different ways, links UPI screenshots to the bills they paid, asks only the questions that would change the outcome, and submits a ready claim to a (mocked) finance system with a full audit trail. Finance and admin teams get a dashboard of cost, latency, auto-completion, duplicates prevented and evaluation results, all computed from stored traces.
 
-[Demo video](https://youtu.be/YzNoBW4DSIw) · Hosted demo: [claimpilot-mjwr.onrender.com](https://claimpilot-mjwr.onrender.com) (keyless replay mode, use the sample receipts; the free tier can take ~50 s to wake up) · [Technical design](docs/TECHNICAL_DESIGN.md) · [Evaluation](docs/EVALUATION.md)
+[Demo video](https://youtu.be/YzNoBW4DSIw) ([MP4](docs/demo/claimpilot_demo.mp4)) · Hosted demo: [claimpilot-mjwr.onrender.com](https://claimpilot-mjwr.onrender.com) (keyless replay mode, use the sample receipts; the free tier can take ~50 s to wake up) · [Technical design](docs/TECHNICAL_DESIGN.md) · [Evaluation](docs/EVALUATION.md) · [Production architecture](docs/PRODUCTION_ARCHITECTURE.md)
 
 | Chat: questions | Claim ready | "Why?" with policy citation |
 |---|---|---|
