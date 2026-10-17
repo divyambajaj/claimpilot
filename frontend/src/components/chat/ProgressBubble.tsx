@@ -46,7 +46,7 @@ export function ProgressBubble({ docs }: { docs: DocProgress[] }) {
               <span className={`flex items-center gap-1.5 text-xs ${err ? "text-bad" : finished ? "text-ink-2" : "text-ink"}`}>
                 {finished && <Check size={14} strokeWidth={1.75} className="text-ok" />}
                 {err && <X size={14} strokeWidth={1.75} />}
-                {err ? d.message ?? "Could not read" : finished ? d.message ?? "Read" : `${STEPS[idx]}…`}
+                {err ? d.message ?? "Could not read" : finished ? d.message ?? "Read" : d.doc_id.startsWith("pending:") ? "Uploading…" : `${STEPS[idx]}…`}
               </span>
               <div className="col-span-2 mt-2 grid grid-cols-4 gap-1" aria-hidden>
                 {STEPS.map((s, i) => (

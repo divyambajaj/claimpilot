@@ -122,9 +122,12 @@ export function ChatPage() {
         setMessages((ms) =>
           ms.map((m) => {
             if (m.kind !== "progress" || m.id !== pid) return m;
-            const exists = m.docs.some((x) => x.doc_id === d.doc_id);
             const doc = { doc_id: d.doc_id, filename: d.filename ?? d.doc_id, stage: d.stage, message: d.message };
-            return { ...m, docs: exists ? m.docs.map((x) => (x.doc_id === d.doc_id ? { ...x, ...doc, filename: d.filename ?? x.filename } : x)) : [...m.docs, doc] };
+            // a placeholder row shown at click time takes the server's doc id when its first event arrives
+            const i = m.docs.findIndex((x) => x.doc_id === d.doc_id);
+            const at = i >= 0 ? i : m.docs.findIndex((x) => x.doc_id.startsWith("pending:"));
+            if (at < 0) return { ...m, docs: [...m.docs, doc] };
+            return { ...m, docs: m.docs.map((x, k) => (k === at ? { ...x, ...doc, filename: d.filename ?? x.filename } : x)) };
           }),
         );
       } else if (e.type === "line_update") {
@@ -223,7 +226,8 @@ export function ChatPage() {
     const pid = nextId();
     progressId.current = pid;
     docCount.current = names.length;
-    push({ id: nextId(), kind: "user", text: label, files: names }, { id: pid, kind: "progress", docs: [] });
+    const pending = names.map((filename, i) => ({ doc_id: `pending:${i}`, filename, stage: "ingest" as const }));
+    push({ id: nextId(), kind: "user", text: label, files: names }, { id: pid, kind: "progress", docs: pending });
     try {
       const c = await ensureClaim();
       await send(c.id);
