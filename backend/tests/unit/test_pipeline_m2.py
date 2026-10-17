@@ -48,6 +48,18 @@ def _png(img: Image.Image) -> bytes:
 
 
 class TestIngest:
+    def test_same_bytes_decoded_once_and_warmed_from_folder(self, tmp_path: Path) -> None:
+        from app.pipeline.ingest import _ingest, warm_ingest
+
+        data = _png(_receipt_image(99))
+        (tmp_path / "r.png").write_bytes(data)
+        (tmp_path / "manifest.json").write_text("{}")
+        _ingest.cache_clear()
+        warm_ingest(tmp_path)  # the non-image file is skipped
+        assert _ingest.cache_info().currsize == 1
+        assert ingest_bytes(data) == ingest_bytes(data)
+        assert _ingest.cache_info().hits == 2
+
     def test_png_normalized_and_downsized(self) -> None:
         mime, pages = ingest_bytes(_png(_receipt_image(1, (2400, 3200))))
         assert mime == "image/png"

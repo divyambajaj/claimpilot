@@ -32,7 +32,7 @@ ENV PATH="/app/.venv/bin:$PATH" \
     LLM_PROVIDER=replay \
     SEED_DEMO=1 \
     DATABASE_URL=sqlite:////tmp/app.db \
-    REPLAY_DELAY_S=1 \
+    REPLAY_DELAY_S=0.3 \
     PORT=8000
 EXPOSE 8000
 CMD ["sh", "-c", "exec uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port ${PORT}"]

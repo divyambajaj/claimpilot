@@ -1,8 +1,11 @@
 """Ingest: magic-byte check, PDF rasterisation, EXIF transpose, downsize, re-encode, SHA-256 and dHash."""
 
+import contextlib
+import functools
 import hashlib
 import io
 from dataclasses import dataclass
+from pathlib import Path
 
 import pypdfium2 as pdfium
 from PIL import Image, ImageOps, UnidentifiedImageError
@@ -81,6 +84,19 @@ def _pdf_images(data: bytes) -> list[Image.Image]:
 
 def ingest_bytes(data: bytes) -> tuple[str, list[Page]]:
     """Return (mime, pages). Every page is re-encoded as PNG, which also strips EXIF/GPS metadata."""
+    mime, pages = _ingest(data)
+    return mime, list(pages)
+
+
+def warm_ingest(folder: Path) -> None:
+    for path in sorted(folder.glob("*")) if folder.is_dir() else []:
+        with contextlib.suppress(IngestError):  # not an image (e.g. manifest.json)
+            _ingest(path.read_bytes())
+
+
+# Pure function of the bytes: the same file (e.g. a sample receipt uploaded again) is not decoded twice.
+@functools.lru_cache(maxsize=64)
+def _ingest(data: bytes) -> tuple[str, tuple[Page, ...]]:
     mime = sniff_mime(data)
     source_sha = hashlib.sha256(data).hexdigest()
     if mime == "application/pdf":
@@ -99,4 +115,4 @@ def ingest_bytes(data: bytes) -> tuple[str, list[Page]]:
         img.save(buf, format="PNG", optimize=False)
         rotations = dhash_all_rotations(img)
         pages.append(Page(buf.getvalue(), img.width, img.height, idx, source_sha, rotations[0], rotations))
-    return mime, pages
+    return mime, tuple(pages)

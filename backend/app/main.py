@@ -20,7 +20,7 @@ from app.finance_mock import MockFinance
 from app.llm.base import LLMProvider, ReplayMissError
 from app.llm.registry import build_client
 from app.observability.tracing import Tracer, utcnow
-from app.pipeline.ingest import IngestError
+from app.pipeline.ingest import IngestError, warm_ingest
 from app.pipeline.orchestrator import AnswerError, Orchestrator
 from app.rules.compiler import CompileError
 from app.seed import ensure_ruleset, seed_demo
@@ -66,6 +66,8 @@ def create_app(container: Container | None = None, dist: Path = FRONTEND_DIST) -
         c: Container = app.state.container
         if c.settings.SEED_DEMO:
             asyncio.create_task(seed_demo(c.orchestrator))  # noqa: RUF006 - fire and forget at boot
+            # decode the sample receipts once at boot so "Add to claim" in the gallery answers instantly
+            asyncio.create_task(asyncio.to_thread(warm_ingest, c.settings.demo_dir))  # noqa: RUF006
         yield
         await c.orchestrator.wait_idle()
 
