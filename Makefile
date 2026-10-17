@@ -1,4 +1,4 @@
-.PHONY: install dev backend frontend test lint fmt eval eval-live eval-baseline synth record-demo video build serve docker-build docker-run
+.PHONY: install dev backend frontend test lint fmt graph eval eval-live eval-baseline synth record-demo video build serve docker-build docker-run
 
 PY := PYTHONPATH=backend uv run
 UVICORN := uv run uvicorn app.main:app --app-dir backend
@@ -32,6 +32,9 @@ lint:
 fmt:
 	uv run ruff format .
 	uv run ruff check --fix .
+
+graph:  # per-document LangGraph pipeline as Mermaid
+	@$(PY) python -c "from app.pipeline.orchestrator import Orchestrator as O; print(O.__new__(O)._build_graph().get_graph().draw_mermaid())"
 
 eval:
 	$(PY) python -m app.evaluation.runner --subset full --provider replay --gate

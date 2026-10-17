@@ -148,6 +148,34 @@ sequenceDiagram
   F-->>U: FIN-xxxx, later APPROVED or REJECTED
 ```
 
+**LangGraph (branch `langgraph`).** Each uploaded document runs through a compiled LangGraph `StateGraph`: extract (the only LLM node) → validate → dedupe/UPI link → rules + question plan, with unreadable documents skipping validation.
+Ingest stays in the upload request so a bad file fails it; answers, tickets and submit are API calls. The claim lock is held from dedupe to the saved rules result.
+`make graph` regenerates this diagram; `main` keeps the submitted hand-written orchestration.
+
+```mermaid
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	extract(extract)
+	validate(validate)
+	dedupe(dedupe)
+	rules(rules)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> extract;
+	dedupe --> rules;
+	extract -.-> dedupe;
+	extract -.-> validate;
+	validate --> dedupe;
+	rules --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
+```
+
 ### 3.3 Policy compilation
 
 ```mermaid

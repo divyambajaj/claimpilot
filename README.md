@@ -14,6 +14,34 @@ Employees drop receipt photos, PDFs and UPI payment screenshots into a chat. Cla
 | **Admin overview** | **Evaluation** | **Policy as code** |
 | ![Overview](frontend/screenshots/10-admin-overview-1440.jpg) | ![Eval](frontend/screenshots/13-admin-eval-1440.jpg) | ![Policy](frontend/screenshots/14-admin-policy-1440.jpg) |
 
+## LangGraph version
+
+On this `langgraph` branch the per-document pipeline is a LangGraph `StateGraph` in `backend/app/pipeline/orchestrator.py`. The nodes are the existing functions; model calls still go through our own LLM client, so record/replay and the keyless demo work unchanged. Upload checks (ingest) still run in the request, and answers, tickets and submit stay API-driven. The `main` branch is the submitted version. `make graph` prints this graph:
+
+```mermaid
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	extract(extract)
+	validate(validate)
+	dedupe(dedupe)
+	rules(rules)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> extract;
+	dedupe --> rules;
+	extract -.-> dedupe;
+	extract -.-> validate;
+	validate --> dedupe;
+	rules --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
+```
+
 ## Key features
 
 - **Per-field confidence and provenance.** Every field is `{value, confidence, source_snippet, origin}`; click a value to see what was read and how sure the model was.
@@ -85,6 +113,7 @@ Set `LLM_RECORD=1` to save live responses to `data/replay/` so they can be repla
 | `make dev` | Backend (reload) on :8000 + Vite on :5173 |
 | `make test` | Backend tests with coverage (fails under 80%) |
 | `make lint` | ruff check + format check, replay provenance guard, committed-key grep |
+| `make graph` | Print the per-document LangGraph pipeline as Mermaid |
 | `make eval` | Full eval in replay mode with the regression gate |
 | `make eval-live` | Full eval through a live provider, recording replay files |
 | `make eval-baseline` | Store the current replay run as the gate baseline |

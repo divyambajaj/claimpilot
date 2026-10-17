@@ -6,7 +6,9 @@ import hashlib
 from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, TypedDict
+
+from langgraph.graph import END, START, StateGraph
 
 from app.api.sse import Broker
 from app.config import Settings
@@ -80,6 +82,15 @@ class _Unit:
     filename: str
     docs: list[Document]
     images: list[ImageInput]
+
+
+class _DocState(TypedDict, total=False):
+    claim_id: str
+    unit: _Unit
+    receipt: ExtractedReceipt
+    error: str | None
+    line: LineItem
+    claim: Claim
 
 
 def reassess(claim: Claim, ctx: PlanContext) -> Claim:
@@ -196,6 +207,7 @@ class Orchestrator:
         self._locks: dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
         self._tasks: set[asyncio.Task[None]] = set()
         self._sample_hashes: set[str] | None = None
+        self._graph = self._build_graph()
 
     # --- helpers --------------------------------------------------------------------------------------
     def ruleset(self) -> RuleSet:
@@ -346,21 +358,34 @@ class Orchestrator:
 
     async def _process(self, claim_id: str, units: list[_Unit], trace_id: str, shown: set[str]) -> None:
         with self.tracer.use_trace(trace_id):
-            await asyncio.gather(*(self._process_unit(claim_id, u) for u in units))
+            await asyncio.gather(
+                *(self._graph.ainvoke({"claim_id": claim_id, "unit": u, "error": None}) for u in units)
+            )
         async with self._locks[claim_id]:
             claim = self._save(count_asked(self.repo.get_claim(claim_id), shown))
         self._publish(claim_id, "question", {"questions": claim.open_questions})
         self._publish(claim_id, "done", {"claim": claim})
 
-    async def _process_unit(self, claim_id: str, unit: _Unit) -> None:
-        doc_id, today = unit.docs[0].id, self.clock().date()
+    def _build_graph(self) -> Any:
+        """Per-document pipeline: extract (the only LLM step) -> validate -> dedupe/UPI link -> rules+plan."""
+        g = StateGraph(_DocState)
+        g.add_node("extract", self._extract)
+        g.add_sequence([("validate", self._validate), ("dedupe", self._dedupe_node), ("rules", self._rules)])
+        g.add_edge(START, "extract")
+        # an unreadable document skips validation and goes straight in as an error line
+        g.add_conditional_edges(
+            "extract", lambda s: "dedupe" if s["error"] else "validate", ["validate", "dedupe"]
+        )
+        g.add_edge("rules", END)
+        return g.compile()
 
-        def stage(name: str, message: str | None = None) -> None:
-            payload = {"doc_id": doc_id, "filename": unit.filename, "stage": name}
-            self._publish(claim_id, "stage", payload | ({"message": message} if message else {}))
+    def _stage(self, s: _DocState, name: str, message: str | None = None) -> None:
+        payload = {"doc_id": s["unit"].docs[0].id, "filename": s["unit"].filename, "stage": name}
+        self._publish(s["claim_id"], "stage", payload | ({"message": message} if message else {}))
 
-        stage("extract")
-        error = None
+    async def _extract(self, s: _DocState) -> dict[str, Any]:
+        unit, doc_id = s["unit"], s["unit"].docs[0].id
+        self._stage(s, "extract")
         try:
             with self.tracer.span("extract", doc_id=doc_id, filename=unit.filename) as span:
                 receipt, resp = await self.llm.extract(unit.images)
@@ -368,28 +393,48 @@ class Orchestrator:
                     provider=resp.provider, model=resp.model, replayed=resp.replayed, attempt=resp.attempt
                 )
         except LLMError as exc:
-            receipt, error = parse_extraction({"raw_text": ""}), f"Could not read this document: {exc}"
-            self._publish(claim_id, "error", {"message": error, "doc_id": doc_id, "code": type(exc).__name__})
-        stage("validate")
-        with self.tracer.span("validate", doc_id=doc_id):
-            receipt = adjust_confidence(receipt, today)
-        line = self._new_line(claim_id, unit, receipt, error)
+            error = f"Could not read this document: {exc}"
+            self._publish(
+                s["claim_id"], "error", {"message": error, "doc_id": doc_id, "code": type(exc).__name__}
+            )
+            return {"receipt": parse_extraction({"raw_text": ""}), "error": error}
+        return {"receipt": receipt}
 
-        async with self._locks[claim_id]:
-            claim = self.repo.get_claim(claim_id)
-            stage("dedupe")
-            with self.tracer.span("dedupe", doc_id=doc_id) as span:
+    async def _validate(self, s: _DocState) -> dict[str, Any]:
+        self._stage(s, "validate")
+        with self.tracer.span("validate", doc_id=s["unit"].docs[0].id):
+            return {"receipt": adjust_confidence(s["receipt"], self.clock().date())}
+
+    async def _dedupe_node(self, s: _DocState) -> dict[str, Any]:
+        await self._locks[s["claim_id"]].acquire()  # held until the rules node has saved the claim
+        try:
+            line = self._new_line(s["claim_id"], s["unit"], s["receipt"], s["error"])
+            claim = self.repo.get_claim(s["claim_id"])
+            self._stage(s, "dedupe")
+            with self.tracer.span("dedupe", doc_id=s["unit"].docs[0].id) as span:
                 claim = self._dedupe(claim, line)
                 span.set(findings=[f.rule_id for f in claim.lines[-1].findings])
-            stage("rules")
+        except BaseException:
+            self._locks[s["claim_id"]].release()
+            raise
+        return {"line": line, "claim": claim}
+
+    async def _rules(self, s: _DocState) -> dict[str, Any]:
+        try:
+            claim = s["claim"]
+            self._stage(s, "rules")
             claim.processing = max(0, claim.processing - 1)
-            with self.tracer.span("rules", doc_id=doc_id), self.tracer.span("plan") as span:
+            with self.tracer.span("rules", doc_id=s["unit"].docs[0].id), self.tracer.span("plan") as span:
                 claim = reassess(claim, self.context(claim))
                 span.set(questions=len(claim.open_questions))
             claim = self._save(claim)
-        self._publish(claim_id, "line_update", {"line": next(x for x in claim.lines if x.id == line.id)})
-        self._publish(claim_id, "claim_update", {"claim": claim})
-        stage("error" if error else "done", error)
+        finally:
+            self._locks[s["claim_id"]].release()
+        line_id = s["line"].id
+        self._publish(s["claim_id"], "line_update", {"line": next(x for x in claim.lines if x.id == line_id)})
+        self._publish(s["claim_id"], "claim_update", {"claim": claim})
+        self._stage(s, "error" if s["error"] else "done", s["error"])
+        return {"claim": claim}
 
     def _new_line(self, claim_id: str, unit: _Unit, receipt: ExtractedReceipt, error: str | None) -> LineItem:
         amount = amount_in_inr(receipt)
